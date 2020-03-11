@@ -1,0 +1,110 @@
+<!-- Sidenav -->
+  <mat-sidenav mode="over" opened="false" #sidenav class="sidenav">
+
+  <img [src]="angularImage">
+
+  <div class="menu-link">
+    <button mat-button routerLink="/home" (click)="sidenav.close()">
+      <mat-icon class="home">home</mat-icon>
+      <span>Home</span>
+    </button>
+
+    <button mat-button routerLink="/about" (click)="sidenav.close()">
+      <mat-icon class="about">pageview</mat-icon>
+      <span>About</span>
+    </button>
+
+    <button mat-button routerLink="/contact" (click)="sidenav.close()">
+      <mat-icon class="contact">email</mat-icon>
+      <span>Contact</span>
+    </button>
+
+    <button mat-button routerLink="/misc" (click)="sidenav.close()">
+      <mat-icon class="misc">burst_mode</mat-icon>
+      <span>Misc</span>
+    </button>
+
+    <hr>
+
+    <div *ngIf="!authService.isAuthenticated(); else logout">
+      <button mat-button routerLink="/auth" (click)="sidenav.close()">
+        <mat-icon class="login">lock_open</mat-icon>
+        <span>Auth</span>
+      </button>
+    </div>
+
+    <ng-template #logout>
+      <button mat-button (click)="onLogout()" (click)="sidenav.close()">
+        <mat-icon class="logout">lock_outline</mat-icon>
+        <span>Logout</span>
+      </button>
+    </ng-template>
+  </div>
+
+</mat-sidenav>
+
+<!-- Header -->
+<mat-toolbar color="primary">
+
+  <span><a href="/"><app-titlecase-pipe></app-titlecase-pipe></a></span>
+
+  <!-- Sidenav activate -->
+  <div class="sidenav-content">
+    <button type="button" mat-icon-button (click)="sidenav.toggle()">
+        <mat-icon>menu</mat-icon>
+    </button>
+  </div>
+
+  <!-- Menu -->
+  <span class="spacer"></span>
+
+  <div *ngIf="!authService.isAuthenticated();">
+    <app-date-pipe></app-date-pipe>
+  </div>
+
+  <span class="spacer-light"></span>
+
+  <div *ngIf="!authService.isAuthenticated(); else loggedin">
+    <button type="button" routerLink="/auth" mat-icon-button>
+      <mat-icon>lock_open</mat-icon>
+    </button>
+  </div>
+
+
+  <ng-template #loggedin>
+    <h4>Welcome</h4>
+
+    <button mat-icon-button [matMenuTriggerFor]="menu">
+      <mat-icon>more_vert</mat-icon>
+    </button>
+
+    <mat-menu #menu="matMenu" >
+      <a
+        mat-menu-item
+        [routerLink]="'/profile'">
+        <mat-icon class="profile">face</mat-icon>
+        <span>Profile</span>
+      </a>
+
+      <a mat-menu-item *ngFor="let item of menuItems" href="{{item.link}}" target="_blank">
+        <mat-icon class="login">{{item.icon}}</mat-icon>
+        <span>{{item.title}}</span>
+      </a>
+
+      <a
+        mat-menu-item
+        routerLink="/profile-settings"
+        [queryParams]="{profile: '1'}"
+        fragment="editProfile">
+        <mat-icon class="settings">settings</mat-icon>
+        <span>Settings</span>
+      </a>
+
+      <a mat-menu-item (click)="onLogout()">
+        <mat-icon class="logout">lock_outline</mat-icon>
+        <span>Logout</span>
+      </a>
+    </mat-menu>
+
+  </ng-template>
+</mat-toolbar>
