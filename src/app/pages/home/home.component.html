@@ -1,17 +1,16 @@
-<app-first-block></app-first-block>
-
-<br /><br /><br />
-
-<app-card-block></app-card-block>
-<app-background-slant></app-background-slant>
-
-<app-second-block></app-second-block>
-
-<app-background-normal></app-background-normal>
-
-<app-third-block></app-third-block>
-
-<app-email-me></app-email-me>
-<app-background-email></app-background-email>
-
-<button mat-raised-button class="mat-raised mat-primary" (click)="onToTop()">Top</button>
+<div class="card">
+    <a routerLink="project/{{project.id}}">
+        <div class="card-header"></div>
+        <div class="card-body">
+            <h2>
+                {{project.name}}
+            </h2>
+            <p>
+                {{project.overvew}
+            </p>
+            <p class="by m-o">
+                by {{project.brokerName}}
+            </p> 
+            </div>
+        </a>
+</div>

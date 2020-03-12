@@ -42,6 +42,7 @@ import { PageNotFoundComponent } from './pages/not-found/not-found.component';
 // Components
 import { EmailMeComponent } from './components/email-me/email-me.component';
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -51,7 +52,7 @@ import { EmailMeComponent } from './components/email-me/email-me.component';
     HeaderComponent,
     FooterComponent,
     PageNotFoundComponent,
-    EmailMeComponent
+    EmailMeComponent,
   ],
   imports: [
     BrowserModule,
