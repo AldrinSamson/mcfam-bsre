@@ -12,12 +12,13 @@ import { ContactComponent } from './pages/contact/contact.component';
 import { AuthComponent } from './pages/auth/auth.component';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { ProfileSettingsComponent } from './pages/profile/profile-settings.component';
-
+import { ProjectComponent } from './pages/project/project.component';
 // Components
 import { MiscComponent } from './components/misc/misc.component';
 
 // Protected
 import { AuthGuardService } from '@shared';
+
 
 // Routing
 const appRoutes: Routes = [
@@ -29,9 +30,9 @@ const appRoutes: Routes = [
   { path: 'contact', component: ContactComponent },
   { path: 'misc', component: MiscComponent },
   { path: 'auth', component: AuthComponent },
-
   // Protected pages
   // { path: 'profile/:uid/:name', component: ProfileComponent, canActivate: [AuthGuardService] },
+  { path: 'projects', component: ProjectComponent },
   { path: 'profile', component: ProfileComponent, canActivate: [AuthGuardService] },
   { path: 'profile-settings', component: ProfileSettingsComponent, canActivate: [AuthGuardService] },
   { path: '**', component: PageNotFoundComponent }

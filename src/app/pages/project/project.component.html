@@ -1,1 +1,58 @@
-<p>project works!</p>
+
+
+<div class="card">
+    <div class="card-body">
+         <table mat-table [dataSource]="projects" class="mat-elevation-z8">
+           
+         <ng-container matColumnDef="name">
+             <th mat-header-cell *matHeaderCellDef> Name </th>
+             <td mat-cell *matCellDef="let projects"> {{projects.name}} </td>
+         </ng-container>
+ 
+         <ng-container matColumnDef="saleType">
+             <th mat-header-cell *matHeaderCellDef> saleType </th>
+             <td mat-cell *matCellDef="let projects"> {{projects.saleType}} </td>
+         </ng-container>
+ 
+         <ng-container matColumnDef="propertyType">
+             <th mat-header-cell *matHeaderCellDef> propertyType </th>
+             <td mat-cell *matCellDef="let projects"> {{projects.propertyType}} </td>
+         </ng-container>
+ 
+         <ng-container matColumnDef="addressStreet">
+             <th mat-header-cell *matHeaderCellDef> addressStreet </th>
+             <td mat-cell *matCellDef="let projects"> {{projects.addressStreet}} </td>
+         </ng-container>
+ 
+         <ng-container matColumnDef="addressTown">
+             <th mat-header-cell *matHeaderCellDef> addressTown </th>
+             <td mat-cell *matCellDef="let projects"> {{projects.addressTown}} </td>
+         </ng-container>
+ 
+         <ng-container matColumnDef="addressCity">
+             <th mat-header-cell *matHeaderCellDef> addressCity </th>
+             <td mat-cell *matCellDef="let projects"> {{projects.addressCity}} </td>
+         </ng-container>
+ 
+         <ng-container matColumnDef="addressRegion">
+             <th mat-header-cell *matHeaderCellDef> addressRegion </th>
+             <td mat-cell *matCellDef="let projects"> {{projects.addressRegion}} </td>
+         </ng-container>
+ 
+         <ng-container matColumnDef="cost">
+             <th mat-header-cell *matHeaderCellDef> cost </th>
+             <td mat-cell *matCellDef="let projects"> {{projects.cost}} </td>
+         </ng-container>
+ 
+         <ng-container matColumnDef="status">
+             <th mat-header-cell *matHeaderCellDef> status </th>
+             <td mat-cell *matCellDef="let projects"> {{projects.status}} </td>
+         </ng-container>
+ 
+         <tr mat-header-row *matHeaderRowDef="displayedColumnsProject"></tr>
+         <tr mat-row *matRowDef="let project; columns: displayedColumnsProject;" (click)="openViewProject(project)"></tr>
+         </table>
+     </div>
+ </div>
+ 
+ 

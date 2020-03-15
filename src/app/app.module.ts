@@ -31,14 +31,15 @@ import {
 // Main
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app.routing';
-import { firebaseKeys } from './firebase.config';
+import {firebaseKeys} from  './firebase.config';
 
 // Pages
 import { HomeComponent } from './pages/home/home.component';
 import { AboutMeComponent } from './pages/about-me/about-me.component';
 import { ContactComponent } from './pages/contact/contact.component';
 import { PageNotFoundComponent } from './pages/not-found/not-found.component';
-
+import { ProjectComponent } from './pages/project/project.component';
+import { MatTableModule } from '@angular/material'  
 // Components
 import { EmailMeComponent } from './components/email-me/email-me.component';
 
@@ -51,6 +52,7 @@ import { EmailMeComponent } from './components/email-me/email-me.component';
     ContactComponent,
     HeaderComponent,
     FooterComponent,
+    ProjectComponent,
     PageNotFoundComponent,
     EmailMeComponent,
   ],
@@ -60,13 +62,14 @@ import { EmailMeComponent } from './components/email-me/email-me.component';
     MatButtonModule, MatCheckboxModule, MatMenuModule, MatInputModule, MatSnackBarModule,
     MatToolbarModule, MatDialogModule, MatSidenavModule, MatNativeDateModule,
     MatCardModule, MatTabsModule, MatIconModule,
+    MatTableModule,
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
     AppRoutingModule,
     PipesModule,
     BlocksModule,
-    AuthModule,
+    AuthModule,    
     BackgroundsModule,
     ProfileModule,
     MiscModule,
