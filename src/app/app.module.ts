@@ -16,7 +16,8 @@ import { BackgroundsModule } from './components/backgrounds/backgrounds.module';
 import { ProfileModule } from './pages/profile/profile.module';
 import { MiscModule } from './components/misc/misc.module';
 import { PipesModule } from '@shared/pipes/pipes.module';
-
+import {MatGridListModule} from '@angular/material/grid-list';
+ 
 // Shared
 import {
   FooterComponent,
@@ -73,6 +74,7 @@ import { EmailMeComponent } from './components/email-me/email-me.component';
     BackgroundsModule,
     ProfileModule,
     MiscModule,
+    MatGridListModule,
     NgxAuthFirebaseUIModule.forRoot(firebaseKeys)
   ],
   providers: [

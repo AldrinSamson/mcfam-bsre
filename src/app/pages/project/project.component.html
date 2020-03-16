@@ -1,4 +1,4 @@
-
+<!--
 
 <div class="card">
     <div class="card-body">
@@ -54,5 +54,14 @@
          </table>
      </div>
  </div>
+
  
- 
+ --->
+
+
+<mat-grid-list cols="4" gutterSize="5px" >
+    <mat-grid-tile *ngFor="let proj of projects" class="card">
+        <h4>{{proj.name}}</h4>
+        <br>
+    </mat-grid-tile>
+</mat-grid-list>

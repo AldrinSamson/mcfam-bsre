@@ -1,0 +1,10 @@
+@import "~@material/layout-grid/mdc-layout-grid";
+.card{
+    background-color: white;
+    border: 2px solid darkgray ;
+    border-radius: 5px;
+}
+mat-grid-list {
+    margin: 20px;
+    vertical-align: top;
+}
