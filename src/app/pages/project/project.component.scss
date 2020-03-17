@@ -3,8 +3,38 @@
     background-color: white;
     border: 2px solid darkgray ;
     border-radius: 5px;
+    width: 95%;
+    text-align: -webkit-left;
+}
+.center{
+    
+    text-align: -webkit-center;
+  
+}
+.projinfo{
+    text-align: -webkit-left;
+    display: block;
+}
+::ng-deep {
+    .mat-figure{
+        display: block !important;
+    }
+}
+
+figure{
+    display: block;
 }
 mat-grid-list {
     margin: 20px;
     vertical-align: top;
+}
+.displaypic{
+    max-width: 90%;
+    max-height: 200px;
+}
+.text-style{
+    
+}
+.projecttable{
+    width: 95%;;
 }

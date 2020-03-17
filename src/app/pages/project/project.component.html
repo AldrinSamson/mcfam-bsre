@@ -1,8 +1,7 @@
 <!--
-
 <div class="card">
     <div class="card-body">
-         <table mat-table [dataSource]="projects" class="mat-elevation-z8">
+         <table mat-table [dataSource]="projects" class="mat-elevation-z8 projecttable">
            
          <ng-container matColumnDef="name">
              <th mat-header-cell *matHeaderCellDef> Name </th>
@@ -54,14 +53,37 @@
          </table>
      </div>
  </div>
-
- 
- --->
+--->
 
 
-<mat-grid-list cols="4" gutterSize="5px" >
-    <mat-grid-tile *ngFor="let proj of projects" class="card">
-        <h4>{{proj.name}}</h4>
+<!--
+
+<mat-grid-list cols="4" gutterSize="5px">
+    <mat-grid-tile *ngFor="let proj of projects" class="card text-style">
+
+        {{proj.name}}
         <br>
+        {{proj.displaypic}}
+        
     </mat-grid-tile>
-</mat-grid-list>
+</mat-grid-list>-->
+<style>
+    .mat-figure {
+        display: block !important;
+    }
+</style>
+<div class="center" layout-align="center center">
+    <div class="card " *ngFor="let proj of projects">
+
+        <mat-grid-list cols="4" rowHeight="100px">
+            <mat-grid-tile [colspan]="3" [rowspan]="1" class="projinfo">
+                <h4>{{proj.name}}</h4>
+            </mat-grid-tile>
+            <mat-grid-tile [colspan]="1" [rowspan]="1">
+                <img src='{{proj.displaypic}}' class="displaypic">
+            </mat-grid-tile>
+        </mat-grid-list>
+        <br>
+
+    </div>
+</div>
