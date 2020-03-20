@@ -43,6 +43,8 @@ import { ProjectComponent } from './pages/project/project.component';
 import { MatTableModule } from '@angular/material'  
 // Components
 import { EmailMeComponent } from './components/email-me/email-me.component';
+import { ProfileManagementComponent } from './pages/profile-management/profile-management.component';
+import { ClientComponent } from './pages/client/client.component';
 
 
 @NgModule({
@@ -56,6 +58,8 @@ import { EmailMeComponent } from './components/email-me/email-me.component';
     ProjectComponent,
     PageNotFoundComponent,
     EmailMeComponent,
+    ProfileManagementComponent,
+    ClientComponent,
   ],
   imports: [
     BrowserModule,

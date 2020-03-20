@@ -1,0 +1,49 @@
+<h2 mat-dialog-title>Viewing {{data.firstName}} {{data.lastName}}'s Profile</h2>
+<div mat-dialog-content [formGroup] = "viewClientForm" >
+   
+            <mat-form-field >
+                <mat-label> Username </mat-label>
+                <input matInput formControlName = "userName" value = {{data.userName}} name = "client-userName" readonly>
+            </mat-form-field>
+            <br>
+            <mat-form-field >
+                <mat-label> First Name </mat-label>
+                <input matInput formControlName = "firstName" value = {{data.firstName}} name = "client-firstName" readonly>
+            </mat-form-field>
+            <br>
+            <mat-form-field >
+                <mat-label> Last Name </mat-label>
+                <input matInput formControlName = "lastName" value = {{data.lastName}} name = "client-lastName" readonly>
+            </mat-form-field>
+            <br>
+            <mat-form-field >
+                <mat-label> Contact Number </mat-label>
+                <input matInput formControlName = "contactNumber" value = {{data.contactNumber}} name = "client-contactNumber" readonly>
+            </mat-form-field>
+            <br>
+            <mat-form-field >
+                <mat-label> Street </mat-label>
+                <input matInput formControlName = "addressStreet" value = {{data.addressStreet}} name = "client-addressStreet" readonly>
+            </mat-form-field>
+            <br>
+            <mat-form-field >
+                <mat-label> Town / Barangay </mat-label>
+                <input matInput formControlName = "addressTown" value = {{data.addressTown}} name = "client-addressTown" readonly>
+            </mat-form-field>
+            <br>
+            <mat-form-field >
+                <mat-label> City </mat-label>
+                <input matInput formControlName = "addressCity" value = {{data.addressCity}} name = "client-addressCity" readonly>
+            </mat-form-field>
+            <br>
+            <mat-form-field >
+                <mat-label> Region </mat-label>
+                <input matInput formControlName = "addressRegion" value = {{data.addressRegion}} name = "client-addressRegion" readonly>
+            </mat-form-field>
+            <br>
+</div>
+<div mat-dialog-actions>
+    <button mat-button color = "warn" (click) = "deleteClient()" >Delete</button>
+    <button mat-button color = "warn" (click) = "deleteClient()" >Change Email or Password</button>
+    <button mat-button (click)="onNoClick()">Back</button> 
+</div>
