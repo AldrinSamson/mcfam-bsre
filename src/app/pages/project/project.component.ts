@@ -15,10 +15,20 @@ import { MatGridListModule } from '@angular/material/grid-list';
   styleUrls: ['./project.component.scss']
 })
 export class ProjectComponent implements OnInit, OnDestroy {
+
+  projectSearchText;
+  p;
   public projectSub: Subscription;
   projects: any[]; //MatTableDataSource<any>;
   displayedColumnsProject: string[] = ['name', 'saleType', 'propertyType', 'addressStreet', 'addressTown', 'addressCity', 'addressRegion', 'cost', 'status'];
-  constructor(public projectService: ProjectService, public dialog: MatDialog, public fs: FilesService) { }
+  
+  constructor(public projectService: ProjectService,
+     public dialog: MatDialog, 
+     public fs: FilesService,
+     public router: Router) { 
+
+     }
+  
 
   ngOnInit() {
     this.getProject();
@@ -58,6 +68,11 @@ export class ProjectComponent implements OnInit, OnDestroy {
   getFile() {
 
   }
+
+  openViewProject(value): void {
+    this.router.navigate(['/project/'+value.id+'']);
+  }
+
   ngOnDestroy() {
     if (this.projectSub != null) {
       this.projectSub.unsubscribe();

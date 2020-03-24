@@ -11,7 +11,6 @@ export class ProjectService {
   
   constructor(public db: AngularFirestore) { }
   public getProjects(isArchived: Boolean) {
-    console.log('getproj');
     return this.db.collection('project' , 
       ref => ref.where('isArchived', '==', isArchived) ).valueChanges({ idField: 'id' });
   }

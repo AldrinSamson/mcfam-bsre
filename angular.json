@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "ngxmatfire": {
+    "mcfam-bsre": {
       "root": "",
       "sourceRoot": "src",
       "projectType": "application",
@@ -13,7 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/ngxmatfire",
+            "outputPath": "dist/mcfam-bsre",
             "index": "src/index.html",
             "main": "src/main.ts",
             "tsConfig": "src/tsconfig.app.json",
@@ -55,18 +55,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "ngxmatfire:build"
+            "browserTarget": "mcfam-bsre:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "ngxmatfire:build:production"
+              "browserTarget": "mcfam-bsre:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "ngxmatfire:build"
+            "browserTarget": "mcfam-bsre:build"
           }
         },
         "test": {
@@ -98,7 +98,7 @@
         }
       }
     },
-    "ngxmatfire-e2e": {
+    "mcfam-bsre-e2e": {
       "root": "e2e/",
       "projectType": "application",
       "architect": {
@@ -106,7 +106,7 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "ngxmatfire:serve"
+            "devServerTarget": "mcfam-bsre:serve"
           }
         },
         "lint": {
@@ -121,5 +121,5 @@
       }
     }
   },
-  "defaultProject": "ngxmatfire"
+  "defaultProject": "mcfam-bsre"
 }

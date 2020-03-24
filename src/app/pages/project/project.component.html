@@ -67,7 +67,7 @@
         
     </mat-grid-tile>
 </mat-grid-list>-->
-<style>
+<!-- <style>
     .mat-figure {
         display: block !important;
     }
@@ -86,4 +86,85 @@
         <br>
 
     </div>
+</div> -->
+
+<div class= "main">
+    <div class="card">
+        <div class="card-header">
+            <h3>Projects</h3>
+        </div>
+        <div class="card-body">
+             <div class="search">
+                 <input class="form-control" type="text" name="search" [(ngModel)]="projectSearchText" autocomplete="off" placeholder="&#61442;  Search">
+             </div>
+             <!-- <div class="table-responsive">
+                 <table class="table user-list">
+                     <tbody>
+                         <tr *ngFor="let project of projects | paginate:{itemsPerPage: 5, currentPage:1} | filter:projectSearchText " (click)="openViewProject(project)">
+                             <td>
+                                 <mat-grid-list cols="5" rowHeight="70px">
+                                     <mat-grid-tile
+                                         [colspan]="1"
+                                         [rowspan]="2"
+                                         [style.background]="">
+                                         <img src="{{project.coverPhotoUrl}}" srcset="/assets/img/temp-icon.jpg">
+                                     </mat-grid-tile>
+                                     <mat-grid-tile
+                                         [colspan]="2"
+                                         [rowspan]="1"
+                                         [style.background]="">
+                                         {{project.name}}
+                                     </mat-grid-tile>
+                                     <mat-grid-tile
+                                         [colspan]="2"
+                                         [rowspan]="1"
+                                         [style.background]="">
+                                         {{project.saleType}} {{project.cost}} 
+                                     </mat-grid-tile>
+                                     <mat-grid-tile
+                                         [colspan]="2"
+                                         [rowspan]="1"
+                                         [style.background]="">
+                                         {{project.addressStreet}} {{project.addressTown}} {{project.addressCity}} {{project.addressRegion}}
+                                     </mat-grid-tile>
+                                     <mat-grid-tile
+                                         [colspan]="2"
+                                         [rowspan]="1"
+                                         [style.background]="">
+                                         {{project.propertyType}}
+                                     </mat-grid-tile>
+                                   </mat-grid-list>	
+                                   
+                             </td>
+                         </tr>
+                     </tbody>
+                 </table>
+                     <div id="pagination">
+                         <pagination-controls (pageChange)="p=$event"></pagination-controls>
+                     </div>  
+             </div> -->
+            <div class = "row">
+                <div class="col-md-3" *ngFor="let project of projects | paginate:{itemsPerPage: 4, currentPage:p} | filter:projectSearchText " (click)="openViewProject(project)" >
+                    <div class="card mb">
+                        <img class = "card-img-top" src="{{project.displaypic}}" >
+                        <div class="card-body mb">
+                        <h4 class="card-title">{{project.name}}</h4>
+                        <p class="card-text"> {{project.addressStreet}} {{project.addressTown}} {{project.addressCity}} {{project.addressRegion}} </p> 
+                        <p>{{project.propertyType}}</p> 
+                        <p>{{project.saleType}}: {{project.cost}} </p> 
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+         </div>
+         <div class = "card-footer">
+            <div id="pagination">
+                <pagination-controls (pageChange)="p=$event"></pagination-controls>
+            </div>
+         </div>
+     </div>
+     
+     
 </div>
+

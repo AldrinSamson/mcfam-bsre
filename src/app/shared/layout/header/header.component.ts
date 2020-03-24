@@ -10,7 +10,7 @@ import { AuthService, AlertService } from '../../services';
 })
 export class HeaderComponent {
   public isAuthenticated: string;
-  public angularImage: string = '/assets/img/angular2.png';
+  public angularImage: string = '/assets/img/temp-icon.jpg';
 
   public menuItems: Object[] = [
     {

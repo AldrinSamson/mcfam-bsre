@@ -13,6 +13,8 @@ import { AuthComponent } from './pages/auth/auth.component';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { ProfileSettingsComponent } from './pages/profile/profile-settings.component';
 import { ProjectComponent } from './pages/project/project.component';
+import { TransactionComponent } from './pages/transaction/transaction.component';
+import { InquireComponent } from './pages/inquire/inquire.component';
 // Components
 import { MiscComponent } from './components/misc/misc.component';
 
@@ -30,9 +32,11 @@ const appRoutes: Routes = [
   { path: 'contact', component: ContactComponent },
   { path: 'misc', component: MiscComponent },
   { path: 'auth', component: AuthComponent },
+  { path: 'project', component: ProjectComponent },
   // Protected pages
   // { path: 'profile/:uid/:name', component: ProfileComponent, canActivate: [AuthGuardService] },
-  { path: 'projects', component: ProjectComponent },
+  { path: 'transaction', component: TransactionComponent, canActivate: [AuthGuardService] },
+  { path: 'inquire', component: InquireComponent, canActivate: [AuthGuardService] },
   { path: 'profile', component: ProfileComponent, canActivate: [AuthGuardService] },
   { path: 'profile-settings', component: ProfileSettingsComponent, canActivate: [AuthGuardService] },
   { path: '**', component: PageNotFoundComponent }
