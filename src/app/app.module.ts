@@ -6,6 +6,7 @@ import { MaterialModule } from './material.module';
 import { HttpClientModule } from '@angular/common/http';
 import { NgxAuthFirebaseUIModule } from 'ngx-auth-firebaseui';
 import { AngularFireStorage } from 'angularfire2/storage';
+import { CarouselModule } from 'ngx-owl-carousel-o';
 
 // Modules
 import { AuthModule } from './pages/auth/auth.module';
@@ -29,10 +30,8 @@ import { HomeComponent } from './pages/home/home.component';
 import { ProjectComponent } from './pages/project/project.component';
 import { TransactionComponent } from './pages/transaction/transaction.component';
 import { InquireComponent } from './pages/inquire/inquire.component';
-// Components
 import { EmailMeComponent } from './components/email-me/email-me.component';
-import { FnParam } from '@angular/compiler/src/output/output_ast';
-import { formatWithOptions } from 'util';
+import { AgentComponent } from './pages/agent/agent.component';
 
 
 @NgModule({
@@ -47,7 +46,8 @@ import { formatWithOptions } from 'util';
     PageNotFoundComponent,
     EmailMeComponent,
     TransactionComponent,
-    InquireComponent
+    InquireComponent,
+    AgentComponent
   ],
   imports: [
     BrowserModule,
@@ -59,6 +59,7 @@ import { formatWithOptions } from 'util';
     ProfileModule,
     MiscModule,
     MaterialModule,
+    CarouselModule,
     NgxAuthFirebaseUIModule.forRoot(firebaseKeys)
   ],
   providers: [

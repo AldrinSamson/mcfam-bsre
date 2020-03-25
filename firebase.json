@@ -1,0 +1,17 @@
+{
+  "hosting": {
+    "site": "mcfam-buynsell",
+    "public": "dist/mcfam-bsre",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
+  }
+}

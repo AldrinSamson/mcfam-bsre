@@ -1,170 +1,90 @@
-<!--
-<div class="card">
-    <div class="card-body">
-         <table mat-table [dataSource]="projects" class="mat-elevation-z8 projecttable">
-           
-         <ng-container matColumnDef="name">
-             <th mat-header-cell *matHeaderCellDef> Name </th>
-             <td mat-cell *matCellDef="let projects"> {{projects.name}} </td>
-         </ng-container>
- 
-         <ng-container matColumnDef="saleType">
-             <th mat-header-cell *matHeaderCellDef> saleType </th>
-             <td mat-cell *matCellDef="let projects"> {{projects.saleType}} </td>
-         </ng-container>
- 
-         <ng-container matColumnDef="propertyType">
-             <th mat-header-cell *matHeaderCellDef> propertyType </th>
-             <td mat-cell *matCellDef="let projects"> {{projects.propertyType}} </td>
-         </ng-container>
- 
-         <ng-container matColumnDef="addressStreet">
-             <th mat-header-cell *matHeaderCellDef> addressStreet </th>
-             <td mat-cell *matCellDef="let projects"> {{projects.addressStreet}} </td>
-         </ng-container>
- 
-         <ng-container matColumnDef="addressTown">
-             <th mat-header-cell *matHeaderCellDef> addressTown </th>
-             <td mat-cell *matCellDef="let projects"> {{projects.addressTown}} </td>
-         </ng-container>
- 
-         <ng-container matColumnDef="addressCity">
-             <th mat-header-cell *matHeaderCellDef> addressCity </th>
-             <td mat-cell *matCellDef="let projects"> {{projects.addressCity}} </td>
-         </ng-container>
- 
-         <ng-container matColumnDef="addressRegion">
-             <th mat-header-cell *matHeaderCellDef> addressRegion </th>
-             <td mat-cell *matCellDef="let projects"> {{projects.addressRegion}} </td>
-         </ng-container>
- 
-         <ng-container matColumnDef="cost">
-             <th mat-header-cell *matHeaderCellDef> cost </th>
-             <td mat-cell *matCellDef="let projects"> {{projects.cost}} </td>
-         </ng-container>
- 
-         <ng-container matColumnDef="status">
-             <th mat-header-cell *matHeaderCellDef> status </th>
-             <td mat-cell *matCellDef="let projects"> {{projects.status}} </td>
-         </ng-container>
- 
-         <tr mat-header-row *matHeaderRowDef="displayedColumnsProject"></tr>
-         <tr mat-row *matRowDef="let project; columns: displayedColumnsProject;" (click)="openViewProject(project)"></tr>
-         </table>
-     </div>
- </div>
---->
 
-
-<!--
-
-<mat-grid-list cols="4" gutterSize="5px">
-    <mat-grid-tile *ngFor="let proj of projects" class="card text-style">
-
-        {{proj.name}}
-        <br>
-        {{proj.displaypic}}
-        
-    </mat-grid-tile>
-</mat-grid-list>-->
-<!-- <style>
-    .mat-figure {
-        display: block !important;
-    }
-</style>
-<div class="center" layout-align="center center">
-    <div class="card " *ngFor="let proj of projects">
-
-        <mat-grid-list cols="4" rowHeight="100px">
-            <mat-grid-tile [colspan]="3" [rowspan]="1" class="projinfo">
-                <h4>{{proj.name}}</h4>
-            </mat-grid-tile>
-            <mat-grid-tile [colspan]="1" [rowspan]="1">
-                <img src='{{proj.displaypic}}' class="displaypic">
-            </mat-grid-tile>
-        </mat-grid-list>
-        <br>
-
-    </div>
-</div> -->
-
-<div class= "main">
-    <div class="card">
-        <div class="card-header">
-            <h3>Projects</h3>
+<div>
+    <section class="intro-single">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-12 col-lg-8">
+              <div class="title-single-box">
+                <h1 class="title-single">Properties we're selling</h1>
+              </div>
+            </div>
+            <div class="col-md-12 col-lg-4">
+              <nav aria-label="breadcrumb" class="breadcrumb-box d-flex justify-content-lg-end">
+                <ol class="breadcrumb">
+                  <li class="breadcrumb-item">
+                    <a  routerLink="home" >Home</a>
+                  </li>
+                  <li class="breadcrumb-item active" aria-current="page">
+                    Properties
+                  </li>
+                </ol>
+              </nav>
+            </div>
+          </div>
         </div>
-        <div class="card-body">
-             <div class="search">
-                 <input class="form-control" type="text" name="search" [(ngModel)]="projectSearchText" autocomplete="off" placeholder="&#61442;  Search">
-             </div>
-             <!-- <div class="table-responsive">
-                 <table class="table user-list">
-                     <tbody>
-                         <tr *ngFor="let project of projects | paginate:{itemsPerPage: 5, currentPage:1} | filter:projectSearchText " (click)="openViewProject(project)">
-                             <td>
-                                 <mat-grid-list cols="5" rowHeight="70px">
-                                     <mat-grid-tile
-                                         [colspan]="1"
-                                         [rowspan]="2"
-                                         [style.background]="">
-                                         <img src="{{project.coverPhotoUrl}}" srcset="/assets/img/temp-icon.jpg">
-                                     </mat-grid-tile>
-                                     <mat-grid-tile
-                                         [colspan]="2"
-                                         [rowspan]="1"
-                                         [style.background]="">
-                                         {{project.name}}
-                                     </mat-grid-tile>
-                                     <mat-grid-tile
-                                         [colspan]="2"
-                                         [rowspan]="1"
-                                         [style.background]="">
-                                         {{project.saleType}} {{project.cost}} 
-                                     </mat-grid-tile>
-                                     <mat-grid-tile
-                                         [colspan]="2"
-                                         [rowspan]="1"
-                                         [style.background]="">
-                                         {{project.addressStreet}} {{project.addressTown}} {{project.addressCity}} {{project.addressRegion}}
-                                     </mat-grid-tile>
-                                     <mat-grid-tile
-                                         [colspan]="2"
-                                         [rowspan]="1"
-                                         [style.background]="">
-                                         {{project.propertyType}}
-                                     </mat-grid-tile>
-                                   </mat-grid-list>	
-                                   
-                             </td>
-                         </tr>
-                     </tbody>
-                 </table>
-                     <div id="pagination">
-                         <pagination-controls (pageChange)="p=$event"></pagination-controls>
-                     </div>  
-             </div> -->
-            <div class = "row">
-                <div class="col-md-3" *ngFor="let project of projects | paginate:{itemsPerPage: 4, currentPage:p} | filter:projectSearchText " (click)="openViewProject(project)" >
-                    <div class="card mb">
-                        <img class = "card-img-top" src="{{project.displaypic}}" >
-                        <div class="card-body mb">
-                        <h4 class="card-title">{{project.name}}</h4>
-                        <p class="card-text"> {{project.addressStreet}} {{project.addressTown}} {{project.addressCity}} {{project.addressRegion}} </p> 
-                        <p>{{project.propertyType}}</p> 
-                        <p>{{project.saleType}}: {{project.cost}} </p> 
-                        </div>
-                    </div>
+    </section>
+
+<!-- ======= Property Grid ======= -->
+    <section class="property-grid grid">
+        <div class="container">
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="search">
+                    <input class="form-control" type="text" name="search" [(ngModel)]="projectSearchText" autocomplete="off" placeholder="&#61442;  Search">
                 </div>
             </div>
-            
-         </div>
-         <div class = "card-footer">
-            <div id="pagination">
-                <pagination-controls (pageChange)="p=$event"></pagination-controls>
+            <div class="col-sm-6">
+                <div class="grid-option">
+                    <form>
+                    <select class="custom-select">
+                        <option selected>All</option>
+                        <option value="1">New to Old</option>
+                        <option value="2">For Rent</option>
+                        <option value="3">For Sale</option>
+                    </select>
+                    </form>
+                </div>
+                </div>
+            <div class="col-md-4" *ngFor="let project of projects | paginate:{itemsPerPage: 6, currentPage:p} | filter:projectSearchText " (click)="openViewProject(project)">
+                <div class="card-box-a card-shadow">
+                    <div class="img-box-a">
+                    <img src="{{project.cover_photo.photoURL}}" alt="" class="img-a img-fluid">
+                    </div>
+                    <div class="card-overlay">
+                    <div class="card-overlay-a-content">
+                        <div class="card-header-a">
+                        <h2 class="card-title-a">
+                            <a href="#"> {{project.name}} </a>
+                        </h2>
+                        </div>
+                        <div class="card-body-a">
+                        <div class="price-box d-flex">
+                            <span class="price-a">{{project.saleType}} | {{project.cost}}</span>
+                        </div>
+                        </div>
+                        <div class="card-footer-a">
+                        <ul class="card-info d-flex justify-content-around">
+                            <li>
+                            <h4 class="card-info-title">{{project.propertyType}}</h4>
+                            <span>
+                                {{project.addressStreet}}, {{project.addressTown}}, {{project.addressCity}}, {{project.addressRegion}}
+                            </span>
+                            </li>
+                        </ul>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+                </div>   
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div id="pagination">
+                    <pagination-controls (pageChange)="p=$event"></pagination-controls>
+                </div>
             </div>
-         </div>
-     </div>
-     
-     
+        </div>
+        </div>
+    </section>
+<!-- End Property Grid Single-->
 </div>
-

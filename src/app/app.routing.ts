@@ -15,6 +15,7 @@ import { ProfileSettingsComponent } from './pages/profile/profile-settings.compo
 import { ProjectComponent } from './pages/project/project.component';
 import { TransactionComponent } from './pages/transaction/transaction.component';
 import { InquireComponent } from './pages/inquire/inquire.component';
+import { AgentComponent } from './pages/agent/agent.component';
 // Components
 import { MiscComponent } from './components/misc/misc.component';
 
@@ -33,6 +34,7 @@ const appRoutes: Routes = [
   { path: 'misc', component: MiscComponent },
   { path: 'auth', component: AuthComponent },
   { path: 'project', component: ProjectComponent },
+  { path: 'agent', component: AgentComponent },
   // Protected pages
   // { path: 'profile/:uid/:name', component: ProfileComponent, canActivate: [AuthGuardService] },
   { path: 'transaction', component: TransactionComponent, canActivate: [AuthGuardService] },

@@ -1,13 +1,88 @@
-<!-- Header -->
-<mat-toolbar color="primary">
-  <mat-toolbar-row>
-   
-    <span><a routerLink="/home">MCFAM Realty Buy & Sell</a></span>
-  
-    <span class="spacer"></span>
-  
-    <div *ngIf="!authService.isAuthenticated();">
-      <app-date-pipe></app-date-pipe>
+<!-- Sidenav -->
+<mat-sidenav mode="over" opened="false" #sidenav class="sidenav">
+
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <div class="menu-link">
+
+    <button mat-button routerLink="/home" (click)="sidenav.close()">
+      <mat-icon class="misc">house</mat-icon>
+      <span>Home</span>
+    </button>
+
+    <button mat-button routerLink="/project" (click)="sidenav.close()">
+      <mat-icon class="misc">account_circle</mat-icon>
+      <span>Properties</span>
+    </button>
+
+    <button mat-button routerLink="/agent" (click)="sidenav.close()">
+      <mat-icon class="misc">account_box</mat-icon>
+      <span>Agent</span>
+    </button>
+
+    <button mat-button routerLink="/contact" (click)="sidenav.close()">
+      <mat-icon class="misc">mail</mat-icon>
+      <span>Contact Us</span>
+    </button>
+      
+    <button mat-button routerLink="/about" (click)="sidenav.close()">
+      <mat-icon class="misc">receipt</mat-icon>
+      <span>About Us</span>
+    </button>
+
+    <hr>
+
+    <div *ngIf="!authService.isAuthenticated(); else logout">
+      <button mat-button routerLink="/auth" (click)="sidenav.close()">
+        <mat-icon class="login">lock_open</mat-icon>
+        <span>Auth</span>
+      </button>
+    </div>
+
+    <ng-template #logout>
+      <button mat-button (click)="onLogout()" (click)="sidenav.close()">
+        <mat-icon class="logout">lock_outline</mat-icon>
+        <span>Logout</span>
+      </button>
+    </ng-template>
+  </div>
+
+</mat-sidenav>
+
+<!--Header-->
+<nav class="navbar navbar-default navbar-trans navbar-expand-lg fixed-top" >
+  <div class="container">
+    <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarDefault" aria-controls="navbarDefault" aria-expanded="false" aria-label="Toggle navigation" (click)="sidenav.toggle()" >
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+    <img [src]="angularImage" style="height: 80px; margin-top: 0px;"  >
+    <a class="navbar-brand text-brand" routerLink="home">MCFAM<span class="color-b">Realty</span></a>
+    <div class="navbar-collapse collapse justify-content-center" id="navbarDefault">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link " routerLink="home">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="project">Property</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="agent">Agents</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="about">About Us</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="contact">Contact Us</a>
+        </li>
+      </ul>
     </div>
   
     <span class="spacer-light"></span>
@@ -19,7 +94,6 @@
     </div>
   
     <ng-template #loggedin>
-      <h4>Welcome</h4>
   
       <button mat-icon-button [matMenuTriggerFor]="menu">
         <mat-icon>more_vert</mat-icon>
@@ -62,29 +136,5 @@
         </a>
       </mat-menu>
     </ng-template>
-
-  </mat-toolbar-row>
-  <mat-toolbar-row>
-    <img [src]="angularImage" style="height: 100px;" >
-    <span class="spacer-light"></span>
-      <button mat-button routerLink="/home" >
-        <span>Home</span>
-      </button>
-  
-    <span class="spacer-light"></span>
-      <button mat-button routerLink="/project" >
-        <span>Projects</span>
-      </button>
-    
-    <span class="spacer-light"></span>
-      <button mat-button routerLink="/about" >
-        <span>About Us</span>
-      </button>
-  
-    <span class="spacer-light"></span>
-      <button mat-button routerLink="/contact" >
-        <span>Contact Us</span>
-    </button>
-
-  </mat-toolbar-row>
-</mat-toolbar>
+  </div>
+</nav>

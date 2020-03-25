@@ -1,0 +1,105 @@
+<div>
+  <section class="intro-single">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12 col-lg-8">
+          <div class="title-single-box">
+            <h1 class="title-single">Our Agents</h1>
+          </div>
+        </div>
+        <div class="col-md-12 col-lg-4">
+          <nav aria-label="breadcrumb" class="breadcrumb-box d-flex justify-content-lg-end">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item">
+                <a  routerLink="home" >Home</a>
+              </li>
+              <li class="breadcrumb-item active" aria-current="page">
+                Agents
+              </li>
+            </ol>
+          </nav>
+        </div>
+      </div>
+    </div>
+</section><!-- End Intro Single-->
+    
+      <!-- ======= Agents Grid ======= -->
+      <section class="agents-grid grid">
+        <div class="container">
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="search">
+                  <input class="form-control" type="text" name="search" [(ngModel)]="agentSearchText" autocomplete="off" placeholder="&#61442;  Search">
+              </div>
+            </div>
+            <div class="col-md-4" class="col-md-4" *ngFor="let agent of agents | paginate:{itemsPerPage: 6, currentPage:p} | filter:agentSearchText " >
+              <div class="card-box-d">
+                <div class="card-img-d">
+                  <img src="{{agent.photoURL}}" alt="" class="img-d img-fluid">
+                </div>
+                <div class="card-overlay card-overlay-hover">
+                  <div class="card-header-d">
+                    <div class="card-title-d align-self-center">
+                      <h3 class="title-d">
+                        <a href="#" class="link-two">{{agent.firstName}}
+                          <br> {{agent.lastName}}</a>
+                      </h3>
+                    </div>
+                  </div>
+                  <div class="card-body-d">
+                    <p class="content-d color-text-a">
+                      Rating 
+                    </p>
+                    <div class="info-agents color-a">
+                      <p>
+                        <strong>Phone: </strong> {{agent.contactNumber}}}</p>
+                      <p>
+                        <strong>Email: </strong> {{agent.email}}</p>
+                    </div>
+                  </div>
+                  <div class="card-footer-d">
+                    <div class="socials-footer d-flex justify-content-center">
+                      <ul class="list-inline">
+                        <li class="list-inline-item">
+                          <a href="#" class="link-one">
+                            <i class="fa fa-facebook" aria-hidden="true"></i>
+                          </a>
+                        </li>
+                        <li class="list-inline-item">
+                          <a href="#" class="link-one">
+                            <i class="fa fa-twitter" aria-hidden="true"></i>
+                          </a>
+                        </li>
+                        <li class="list-inline-item">
+                          <a href="#" class="link-one">
+                            <i class="fa fa-instagram" aria-hidden="true"></i>
+                          </a>
+                        </li>
+                        <li class="list-inline-item">
+                          <a href="#" class="link-one">
+                            <i class="fa fa-pinterest-p" aria-hidden="true"></i>
+                          </a>
+                        </li>
+                        <li class="list-inline-item">
+                          <a href="#" class="link-one">
+                            <i class="fa fa-dribbble" aria-hidden="true"></i>
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12">
+                <div id="pagination">
+                    <pagination-controls (pageChange)="p=$event"></pagination-controls>
+                </div>
+            </div>
+        </div>
+        </div>
+      </section><!-- End Agents Grid-->
+    
+</div>
