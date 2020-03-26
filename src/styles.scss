@@ -664,9 +664,9 @@ a {
 
 /*------/ Space Padding /------*/
 
-.section-t8 {
+/*------/.section-t8 {
   padding-top: 8rem;
-}
+}/------*/
 
 @media (max-width: 767px) {
   .section-t8 {
@@ -2636,5 +2636,17 @@ footer {
     font-size: 14px;
   }
 }
+.about-us-content {
+  font-size: 90%;
+  text-align: center;
+  color: #4f4f4f;
+  float: initial;
+  font-style: inherit;
+}
+.about-us-column {
+  float: left;
+  width: 30%;
+  padding: 10px;
+  margin-left:20px;
 
-
+}
