@@ -1,1 +1,121 @@
-<p>transaction works!</p>
+<div class = "main" >
+    <mat-tab-group mat-align-tabs="center">
+        <mat-tab label="Active">
+            <div class="card">
+                <div class="card-header">
+                     <h3>Active Transactions</h3>
+                </div>
+                <div class="card-body">
+                    <div class="search">
+                          <input class="form-control" type="text" name="search"  autocomplete="off" placeholder="&#61442;  Search">
+                    </div>
+            
+                    <table class="table table-inbox table-hover">
+                        <thead>
+                            <th>Date/Time Started</th>
+                            <th>Project Name</th>
+                            <th>Agent Name</th>
+                            <th>Status</th>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let transaction of activeTransactions" (click)="openViewTransaction(transaction , 'Active')" >
+                                <td class="view-message  text-left">{{transaction.dateStart.toDate() | date: 'MMM-dd-yy hh:mm' }}</td>
+                                <td >{{transaction.projectName}}</td>
+                                <td >{{transaction.agentName}}</td>
+                                <td >{{transaction.status}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </mat-tab>
+        <mat-tab label="Manager Disapproved">
+            <div class="card">
+                <div class="card-header">
+                     <h3>Manager Disapproved Transactions</h3>
+                </div>
+                <div class="card-body">
+                    <div class="search">
+                          <input class="form-control" type="text" name="search"  autocomplete="off" placeholder="&#61442;  Search ">
+                    </div>
+            
+                    <table class="table table-inbox table-hover">
+                        <thead>
+                            <th>Date/Time Started</th>
+                            <th>Project Name</th>
+                            <th>Agent Name</th>
+                            <th>Status</th>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let transaction of managerDisapprovedTransactions" (click)="openViewTransaction(transaction , 'Manager Disapprove')" >
+                                <td class="view-message  text-left">{{transaction.dateStart.toDate() | date: 'MMM-dd-yy hh:mm' }}</td>
+                                <td >{{transaction.projectName}}</td>
+                                <td >{{transaction.agentName}}</td>
+                                <td >{{transaction.status}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </mat-tab>
+        <mat-tab label="Cancelled">
+            <div class="card">
+                <div class="card-header">
+                     <h3>Cancelled Transactions</h3>
+                </div>
+                <div class="card-body">
+                    <div class="search">
+                          <input class="form-control" type="text" name="search"  autocomplete="off" placeholder="&#61442;  Search ">
+                    </div>
+            
+                    <table class="table table-inbox table-hover">
+                        <thead>
+                            <th>Date/Time Started</th>
+                            <th>Project Name</th>
+                            <th>Agent Name</th>
+                            <th>Status</th>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let transaction of cancelledTransactions" (click)="openViewTransaction(transaction , 'Customer Cancelled')" >
+                                <td class="view-message  text-left">{{transaction.dateStart.toDate() | date: 'MMM-dd-yy hh:mm' }}</td>
+                                <td >{{transaction.projectName}}</td>
+                                <td >{{transaction.agentName}}</td>
+                                <td >{{transaction.status}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </mat-tab>
+        <mat-tab label="Completed">
+            <div class="card">
+                <div class="card-header">
+                     <h3>Completed Transactions</h3>
+                </div>
+                <div class="card-body">
+                    <div class="search">
+                          <input class="form-control" type="text" name="search"  autocomplete="off" placeholder="&#61442;  Search ">
+                    </div>
+            
+                    <table class="table table-inbox table-hover">
+                        <thead>
+                            <th>Date/Time Started</th>
+                            <th>Project Name</th>
+                            <th>Agent Name</th>
+                            <th>Status</th>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let transaction of completedTransactions" (click)="openViewTransaction(transaction , 'Completed')" >
+                                <td class="view-message  text-left">{{transaction.dateStart.toDate() | date: 'MMM-dd-yy hh:mm' }}</td>
+                                <td >{{transaction.projectName}}</td>
+                                <td >{{transaction.agentName}}</td>
+                                <td >{{transaction.status}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </mat-tab>
+    </mat-tab-group>
+</div>
+

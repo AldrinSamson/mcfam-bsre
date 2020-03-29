@@ -1,0 +1,57 @@
+<h2 mat-dialog-title>Trasaction for {{data.projectName}}</h2>
+<div mat-dialog-content>
+
+            <h5> Status: </h5>
+            <br>
+            <p>{{data.status}}</p>
+            <br>
+            <h5> Project: </h5>
+            <br>
+            <p>{{data.projectName}}</p>
+            <br>
+            <h5> Project Cost: </h5>
+            <br>
+            <p>{{data.projectCost}}</p>
+            <br>
+            <h5> Project Sale Type: </h5>
+            <br>
+            <p>{{data.projectSaleType}}</p>
+            <br>
+            <h5> Client Name: </h5>
+            <br>
+            <p>{{data.clientName}}</p>
+            <br>
+            <h5> Agent Name: </h5>
+            <br>
+            <p>{{data.agentName}}</p>
+            <br>
+            <h5> Manager Name: </h5>
+            <br>
+            <p>{{data.managerName}}</p>
+            <br>
+            <h5> Date Start: </h5>
+            <br>
+            <p>{{data.dateStart.toDate() | date: 'MMM-dd-yy hh:mm'}}</p>
+            <br>
+
+            
+            
+</div>
+<div mat-dialog-actions>
+    <div *ngIf="buttonConfig == 'Active'"> 
+        <div *ngIf="stage == 2">
+            <button mat-button (click)="uploadDocuments()" >Upload Documents</button>
+            <button mat-button (click)="cancelTransaction()" >Cancel Order</button>
+        </div>
+        <div *ngIf="stage == 3">
+            <button mat-button (click)="editDocuments()" >Edit Uploaded Documents</button>
+            <button mat-button (click)="cancelTransaction()" >Cancel Order</button>
+        </div>
+    </div>
+    <div *ngIf="buttonConfig == 'Manager Disapprove'">
+    </div>
+    <div *ngIf="buttonConfig == 'Completed'">
+    </div>
+
+    <button mat-button (click)="onNoClick()">Back</button> 
+</div>

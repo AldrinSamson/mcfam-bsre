@@ -28,13 +28,18 @@ import { ContactComponent } from './pages/contact/contact.component';
 import { PageNotFoundComponent } from './pages/not-found/not-found.component';
 import { HomeComponent } from './pages/home/home.component';
 import { ProjectComponent } from './pages/project/project.component';
-import { TransactionComponent } from './pages/transaction/transaction.component';
+import { TransactionComponent , ViewSaleTransactionComponent , UploadDocumentComponent , EditDocumenComponent } from './pages/transaction/transaction.component';
 import { InquireComponent } from './pages/inquire/inquire.component';
 import { EmailMeComponent } from './components/email-me/email-me.component';
 import { AgentComponent } from './pages/agent/agent.component';
 
 
 @NgModule({
+  entryComponents:[
+    ViewSaleTransactionComponent,
+    UploadDocumentComponent,
+    EditDocumenComponent
+  ],
   declarations: [
     AppComponent,
     HomeComponent,
@@ -47,7 +52,10 @@ import { AgentComponent } from './pages/agent/agent.component';
     EmailMeComponent,
     TransactionComponent,
     InquireComponent,
-    AgentComponent
+    AgentComponent,
+    ViewSaleTransactionComponent,
+    UploadDocumentComponent,
+    EditDocumenComponent
   ],
   imports: [
     BrowserModule,

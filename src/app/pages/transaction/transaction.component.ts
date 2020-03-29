@@ -1,4 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject , OnDestroy } from '@angular/core';
+import { FirebaseService, AuthService, TransactionService } from '../../shared';
+import { MatDialog, MatDialogRef , MatDialogConfig , MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { FormBuilder, Validators } from '@angular/forms';
+import { Router, Params } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-transaction',
@@ -7,9 +12,184 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TransactionComponent implements OnInit {
 
-  constructor() { }
+  transactions: Array<any>;
+  activeTransactions: Array<any>;
+  managerDisapprovedTransactions : Array<any>;
+  cancelledTransactions : Array<any>;
+  completedTransactions: Array<any>;
+  public transactionSub: Subscription;
+  uid: String;
+  private isManager: Boolean;
+
+  constructor(public fbs: FirebaseService,
+    public transactionService: TransactionService,
+    public dialog: MatDialog, 
+    public authService: AuthService) {
+    }
 
   ngOnInit() {
+    this.uid = sessionStorage.getItem('session-user-uid')
+    this.getUserTransactions();
+  }
+
+  getUserTransactions(){
+    this.transactionSub = this.transactionService.getTransaction(this.uid ).subscribe( res => {
+      this.transactions = res;
+      this.activeTransactions = this.transactions.filter( res => res.isCompleted === false && res.isApproved === false && res.isDisapproved === false && res.isCancelled === false );
+      this.managerDisapprovedTransactions = this.transactions.filter( res => res.isCompleted === false && res.isApproved === false && res.isDisapproved === true);
+      this.cancelledTransactions = this.transactions.filter( res => res.isCompleted === false  && res.isCancelled === true );
+      this.completedTransactions = this.transactions.filter( res => res.isCompleted === true && res.isApproved === true && res.isDisapproved === false && res.isCancelled === false );
+    });
+  }
+
+
+  openViewTransaction(value , status): void {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.data = {
+      transactionID: value.id,
+      projectName: value.projectName,
+      projectCost: value.projectCost,
+      projectSaleType: value.projectSaleType,
+      agentName: value.agentName,
+      clientName: value.clientName,
+      managerName: value.managerName,
+      dateStart: value.dateStart,
+      status: value.status,
+      stage: value.stage,
+      isCompleted: value.isCompleted,
+      isManagerApproved: value.isManagerApproved,
+      isCustomerApproved: value.isCustomerApproved,
+      isDeleted: value.isDeleted,
+      buttonConfig: status
+    };
+    this.dialog.open(ViewSaleTransactionComponent, dialogConfig).afterClosed().subscribe(result => {
+      this.getUserTransactions();
+    });
+    
+  }
+
+  ngOnDestroy() {
+    if(this.transactionSub != null){
+      this.transactionSub.unsubscribe();
+    }
   }
 
 }
+
+@Component({
+  // tslint:disable-next-line:component-selector
+  selector : 'view-sale-transaction-dialog',
+  templateUrl : './dialog/view-transaction-dialog.html',
+  styleUrls: ['./transaction.component.scss'],
+})
+
+export class ViewSaleTransactionComponent {
+
+  public stage : number;
+  public buttonConfig : string;
+
+  constructor(
+    public trasactionService: TransactionService,
+    public dialogRef: MatDialogRef<ViewSaleTransactionComponent>,
+    public dialog: MatDialog,
+    @Inject(MAT_DIALOG_DATA) public data: any
+    ) {
+      this.stage = this.data.stage;
+      this.buttonConfig = this.data.buttonConfig;
+    }
+
+    cancelTransaction(){
+      this.trasactionService.cancelTransaction(this.data.transactionID)
+      this.dialogRef.close();
+    }
+
+    uploadDocuments(){
+      const dialogConfig = new MatDialogConfig();
+      dialogConfig.data = {
+      transactionID: this.data.transactionID,
+      stage: this.stage,
+      buttonConfig: this.buttonConfig
+    };
+    this.dialog.open(UploadDocumentComponent, dialogConfig).afterClosed().subscribe(result => {
+      this.dialogRef.close();
+    });
+    }
+
+    editDocuments(){
+      const dialogConfig = new MatDialogConfig();
+      dialogConfig.data = {
+      transactionID: this.data.transactionID,
+      stage: this.stage,
+      buttonConfig: this.buttonConfig
+    };
+    this.dialog.open(EditDocumenComponent, dialogConfig).afterClosed().subscribe(result => {
+      this.dialogRef.close();
+    });
+    }
+
+    onNoClick(): void {
+      this.dialogRef.close();
+    }
+  
+}
+
+@Component({
+  // tslint:disable-next-line:component-selector
+  selector : 'edit-doc-dialog',
+  templateUrl : './dialog/upload-doc-dialog.html',
+  styleUrls: ['./transaction.component.scss'],
+})
+
+export class UploadDocumentComponent {
+
+  constructor(
+    public trasactionService: TransactionService,
+    public dialogRef: MatDialogRef<UploadDocumentComponent>,
+    public dialog: MatDialog,
+    @Inject(MAT_DIALOG_DATA) public data: any
+    ) {
+      
+    }
+
+    uploadDocuments(){
+      this.trasactionService.uploadDocuments(this.data.transactionID);
+      this.dialogRef.close();
+    }
+
+    onNoClick(): void {
+      this.dialogRef.close();
+    }
+  
+}
+
+
+@Component({
+  // tslint:disable-next-line:component-selector
+  selector : 'edit-doc-dialog',
+  templateUrl : './dialog/edit-doc-dialog.html',
+  styleUrls: ['./transaction.component.scss'],
+})
+
+export class EditDocumenComponent {
+
+  constructor(
+    public trasactionService: TransactionService,
+    public dialogRef: MatDialogRef<EditDocumenComponent>,
+    public fb: FormBuilder,
+    public dialog: MatDialog,
+    public authService: AuthService,
+    @Inject(MAT_DIALOG_DATA) public data: any
+    ) {
+      
+    }
+
+    editDocuments(){
+      this.dialogRef.close();
+    }
+
+    onNoClick(): void {
+      this.dialogRef.close();
+    }
+}
+
+

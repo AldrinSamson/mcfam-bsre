@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
-import { NgForm } from '@angular/forms';
-
+import { Router } from '@angular/router';
 import { AuthService } from '@shared';
+import { AngularFirestore } from '@angular/fire/firestore';
+import { FirebaseService } from '../../shared';
 
 @Component({
   selector: 'app-auth',
@@ -10,10 +11,19 @@ import { AuthService } from '@shared';
 })
 export class AuthComponent {
 
-  constructor(private authService: AuthService) {}
-
-  public onSuccess(): void {
-    return this.authService.onSuccess();
+  email='';
+  passw='';
+ 
+  constructor(private authService: AuthService,
+    private router: Router,
+    public fbs: FirebaseService,
+    public db: AngularFirestore) {}
+  
+  
+  login(){
+    this.authService.login(this.email,this.passw).then(() => {
+    });
+    
   }
 
 }

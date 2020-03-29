@@ -3,8 +3,7 @@ import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
-import { MatButtonModule, MatInputModule, MatProgressBarModule,
-         MatCardModule, MatIconModule } from '@angular/material';
+import { MaterialModule } from '../../material.module';
 import { NgxAuthFirebaseUIModule } from 'ngx-auth-firebaseui';
 
 // Components
@@ -20,8 +19,7 @@ import { PhoneSigninComponent } from './phone-signin/phone-signin.component';
     CommonModule,
     BrowserModule,
     FormsModule,
-    MatButtonModule, MatInputModule, MatProgressBarModule,
-    MatCardModule, MatIconModule,
+    MaterialModule,
     NgxAuthFirebaseUIModule
   ],
   providers: [

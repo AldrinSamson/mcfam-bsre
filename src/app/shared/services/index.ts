@@ -5,3 +5,4 @@ export * from './user.service';
 export * from './window.service';
 export * from './agent.service';
 export * from './firebase.service';
+export * from './transaction.service'
