@@ -4,6 +4,7 @@ import { MatDialog, MatDialogRef, MatDialogConfig, MAT_DIALOG_DATA } from '@angu
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router, Params } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { FilesService } from '../../shared/services/files.service';
 import * as $ from 'jquery';
 
 
@@ -26,7 +27,9 @@ export class TransactionComponent implements OnInit {
   constructor(public fbs: FirebaseService,
     public transactionService: TransactionService,
     public dialog: MatDialog,
-    public authService: AuthService) {
+    public authService: AuthService,
+    public fileservice: FilesService
+    ) {
   }
 
   ngOnInit() {
@@ -94,7 +97,8 @@ export class ViewSaleTransactionComponent {
     public trasactionService: TransactionService,
     public dialogRef: MatDialogRef<ViewSaleTransactionComponent>,
     public dialog: MatDialog,
-    @Inject(MAT_DIALOG_DATA) public data: any
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    public fileservice: FilesService
   ) {
     this.stage = this.data.stage;
     this.buttonConfig = this.data.buttonConfig;
@@ -143,50 +147,97 @@ export class ViewSaleTransactionComponent {
 })
 
 export class UploadDocumentComponent {
-  toUpload = [{ desc: 'Buyer Information Sheet', file: undefined },
-  { desc: 'Reservation Fee', file: undefined },
-  { desc: 'Reservation Agreement', file: undefined },
-  { desc: 'Valid Goverment ID 1', file: undefined },
-  { desc: 'Valid Goverment ID 2', file: undefined },
-  { desc: 'Proof of Income', file: undefined },
-  { desc: 'Proof of Billing', file: undefined },
-  { desc: 'Payment Schedule Scheme', file: undefined },
+  toUpload = [{ desc: 'Buyer Information Sheet', file: undefined },//0
+  { desc: 'Reservation Fee', file: undefined },//1
+  { desc: 'Reservation Agreement', file: undefined },//2
+  { desc: 'Valid Goverment ID 1', file: undefined },//3
+  { desc: 'Valid Goverment ID 2', file: undefined },//4
+  { desc: 'Proof of Income', file: undefined },//5
+  { desc: 'Proof of Billing', file: undefined },//6
+  { desc: 'Payment Schedule Scheme', file: undefined },//7
     // { desc: 'Others', file: undefined }
   ]
+  othefiles: any;
+  uid: any;
+
   constructor(
     public trasactionService: TransactionService,
     public dialogRef: MatDialogRef<UploadDocumentComponent>,
     public dialog: MatDialog,
-    @Inject(MAT_DIALOG_DATA) public data: any
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    public fileservice: FilesService
   ) {
 
   }
-  selectFile(event){
+
+  ngOnInit(){
+    this.uid = sessionStorage.getItem('session-user-uid')
+  }
+
+  selectFileOthers(event) {
+    this.othefiles = event.target.files;
+
+    if (this.othefiles) {
+      document.getElementById('otherfilebtn').classList.remove('btn-primary');
+      document.getElementById('otherfilebtn').classList.add('btn-success');
+      $('#otherdesc').text('file/s uploaded');
+    } else {
+      document.getElementById('otherfilebtn').classList.add('btn-primary');
+      document.getElementById('otherfilebtn').classList.remove('btn-success');
+      $('#otherdesc').text('');
+    }
+
+  }
+  selectFile(event) {
     //this.toUpload[indexOfelement]['file']= file[indexOfelement]
     console.log(event);
     var getidno = (event.target.id).substring(3);
     var tonum = parseInt(getidno);
     this.toUpload[tonum]['file'] = event.target.files[0];
 
-    if(this.toUpload[tonum]['file']){
-      document.getElementById('upbtn_'+getidno).classList.remove('btn-primary');
-      document.getElementById('upbtn_'+getidno).classList.add('btn-success');
-    }else{
-      document.getElementById('upbtn_'+getidno).classList.add('btn-primary');
-      document.getElementById('upbtn_'+getidno).classList.remove('btn-success');
+    if (this.toUpload[tonum]['file']) {
+      document.getElementById('upbtn_' + getidno).classList.remove('btn-primary');
+      document.getElementById('upbtn_' + getidno).classList.add('btn-success');
+      $('#file_indic_' + getidno).text('a file uploaded');
+    } else {
+      document.getElementById('upbtn_' + getidno).classList.add('btn-primary');
+      document.getElementById('upbtn_' + getidno).classList.remove('btn-success');
+      $('#file_indic_' + getidno).text('');
     }
 
     console.log(this.toUpload)
 
 
   }
-  upclick(indexOfelement){
-    $('#up_'+indexOfelement).click();
-    
+  upclick(indexOfelement) {
+    $('#up_' + indexOfelement).click();
+
+  }
+  otherclick() {
+    $('#otherfile').click();
   }
 
-  uploadDocuments() {
-    this.trasactionService.uploadDocuments(this.data.transactionID);
+  async uploadDocuments() {
+    var allupload = false;
+    for (var i = 0; i < this.toUpload.length; i++) {
+      var file1 = this.toUpload[i]['file'];
+      if (!file1) {
+        allupload = true;
+      }
+    }
+    if(!allupload){
+      for (var i = 0; i < this.toUpload.length; i++) {
+        var fl = this.toUpload[i]['file'];
+        const path = `transactions/storeFile${new Date().getTime()}_${fl.name}`;
+        console.log(allupload)
+        var fileprop =  await this.fileservice.upload_in_storage(path,fl,this.uid,'transaction')
+        var x = { id:  fileprop['id'], fileurl: fileprop['photoURL'] }
+        this.toUpload[i]['filedetail'] = x
+      }
+      console.log(this.toUpload)
+    }
+    
+    this.trasactionService.uploadDocuments(this.data.transactionID,this.toUpload);
     this.dialogRef.close();
   }
 

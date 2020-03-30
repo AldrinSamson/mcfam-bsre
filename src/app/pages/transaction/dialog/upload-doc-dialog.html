@@ -2,15 +2,19 @@
 <div mat-dialog-content>
     <div *ngFor='let tup of toUpload; let indexOfelement=index'>
         <h5> {{tup.desc}} </h5>
-        <br>
+        
         <button class="btn btn-primary" id='upbtn_{{indexOfelement}}' (click)='upclick(indexOfelement)' >Upload</button>
         <input type='file' id='up_{{indexOfelement}}' hidden (change)='selectFile($event)'>
+        &nbsp;<span id='file_indic_{{indexOfelement}}'></span>
+
         <br>
     </div>
     
     <h5> Others: </h5>
-    <br>
-    <button class="btn btn-primary">Upload</button>
+    
+    <button class="btn btn-primary" id='otherfilebtn' (click)='otherclick()'>Upload</button>
+    <input type='file' id='otherfile' hidden (change)='selectFileOthers($event)' multiple>
+    &nbsp;<span id='otherdesc'></span>
     <br>
 </div>
 <div mat-dialog-actions>
