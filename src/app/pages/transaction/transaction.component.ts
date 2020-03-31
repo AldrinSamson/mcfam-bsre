@@ -29,7 +29,7 @@ export class TransactionComponent implements OnInit {
     public dialog: MatDialog,
     public authService: AuthService,
     public fileservice: FilesService
-    ) {
+  ) {
   }
 
   ngOnInit() {
@@ -121,13 +121,17 @@ export class ViewSaleTransactionComponent {
     });
   }
 
-  editDocuments() {
+  async editDocuments() {
     const dialogConfig = new MatDialogConfig();
+    var trans = await this.trasactionService.getOneTransaction(this.data.transactionID);
     dialogConfig.data = {
       transactionID: this.data.transactionID,
       stage: this.stage,
-      buttonConfig: this.buttonConfig
+      buttonConfig: this.buttonConfig,
+      trans: trans
     };
+    //dialogConfig['trans'] = await this.trasactionService.getOneTransaction(this.data.transactionID);
+    console.log(dialogConfig);
     this.dialog.open(EditDocumenComponent, dialogConfig).afterClosed().subscribe(result => {
       this.dialogRef.close();
     });
@@ -170,13 +174,13 @@ export class UploadDocumentComponent {
 
   }
 
-  ngOnInit(){
+  ngOnInit() {
     this.uid = sessionStorage.getItem('session-user-uid')
   }
 
   selectFileOthers(event) {
     this.othefiles = event.target.files;
-
+    console.log(this.othefiles)
     if (this.othefiles) {
       document.getElementById('otherfilebtn').classList.remove('btn-primary');
       document.getElementById('otherfilebtn').classList.add('btn-success');
@@ -225,19 +229,34 @@ export class UploadDocumentComponent {
         allupload = true;
       }
     }
-    if(!allupload){
+    if (this.othefiles) {
+      allupload = true;
+
+    }
+    if (!allupload) {
       for (var i = 0; i < this.toUpload.length; i++) {
         var fl = this.toUpload[i]['file'];
         const path = `transactions/storeFile${new Date().getTime()}_${fl.name}`;
         console.log(allupload)
-        var fileprop =  await this.fileservice.upload_in_storage(path,fl,this.uid,'transaction')
-        var x = { id:  fileprop['id'], fileurl: fileprop['photoURL'] }
+        var fileprop = await this.fileservice.upload_in_storage(path, fl, this.uid, 'transaction')
+        var x = { id: fileprop['id'], fileurl: fileprop['photoURL'] }
         this.toUpload[i]['filedetail'] = x
       }
       console.log(this.toUpload)
+      /*
+            for (var i = 0; i < this.toUpload.length; i++) {
+              var fl = this.toUpload[i]['file'];
+              const path = `transactions/storeFile${new Date().getTime()}_${fl.name}`;
+              console.log(allupload)
+              var fileprop = await this.fileservice.upload_in_storage(path, fl, this.uid, 'transaction')
+              var x = { id: fileprop['id'], fileurl: fileprop['photoURL'] }
+              this.toUpload[i]['filedetail'] = x
+            }
+      */
+
     }
-    
-    this.trasactionService.uploadDocuments(this.data.transactionID,this.toUpload);
+
+    this.trasactionService.uploadDocuments(this.data.transactionID, this.toUpload);
     this.dialogRef.close();
   }
 
@@ -256,21 +275,124 @@ export class UploadDocumentComponent {
 })
 
 export class EditDocumenComponent {
-
+  toUpload = [{ desc: 'Buyer Information Sheet', file: undefined },//0
+  { desc: 'Reservation Fee', file: undefined },//1
+  { desc: 'Reservation Agreement', file: undefined },//2
+  { desc: 'Valid Goverment ID 1', file: undefined },//3
+  { desc: 'Valid Goverment ID 2', file: undefined },//4
+  { desc: 'Proof of Income', file: undefined },//5
+  { desc: 'Proof of Billing', file: undefined },//6
+  { desc: 'Payment Schedule Scheme', file: undefined },//7
+    // { desc: 'Others', file: undefined }
+  ]
+  trans: any;
+  othefiles: any;
+  uid: any;
+//  : any;
   constructor(
     public trasactionService: TransactionService,
     public dialogRef: MatDialogRef<EditDocumenComponent>,
     public fb: FormBuilder,
     public dialog: MatDialog,
     public authService: AuthService,
+    public fileservice: FilesService,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
+    console.log(this.data)
+    this.toUpload[0]['filedetail'] = data['trans']['doc_BIS']
+    this.toUpload[6]['filedetail'] = data['trans']['doc_POB']
+    this.toUpload[5]['filedetail'] = data['trans']['doc_POI']
+    this.toUpload[7]['filedetail'] = data['trans']['doc_PSS']
+    this.toUpload[2]['filedetail'] = data['trans']['doc_RA']
+    this.toUpload[1]['filedetail'] = data['trans']['doc_RF']
+    this.toUpload[3]['filedetail'] = data['trans']['doc_VG1']
+    this.toUpload[4]['filedetail'] = data['trans']['doc_VG2']
+    for (var i = 0; i < this.toUpload.length; i++) {
+      if (this.toUpload[i]['filedetail']) {
+        console.log(this.toUpload[i])
+      }
+    }
+  }
+  ngOnInit() {
+    this.uid = sessionStorage.getItem('session-user-uid')
+  }
+  selectFileOthers(event) {
+    this.othefiles = event.target.files;
+    console.log(this.othefiles)
+    if (this.othefiles) {
+      document.getElementById('otherfilebtn').classList.remove('btn-primary');
+      document.getElementById('otherfilebtn').classList.add('btn-success');
+      $('#otherdesc').text('file/s uploaded');
+    } else {
+      document.getElementById('otherfilebtn').classList.add('btn-primary');
+      document.getElementById('otherfilebtn').classList.remove('btn-success');
+      $('#otherdesc').text('');
+    }
 
   }
+  selectFile(event) {
+    //this.toUpload[indexOfelement]['file']= file[indexOfelement]
+    console.log(event);
+    var getidno = (event.target.id).substring(3);
+    var tonum = parseInt(getidno);
+    this.toUpload[tonum]['file'] = event.target.files[0];
 
-  editDocuments() {
+    if (this.toUpload[tonum]['file']) {
+      document.getElementById('upbtn_' + getidno).classList.remove('btn-primary');
+      document.getElementById('upbtn_' + getidno).classList.add('btn-success');
+      $('#file_indic_' + getidno).text('a file uploaded');
+    } else {
+      document.getElementById('upbtn_' + getidno).classList.add('btn-primary');
+      document.getElementById('upbtn_' + getidno).classList.remove('btn-success');
+      $('#file_indic_' + getidno).text('');
+    }
+
+    console.log(this.toUpload)
+
+
+  }
+  upclick(indexOfelement) {
+    $('#up_' + indexOfelement).click();
+  }
+  otherclick() {
+    $('#otherfile').click();
+  }
+
+  async editDocuments() {
+    var allupload = false;
+    
+    if (!allupload) {
+      for (var i = 0; i < this.toUpload.length; i++) {
+        var fl = this.toUpload[i]['file'];
+        if (fl) {
+          const path = `transactions/storeFile${new Date().getTime()}_${fl.name}`;
+          console.log(allupload)
+          var fileprop = await this.fileservice.upload_in_storage(path, fl, this.uid, 'transaction')
+          var x = { id: fileprop['id'], fileurl: fileprop['photoURL'] }
+          this.toUpload[i]['filedetail'] = x
+        }else{
+          
+        }
+      }
+      console.log(this.toUpload)
+      var otherfl =[]
+      for (var i = 0; i < this.othefiles.length; i++) {
+        var fl = this.othefiles[i];
+        const path = `transactions/storeFile${new Date().getTime()}_${fl.name}`;
+        console.log(this.uid)
+        var fileprop = await this.fileservice.upload_in_storage(path, fl, this.uid, 'transaction')
+        var x = { id: fileprop['id'], fileurl: fileprop['photoURL'] }
+        otherfl.push(x)
+      }
+      this.toUpload['toothers'] = otherfl
+
+
+    }
+
+    this.trasactionService.editDocuments(this.data.transactionID, this.toUpload);
     this.dialogRef.close();
   }
+  
 
   onNoClick(): void {
     this.dialogRef.close();
