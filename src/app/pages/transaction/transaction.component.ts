@@ -229,10 +229,7 @@ export class UploadDocumentComponent {
         allupload = true;
       }
     }
-    if (this.othefiles) {
-      allupload = true;
 
-    }
     if (!allupload) {
       for (var i = 0; i < this.toUpload.length; i++) {
         var fl = this.toUpload[i]['file'];
@@ -243,17 +240,21 @@ export class UploadDocumentComponent {
         this.toUpload[i]['filedetail'] = x
       }
       console.log(this.toUpload)
-      /*
-            for (var i = 0; i < this.toUpload.length; i++) {
-              var fl = this.toUpload[i]['file'];
-              const path = `transactions/storeFile${new Date().getTime()}_${fl.name}`;
-              console.log(allupload)
-              var fileprop = await this.fileservice.upload_in_storage(path, fl, this.uid, 'transaction')
-              var x = { id: fileprop['id'], fileurl: fileprop['photoURL'] }
-              this.toUpload[i]['filedetail'] = x
-            }
-      */
 
+      if (this.othefiles) {
+        var otherfl = []
+        for (var i = 0; i < this.othefiles.length; i++) {
+          var fl = this.othefiles[i];
+          const path = `transactions/storeFile${new Date().getTime()}_${fl.name}`;
+          console.log(this.uid)
+          var fileprop = await this.fileservice.upload_in_storage(path, fl, this.uid, 'transaction')
+          var x = { id: fileprop['id'], fileurl: fileprop['photoURL'] }
+          otherfl.push(x)
+        }
+        this.toUpload['toothers'] = otherfl
+      } else {
+        this.toUpload['toothers'] = '';
+      }
     }
 
     this.trasactionService.uploadDocuments(this.data.transactionID, this.toUpload);
@@ -283,12 +284,13 @@ export class EditDocumenComponent {
   { desc: 'Proof of Income', file: undefined },//5
   { desc: 'Proof of Billing', file: undefined },//6
   { desc: 'Payment Schedule Scheme', file: undefined },//7
-    // { desc: 'Others', file: undefined }
+    //{ desc: 'Others', file: undefined }
   ]
   trans: any;
   othefiles: any;
   uid: any;
-//  : any;
+
+  //  : any;
   constructor(
     public trasactionService: TransactionService,
     public dialogRef: MatDialogRef<EditDocumenComponent>,
@@ -307,6 +309,7 @@ export class EditDocumenComponent {
     this.toUpload[1]['filedetail'] = data['trans']['doc_RF']
     this.toUpload[3]['filedetail'] = data['trans']['doc_VG1']
     this.toUpload[4]['filedetail'] = data['trans']['doc_VG2']
+    //this.toUpload[8]['filedetail'] = data['trans']['doc_others']
     for (var i = 0; i < this.toUpload.length; i++) {
       if (this.toUpload[i]['filedetail']) {
         console.log(this.toUpload[i])
@@ -360,7 +363,16 @@ export class EditDocumenComponent {
 
   async editDocuments() {
     var allupload = false;
-    
+    var toUpload2 = [{ desc: 'Buyer Information Sheet'},//0
+    { desc: 'Reservation Fee' },//1
+    { desc: 'Reservation Agreement' },//2
+    { desc: 'Valid Goverment ID 1' },//3
+    { desc: 'Valid Goverment ID 2' },//4
+    { desc: 'Proof of Income' },//5
+    { desc: 'Proof of Billing' },//6
+    { desc: 'Payment Schedule Scheme' },//7
+      //{ desc: 'Others' }
+    ]
     if (!allupload) {
       for (var i = 0; i < this.toUpload.length; i++) {
         var fl = this.toUpload[i]['file'];
@@ -369,30 +381,37 @@ export class EditDocumenComponent {
           console.log(allupload)
           var fileprop = await this.fileservice.upload_in_storage(path, fl, this.uid, 'transaction')
           var x = { id: fileprop['id'], fileurl: fileprop['photoURL'] }
-          this.toUpload[i]['filedetail'] = x
-        }else{
-          
+          //this.toUpload[i]['filedetail']['desc'] = this.toUpload[i]['desc']
+          toUpload2[i]['filedetail'] = x
+        } else {
+
         }
       }
+      var otherfl = undefined
       console.log(this.toUpload)
-      var otherfl =[]
-      for (var i = 0; i < this.othefiles.length; i++) {
-        var fl = this.othefiles[i];
-        const path = `transactions/storeFile${new Date().getTime()}_${fl.name}`;
-        console.log(this.uid)
-        var fileprop = await this.fileservice.upload_in_storage(path, fl, this.uid, 'transaction')
-        var x = { id: fileprop['id'], fileurl: fileprop['photoURL'] }
-        otherfl.push(x)
-      }
-      this.toUpload['toothers'] = otherfl
+      if (this.othefiles) {
+        otherfl = []
+        console.log(this.othefiles)
+        for (var i = 0; i < this.othefiles.length; i++) {
+          var fl = this.othefiles[i];
 
+          const path = `transactions/storeFile${new Date().getTime()}_${fl.name}`;
+          console.log(fl)
+          var fileprop = await this.fileservice.upload_in_storage(path, fl, this.uid, 'transaction')
+          var x = { id: fileprop['id'], fileurl: fileprop['photoURL'] }
+          otherfl.push(x)
+        }
+        //this.toUpload[8]['filedetail'] = otherfl
+
+      }
+      console.log(toUpload2)
 
     }
 
-    this.trasactionService.editDocuments(this.data.transactionID, this.toUpload);
+    this.trasactionService.editDocuments(this.data.transactionID, toUpload2, otherfl);
     this.dialogRef.close();
   }
-  
+
 
   onNoClick(): void {
     this.dialogRef.close();
