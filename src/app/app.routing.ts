@@ -16,6 +16,7 @@ import { ProjectComponent } from './pages/project/project.component';
 import { TransactionComponent } from './pages/transaction/transaction.component';
 import { InquireComponent } from './pages/inquire/inquire.component';
 import { AgentComponent } from './pages/agent/agent.component';
+import { EditFeatureComponent } from './pages/home/edit-feature/edit-feature.component'
 // Components
 import { MiscComponent } from './components/misc/misc.component';
 
@@ -27,8 +28,9 @@ import { AuthGuardService } from '@shared';
 const appRoutes: Routes = [
 
   // Public pages
-  { path: '', redirectTo: '/home', pathMatch : 'full' },
+  { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: 'home', component: HomeComponent },
+  { path: 'edit-feature', component: EditFeatureComponent },
   { path: 'about', component: AboutMeComponent },
   { path: 'contact', component: ContactComponent },
   { path: 'misc', component: MiscComponent },

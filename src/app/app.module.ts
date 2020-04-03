@@ -32,6 +32,7 @@ import { TransactionComponent , ViewSaleTransactionComponent , UploadDocumentCom
 import { InquireComponent } from './pages/inquire/inquire.component';
 import { EmailMeComponent } from './components/email-me/email-me.component';
 import { AgentComponent } from './pages/agent/agent.component';
+import { EditFeatureComponent } from './pages/home/edit-feature/edit-feature.component';
 
 
 @NgModule({
@@ -55,7 +56,8 @@ import { AgentComponent } from './pages/agent/agent.component';
     AgentComponent,
     ViewSaleTransactionComponent,
     UploadDocumentComponent,
-    EditDocumenComponent
+    EditDocumenComponent,
+    EditFeatureComponent
   ],
   imports: [
     BrowserModule,

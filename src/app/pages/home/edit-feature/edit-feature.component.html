@@ -1,0 +1,18 @@
+<br>
+<br><br><br>
+<div class="fullpage">
+
+    <h3>Add featured photo</h3>
+
+    <button (click)='addphoto()' class="btn btn-primary">Add a photo</button>
+
+    <div *ngFor='let pf of photofeature'>
+        Attach a file
+        <input type="file" (change)='attached($event)'>
+        <br>
+        <textarea placeholder="" class="form-control" ></textarea>
+        <br>
+    </div>
+
+
+</div>
