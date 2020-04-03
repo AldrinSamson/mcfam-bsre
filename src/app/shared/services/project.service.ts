@@ -10,9 +10,9 @@ export class ProjectService {
   
   
   constructor(public db: AngularFirestore) { }
-  public getProjects(isArchived: Boolean) {
-    return this.db.collection('project' , 
-      ref => ref.where('isArchived', '==', isArchived) ).valueChanges({ idField: 'id' });
+  
+  getProjects(isArchived: Boolean) {
+    return this.db.collection('project' , ref => ref.where('isArchived', '==', isArchived) ).valueChanges({ idField: 'id' });
   }
 
 }
