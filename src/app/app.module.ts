@@ -33,6 +33,7 @@ import { InquireComponent } from './pages/inquire/inquire.component';
 import { EmailMeComponent } from './components/email-me/email-me.component';
 import { AgentComponent } from './pages/agent/agent.component';
 import { EditFeatureComponent } from './pages/home/edit-feature/edit-feature.component';
+import { ViewProjectComponent } from './pages/view-project/view-project.component';
 
 
 @NgModule({
@@ -57,7 +58,8 @@ import { EditFeatureComponent } from './pages/home/edit-feature/edit-feature.com
     ViewSaleTransactionComponent,
     UploadDocumentComponent,
     EditDocumenComponent,
-    EditFeatureComponent
+    EditFeatureComponent,
+    ViewProjectComponent
   ],
   imports: [
     BrowserModule,

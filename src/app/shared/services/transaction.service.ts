@@ -54,7 +54,8 @@ export class TransactionService {
       doc_others: uploadedfile['toothers'],
       stage: 3,
       status: 'Awaiting Manager Approval',
-      dateUploaded: new Date()
+      dateUploaded: new Date(),
+      doc_status:'Files : Uploaded'
     });
   }
 

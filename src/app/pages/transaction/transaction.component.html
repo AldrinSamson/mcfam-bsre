@@ -16,6 +16,7 @@
                             <th>Project Name</th>
                             <th>Agent Name</th>
                             <th>Status</th>
+                            <th>Document Status</th>
                         </thead>
                         <tbody>
                             <tr *ngFor="let transaction of activeTransactions" (click)="openViewTransaction(transaction , 'Active')" >
@@ -23,6 +24,7 @@
                                 <td >{{transaction.projectName}}</td>
                                 <td >{{transaction.agentName}}</td>
                                 <td >{{transaction.status}}</td>
+                                <td >{{transaction.doc_status}}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -45,6 +47,7 @@
                             <th>Project Name</th>
                             <th>Agent Name</th>
                             <th>Status</th>
+                            <th>Document Status</th>
                         </thead>
                         <tbody>
                             <tr *ngFor="let transaction of managerDisapprovedTransactions" (click)="openViewTransaction(transaction , 'Manager Disapprove')" >
@@ -52,6 +55,7 @@
                                 <td >{{transaction.projectName}}</td>
                                 <td >{{transaction.agentName}}</td>
                                 <td >{{transaction.status}}</td>
+                                <td >{{transaction.doc_status}}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -74,6 +78,7 @@
                             <th>Project Name</th>
                             <th>Agent Name</th>
                             <th>Status</th>
+                            <th>Document Status</th>
                         </thead>
                         <tbody>
                             <tr *ngFor="let transaction of cancelledTransactions" (click)="openViewTransaction(transaction , 'Customer Cancelled')" >
@@ -81,6 +86,7 @@
                                 <td >{{transaction.projectName}}</td>
                                 <td >{{transaction.agentName}}</td>
                                 <td >{{transaction.status}}</td>
+                                <td >{{transaction.doc_status}}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -103,6 +109,7 @@
                             <th>Project Name</th>
                             <th>Agent Name</th>
                             <th>Status</th>
+                            <th>Document Status</th>
                         </thead>
                         <tbody>
                             <tr *ngFor="let transaction of completedTransactions" (click)="openViewTransaction(transaction , 'Completed')" >
@@ -110,6 +117,7 @@
                                 <td >{{transaction.projectName}}</td>
                                 <td >{{transaction.agentName}}</td>
                                 <td >{{transaction.status}}</td>
+                                <td >{{transaction.doc_status}}</td>
                             </tr>
                         </tbody>
                     </table>

@@ -16,4 +16,8 @@ export class AgentService {
   getWithPosition(position) {
     return this.db.collection('broker', ref => ref.where('position', '==', position)).valueChanges({ idField: 'id' });
   }
+
+  getOne(id) {
+    return this.db.collection('broker').doc(id).snapshotChanges();
+  }
 }

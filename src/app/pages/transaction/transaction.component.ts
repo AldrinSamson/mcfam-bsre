@@ -40,10 +40,10 @@ export class TransactionComponent implements OnInit {
   getUserTransactions() {
     this.transactionSub = this.transactionService.getTransaction(this.uid).subscribe(res => {
       this.transactions = res;
-      this.activeTransactions = this.transactions.filter(res => res.isCompleted === false && res.isApproved === false && res.isDisapproved === false && res.isCancelled === false);
-      this.managerDisapprovedTransactions = this.transactions.filter(res => res.isCompleted === false && res.isApproved === false && res.isDisapproved === true);
-      this.cancelledTransactions = this.transactions.filter(res => res.isCompleted === false && res.isCancelled === true);
-      this.completedTransactions = this.transactions.filter(res => res.isCompleted === true && res.isApproved === true && res.isDisapproved === false && res.isCancelled === false);
+      this.activeTransactions = this.transactions.filter( res => res.isCompleted === false  && res.isDisapproved === false && res.isCancelled === false );
+      this.managerDisapprovedTransactions = this.transactions.filter( res => res.isCompleted === false && res.isDisapproved === true);
+      this.cancelledTransactions = this.transactions.filter( res => res.isCompleted === false  && res.isCancelled === true );
+      this.completedTransactions = this.transactions.filter( res => res.isCompleted === true && res.isApproved === true && res.isDisapproved === false && res.isCancelled === false );
     });
   }
 
@@ -65,7 +65,8 @@ export class TransactionComponent implements OnInit {
       isManagerApproved: value.isManagerApproved,
       isCustomerApproved: value.isCustomerApproved,
       isDeleted: value.isDeleted,
-      buttonConfig: status
+      buttonConfig: status,
+      doc_status: value.doc_status,
     };
     this.dialog.open(ViewSaleTransactionComponent, dialogConfig).afterClosed().subscribe(result => {
       this.getUserTransactions();

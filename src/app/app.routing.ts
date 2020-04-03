@@ -17,6 +17,7 @@ import { TransactionComponent } from './pages/transaction/transaction.component'
 import { InquireComponent } from './pages/inquire/inquire.component';
 import { AgentComponent } from './pages/agent/agent.component';
 import { EditFeatureComponent } from './pages/home/edit-feature/edit-feature.component'
+import { ViewProjectComponent } from './pages/view-project/view-project.component';
 // Components
 import { MiscComponent } from './components/misc/misc.component';
 
@@ -40,6 +41,7 @@ const appRoutes: Routes = [
   // Protected pages
   // { path: 'profile/:uid/:name', component: ProfileComponent, canActivate: [AuthGuardService] },
   { path: 'transaction', component: TransactionComponent, canActivate: [AuthGuardService] },
+  { path: 'project/:id', component: ViewProjectComponent },
   { path: 'inquire', component: InquireComponent, canActivate: [AuthGuardService] },
   { path: 'profile', component: ProfileComponent, canActivate: [AuthGuardService] },
   { path: 'profile-settings', component: ProfileSettingsComponent, canActivate: [AuthGuardService] },
