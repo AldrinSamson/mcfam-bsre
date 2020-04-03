@@ -2,7 +2,7 @@ export class FileModel {
     id?: string;
     fileProperties: any;
     uidUploaded:string;
-    section: 'BMS';
+    section: 'BSRE';
     fileName: string;
     category: string;
     photoURL: string;

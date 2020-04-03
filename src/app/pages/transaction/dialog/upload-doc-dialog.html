@@ -1,44 +1,23 @@
 <h2 mat-dialog-title>Upload Documents</h2>
 <div mat-dialog-content>
+    <div *ngFor='let tup of toUpload; let indexOfelement=index'>
+        <h5> {{tup.desc}} </h5>
+        
+        <button class="btn btn-primary" id='upbtn_{{indexOfelement}}' (click)='upclick(indexOfelement)' >Upload</button>
+        <input type='file' id='up_{{indexOfelement}}' hidden (change)='selectFile($event)'>
+        &nbsp;<span id='file_indic_{{indexOfelement}}'></span>
 
-            <h5> Buyer Information Sheet: </h5>
-            <br>
-            <button mat-button >Upload</button> 
-            <br>
-            <h5> Reservation Fee: </h5>
-            <br>
-            <button mat-button >Upload</button> 
-            <br>
-            <h5> Reservation Agreement: </h5>
-            <br>
-            <button mat-button >Upload</button> 
-            <br>
-            <h5> Valid Goverment ID 1: </h5>
-            <br>
-            <button mat-button >Upload</button> 
-            <br>
-            <h5> Valid Goverment ID 2: </h5>
-            <br>
-            <button mat-button >Upload</button> 
-            <br>
-            <h5> Proof of Income: </h5>
-            <br>
-            <button mat-button >Upload</button> 
-            <br>
-            <h5> Proof of Billing: </h5>
-            <br>
-            <button mat-button >Upload</button> 
-            <br>
-            <h5> Payment Schedule Scheme: </h5>
-            <br>
-            <button mat-button >Upload</button> 
-            <br>
-            <h5> Others: </h5>
-            <br>
-            <button mat-button >Upload</button> 
-            <br>
+        <br>
+    </div>
+    
+    <h5> Others: </h5>
+    
+    <button class="btn btn-primary" id='otherfilebtn' (click)='otherclick()'>Upload</button>
+    <input type='file' id='otherfile' hidden (change)='selectFileOthers($event)' multiple>
+    &nbsp;<span id='otherdesc'></span>
+    <br>
 </div>
 <div mat-dialog-actions>
-    <button mat-button (click)="uploadDocuments()">Upload</button> 
-    <button mat-button (click)="onNoClick()">Back</button> 
+    <button mat-button (click)="uploadDocuments()">Upload</button>
+    <button mat-button (click)="onNoClick()">Back</button>
 </div>
