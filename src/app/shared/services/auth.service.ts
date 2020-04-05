@@ -8,10 +8,10 @@ import { AlertService } from './alert.service';
 @Injectable()
 export class AuthService {
   public token: any;
-  userDetails : Array<any>;
+  userDetails: Array<any>;
   userUid: any;
   userPosition: any;
- 
+
 
   constructor(public afAuth: AngularFireAuth,
     private router: Router,
@@ -23,15 +23,15 @@ export class AuthService {
     //console.log(" user auth "+this.isAuthenticated());
     try {
 
-      var result = await this.afAuth.auth.signInWithEmailAndPassword(email, password).then( res => {
+      var result = await this.afAuth.auth.signInWithEmailAndPassword(email, password).then(res => {
         this.userUid = res.user.uid
-        this.db.collection('client', ref => ref.where('uid', '==', res.user.uid)).valueChanges().forEach( result => {
-        this.userDetails = result
-        sessionStorage.setItem('session-alive', 'true');
-        sessionStorage.setItem('session-user-uid', this.userUid)
-        sessionStorage.setItem('session-user-details', JSON.stringify(this.userDetails[0]));    
-        this.router.navigate(['/home']);
-      })
+        this.db.collection('client', ref => ref.where('uid', '==', res.user.uid)).valueChanges().forEach(result => {
+          this.userDetails = result
+          sessionStorage.setItem('session-alive', 'true');
+          sessionStorage.setItem('session-user-uid', this.userUid)
+          sessionStorage.setItem('session-user-details', JSON.stringify(this.userDetails[0]));
+          this.router.navigate(['/home']);
+        })
       });
     } catch (err) {
       console.log(err);
