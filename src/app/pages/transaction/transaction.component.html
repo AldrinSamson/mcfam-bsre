@@ -93,6 +93,41 @@
                 </div>
             </div>
         </mat-tab>
+        <mat-tab label="Currently Leased">
+            <div class="card">
+                <div class="card-header">
+                     <h3>Currently Leased</h3>
+                </div>
+                <div class="card-body">
+                    <div class="search">
+                          <input class="form-control" type="text" name="search"  autocomplete="off" placeholder="&#61442;  Search ">
+                    </div>
+            
+                    <table class="table table-inbox table-hover">
+                        <thead>
+                            <th>Lease Date Finalized</th>
+                            <th>Lease Date Start</th>
+                            <th>Lease Date End</th>
+                            <th>Project Name</th>
+                            <th>Agent Name</th>
+                            <th>Status</th>
+                            <th>Document Status</th>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let transaction of leasedTransactions" (click)="openViewTransaction(transaction , 'Leased')" >
+                                <td class="view-message  text-left">{{transaction.dateFinalizedLease.toDate() | date: 'MMM-dd-yy hh:mm'}}</td>
+                                <td class="view-message  text-left">{{transaction.leaseMonth}} {{transaction.leaseYearStart}}</td>
+                                <td class="view-message  text-left">{{transaction.leaseMonth}} {{transaction.leaseYearEnd}}</td>
+                                <td >{{transaction.projectName}}</td>
+                                <td >{{transaction.agentName}}</td>
+                                <td >{{transaction.status}}</td>
+                                <td >{{transaction.doc_status}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </mat-tab>
         <mat-tab label="Completed">
             <div class="card">
                 <div class="card-header">

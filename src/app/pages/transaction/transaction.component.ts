@@ -18,11 +18,11 @@ export class TransactionComponent implements OnInit {
   transactions: Array<any>;
   activeTransactions: Array<any>;
   managerDisapprovedTransactions: Array<any>;
+  leasedTransactions: Array<any>;
   cancelledTransactions: Array<any>;
   completedTransactions: Array<any>;
   public transactionSub: Subscription;
   uid: String;
-  private isManager: Boolean;
 
   constructor(public fbs: FirebaseService,
     public transactionService: TransactionService,
@@ -38,12 +38,22 @@ export class TransactionComponent implements OnInit {
   }
 
   getUserTransactions() {
-    this.transactionSub = this.transactionService.getTransaction(this.uid).subscribe(res => {
+    this.transactionSub = this.transactionService.getTransaction(this.uid).subscribe( res => {
       this.transactions = res;
-      this.activeTransactions = this.transactions.filter( res => res.isCompleted === false  && res.isDisapproved === false && res.isCancelled === false );
+
+      this.activeTransactions = this.transactions.filter( res => res.isCompleted === false  && res.isDisapproved === false
+        && res.isCancelled === false && res.isLeased === false );
+
       this.managerDisapprovedTransactions = this.transactions.filter( res => res.isCompleted === false && res.isDisapproved === true);
-      this.cancelledTransactions = this.transactions.filter( res => res.isCompleted === false  && res.isCancelled === true );
-      this.completedTransactions = this.transactions.filter( res => res.isCompleted === true && res.isApproved === true && res.isDisapproved === false && res.isCancelled === false );
+
+      this.cancelledTransactions = this.transactions.filter( res => res.isCancelled === true );
+
+      this.leasedTransactions = this.transactions.filter( res => res.isCompleted === false
+        && res.isApproved === true && res.isLeased === true );
+
+      this.completedTransactions = this.transactions.filter( res => res.isCompleted === true && res.isApproved === true
+        && res.isDisapproved === false && res.isCancelled === false && res.isLeased === false );
+
     });
   }
 
@@ -56,8 +66,11 @@ export class TransactionComponent implements OnInit {
       projectCost: value.projectCost,
       projectSaleType: value.projectSaleType,
       agentName: value.agentName,
+      agentUid: value.agentUid,
       clientName: value.clientName,
+      clientUid: value.clientUid,
       managerName: value.managerName,
+      managerUid: value.managerUid,
       dateStart: value.dateStart,
       status: value.status,
       stage: value.stage,
@@ -67,6 +80,14 @@ export class TransactionComponent implements OnInit {
       isDeleted: value.isDeleted,
       buttonConfig: status,
       doc_status: value.doc_status,
+      commissionRate : value.commissionRate,
+      commissionTotal : value.commissionTotal,
+      saleTotal: value.saleTotal,
+      yearsToLease: value.yearsToLease,
+      leaseTotal: value.leaseTotal,
+      leaseMonth: value.leaseMonth,
+      leaseYearStart: value.leaseYearStart,
+      leaseYearEnd : value.leaseYearEnd,
     };
     this.dialog.open(ViewSaleTransactionComponent, dialogConfig).afterClosed().subscribe(result => {
       this.getUserTransactions();
@@ -74,6 +95,7 @@ export class TransactionComponent implements OnInit {
 
   }
 
+  // tslint:disable-next-line: use-lifecycle-interface
   ngOnDestroy() {
     if (this.transactionSub != null) {
       this.transactionSub.unsubscribe();

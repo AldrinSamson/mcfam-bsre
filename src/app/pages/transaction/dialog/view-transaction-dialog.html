@@ -1,42 +1,58 @@
 <h2 mat-dialog-title>Trasaction for {{data.projectName}}</h2>
 <div mat-dialog-content>
 
-            <h5> Status: </h5>
+    <h5> Status: </h5>
+    <br>
+    <p>{{data.status}}</p>
+    <br>
+    <h5> Project: </h5>
+    <br>
+    <p>{{data.projectName}}</p>
+    <br>
+    <h5> Project Cost: </h5>
+    <br>
+    <p>{{data.projectCost}}</p>
+    <br>
+    <h5> Project Sale Type: </h5>
+    <br>
+    <p>{{data.projectSaleType}}</p>
+    <br>
+    <h5> Client Name: </h5>
+    <br>
+    <p>{{data.clientName}}</p>
+    <br>
+    <h5> Agent Name: </h5>
+    <br>
+    <p>{{data.agentName}}</p>
+    <br>
+    <h5> Manager Name: </h5>
+    <br>
+    <p>{{data.managerName}}</p>
+    <br>
+    <h5> Date Start: </h5>
+    <br>
+    <p>{{data.dateStart.toDate() | date: 'MMM-dd-yy hh:mm'}}</p>
+    <br>
+    <h5> Document Status: </h5>
+    <br>
+    <p>{{data.doc_status}}</p>
+    <br>
+    <div *ngIf="stage === 4 || stage === 5 ">
+        <div *ngIf="data.projectSaleType === 'For Lease'">
+            <h5> Lease Start: </h5>
             <br>
-            <p>{{data.status}}</p>
+            <p>{{data.leaseMonth}} {{data.leaseYearStart}}</p>
             <br>
-            <h5> Project: </h5>
+            <h5> Lease End: </h5>
             <br>
-            <p>{{data.projectName}}</p>
+            <p>{{data.leaseMonth}} {{data.leaseYearEnd}}</p>
             <br>
-            <h5> Project Cost: </h5>
+            <h5> Lease Total: </h5>
             <br>
-            <p>{{data.projectCost}}</p>
-            <br>
-            <h5> Project Sale Type: </h5>
-            <br>
-            <p>{{data.projectSaleType}}</p>
-            <br>
-            <h5> Client Name: </h5>
-            <br>
-            <p>{{data.clientName}}</p>
-            <br>
-            <h5> Agent Name: </h5>
-            <br>
-            <p>{{data.agentName}}</p>
-            <br>
-            <h5> Manager Name: </h5>
-            <br>
-            <p>{{data.managerName}}</p>
-            <br>
-            <h5> Date Start: </h5>
-            <br>
-            <p>{{data.dateStart.toDate() | date: 'MMM-dd-yy hh:mm'}}</p>
-            <br>
-            <h5> Document Status: </h5>
-            <br>
-            <p>{{data.doc_status}}</p>
-            <br>
+            <p>{{data.leaseTotal}}</p>
+        </div>
+        
+    </div>
 
             
             
@@ -52,9 +68,15 @@
             <button mat-button (click)="cancelTransaction()" >Cancel Order</button>
         </div>
     </div>
-    <div *ngIf="buttonConfig == 'Manager Disapprove'">
-    </div>
     <div *ngIf="buttonConfig == 'Completed'">
+        <div *ngIf="stage == 5 && data.status != 'Completed'">
+            <button mat-button (click)="editDocuments()" >Rate and Feedback</button>
+        </div>
+    </div>
+    <div *ngIf="buttonConfig == 'Leased'">
+        <div *ngIf="stage == 5">
+            <button mat-button (click)="editDocuments()" >Rate and Feedback</button>
+        </div>
     </div>
 
     <button mat-button (click)="onNoClick()">Back</button> 
