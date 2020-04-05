@@ -4,7 +4,7 @@
 
 mat-card {
     width: 400px;
-    height: 460px;
+    //height: 460px;
     margin: 100px auto;
 }
 
@@ -38,7 +38,13 @@ a:hover {
 }
 
 .button {
-    position: absolute;
+    //position: absolute;
     bottom: 35px;
     margin: 0 auto;
+}
+.mat-card-subtitle{
+    margin-bottom: 0px;
+}
+.clientfield{
+    color: black;
 }

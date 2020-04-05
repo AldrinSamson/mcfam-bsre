@@ -5,24 +5,48 @@
 form {
     text-align: center;
 }
-
+.avatar {
+    margin: 10px auto;
+    width: 120px;
+}
 mat-card {
     width: 400px;
-    height: 530px;
+    //height: 530px;
     margin: 100px auto;
 }
-
-mat-form-field {
-    width: 100%;
+.avatar img {
+    width: 120px;
+    height: 120px;
+    background-size: cover;
+    background-position: center;
+    border-radius: 50%;
 }
+
+
+   
+::ng-deep{
+    .mat-card-header-text{
+        width: 100%;
+    }
+}
+
 
 textarea {
     resize: none;
 }
-
+.changeprofpicdiv{
+    display: none;
+    padding: 5px;
+    font-size: 10px;
+}
+.changeprofpic{
+    padding: 5px;
+    font-size: 10px;
+}
 .avatar {
     margin: 10px auto;
-    width: 120px;
+    width: 100%;
+    
 }
 
 a:hover {
