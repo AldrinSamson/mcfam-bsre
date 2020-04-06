@@ -4,7 +4,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './material.module';
 import { HttpClientModule } from '@angular/common/http';
-import { NgxAuthFirebaseUIModule } from 'ngx-auth-firebaseui';
 import { AngularFireStorage } from 'angularfire2/storage';
 import { CarouselModule } from 'ngx-owl-carousel-o';
 
@@ -34,6 +33,9 @@ import { EmailMeComponent } from './components/email-me/email-me.component';
 import { AgentComponent } from './pages/agent/agent.component';
 import { EditFeatureComponent } from './pages/home/edit-feature/edit-feature.component';
 import { ViewProjectComponent } from './pages/view-project/view-project.component';
+import { AngularFireModule } from '@angular/fire';
+import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { AngularFireAuthModule } from '@angular/fire/auth';
 
 
 @NgModule({
@@ -74,7 +76,9 @@ import { ViewProjectComponent } from './pages/view-project/view-project.componen
     MiscModule,
     MaterialModule,
     CarouselModule,
-    NgxAuthFirebaseUIModule.forRoot(firebaseKeys)
+    AngularFireModule.initializeApp(firebaseKeys),
+    AngularFirestoreModule,
+    AngularFireAuthModule
   ],
   providers: [
     UserService,

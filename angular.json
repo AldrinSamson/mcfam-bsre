@@ -23,7 +23,7 @@
               "src/favicon.ico",
               {
                 "glob": "**/*",
-                "input": "node_modules/ngx-auth-firebaseui/assets/",
+                "input": "src/assets/",
                 "output": "./assets/"
               }
             ],
