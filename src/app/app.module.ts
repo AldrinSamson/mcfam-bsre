@@ -28,7 +28,7 @@ import { ContactComponent } from './pages/contact/contact.component';
 import { PageNotFoundComponent } from './pages/not-found/not-found.component';
 import { HomeComponent } from './pages/home/home.component';
 import { ProjectComponent } from './pages/project/project.component';
-import { TransactionComponent , ViewSaleTransactionComponent , UploadDocumentComponent , EditDocumenComponent } from './pages/transaction/transaction.component';
+import { TransactionComponent , ViewSaleTransactionComponent , UploadDocumentComponent , EditDocumenComponent , RateFeedbackComponent } from './pages/transaction/transaction.component';
 import { InquireComponent } from './pages/inquire/inquire.component';
 import { EmailMeComponent } from './components/email-me/email-me.component';
 import { AgentComponent } from './pages/agent/agent.component';
@@ -37,10 +37,11 @@ import { ViewProjectComponent } from './pages/view-project/view-project.componen
 
 
 @NgModule({
-  entryComponents:[
+  entryComponents: [
     ViewSaleTransactionComponent,
     UploadDocumentComponent,
-    EditDocumenComponent
+    EditDocumenComponent,
+    RateFeedbackComponent
   ],
   declarations: [
     AppComponent,
@@ -59,7 +60,8 @@ import { ViewProjectComponent } from './pages/view-project/view-project.componen
     UploadDocumentComponent,
     EditDocumenComponent,
     EditFeatureComponent,
-    ViewProjectComponent
+    ViewProjectComponent,
+    RateFeedbackComponent
   ],
   imports: [
     BrowserModule,
@@ -67,7 +69,7 @@ import { ViewProjectComponent } from './pages/view-project/view-project.componen
     HttpClientModule,
     AppRoutingModule,
     PipesModule,
-    AuthModule,    
+    AuthModule,
     ProfileModule,
     MiscModule,
     MaterialModule,

@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { FilesService } from './files.service';
+import { AlertService } from './alert.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TransactionService {
 
-  constructor(public db: AngularFirestore) {
+  constructor(public db: AngularFirestore , public alertService: AlertService) {
 
   }
 
@@ -39,6 +40,29 @@ export class TransactionService {
       dateCancelled: new Date(),
       status: 'Client Cancelled'
     });
+  }
+
+  rateTransaction(tid: string, rating: number, feedback: string , isLeased: Boolean) {
+
+    let data;
+    if (isLeased) {
+      data = {
+        rating: rating,
+        feedback: feedback,
+        dateRated : new Date(),
+        status: 'Leased, Feedback Received'
+      };
+    } else {
+      data = {
+        rating: rating,
+        feedback: feedback,
+        dateRated : new Date(),
+        status: 'Completed, Feedback Received'
+      };
+    }
+
+    this.alertService.showToaster('Thank you for your feedback');
+    return this.db.collection('transaction').doc(tid).update(data);
   }
 
   uploadDocuments(tid: string, uploadedfile: any) {
