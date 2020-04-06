@@ -1,5 +1,5 @@
 import { Component, OnInit, Inject, OnDestroy, ElementRef } from '@angular/core';
-import { FirebaseService, FileService, ProjectService, AuthService} from '../../shared';
+import { FirebaseService, FileService, ProjectService, AuthService, MailerService} from '../../shared';
 import { MatDialog, MatDialogRef, MatDialogConfig, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router, UrlTree, PRIMARY_OUTLET } from '@angular/router';
@@ -49,10 +49,15 @@ export class ViewProjectComponent implements OnInit , OnDestroy {
     public fb: FormBuilder,
     public fileservice: FileService,
     public dialog: MatDialog,
-    public authService: AuthService,) { }
+    public authService: AuthService,
+    public mailerService: MailerService) { }
 
   ngOnInit() {
     this.getProjectAndAgent();
+  }
+
+  testMailer() {
+    this.mailerService.sendEmail('aldrinbautistasamson@gmail.com' , 'dwdw' , 'eqweq');
   }
 
   getProjectAndAgent() {

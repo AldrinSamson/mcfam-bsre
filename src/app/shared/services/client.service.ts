@@ -20,8 +20,8 @@ export class ClientService {
       fullName: values.fullName,
       userName: values.userName,
       contactNumber: values.contactNumber,
-      addressStreet: values.addressStreet,
-      addressTown: values.addressTown,
+      // addressStreet: values.addressStreet,
+      // addressTown: values.addressTown,
       addressCity: values.addressCity,
       addressRegion: values.addressRegion,
     });
