@@ -1,0 +1,15 @@
+<h2 mat-dialog-title>Rate and Feedback</h2>
+<div mat-dialog-content>
+
+    Rate your experience with {{data.agentName}}
+    <div class="col-sm-10">          
+        <input type="number" class="form-control" [(ngModel)]="rating">
+    </div>
+    <div class="col-sm-10">
+        <textarea class="form-control" rows="5" [(ngModel)]="feedback"></textarea>
+    </div>
+</div>
+<div mat-dialog-actions>
+    <button mat-button (click)="rateAndFeedback()">Confirm</button> 
+    <button mat-button (click)="onNoClick()">Back</button> 
+</div>

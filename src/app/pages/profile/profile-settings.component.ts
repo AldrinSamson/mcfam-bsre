@@ -58,9 +58,9 @@ export class ProfileSettingsComponent implements OnInit {
         fullName: [this.profiledetails.firstName + ' ' + this.profiledetails.lastName],
         userName: [this.profiledetails.userName],
         contactNumber: [this.profiledetails.contactNumber],
-        //addressStreet: [this.profiledetails.addressStreet],
-        addressTown: [this.profiledetails.addressTown],
-       // addressCity: [this.profiledetails.addressCity],
+        // addressStreet: [this.profiledetails.addressStreet],
+        // addressTown: [this.profiledetails.addressTown],
+        addressCity: [this.profiledetails.addressCity],
         addressRegion: [this.profiledetails.addressRegion],
         uid: [this.profiledetails.uid]
       })

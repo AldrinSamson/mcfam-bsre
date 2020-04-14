@@ -70,12 +70,12 @@
     </div>
     <div *ngIf="buttonConfig == 'Completed'">
         <div *ngIf="stage == 5 && data.status != 'Completed'">
-            <button mat-button (click)="editDocuments()" >Rate and Feedback</button>
+            <button mat-button (click)="rateAndFeedback()" >Rate and Feedback</button>
         </div>
     </div>
     <div *ngIf="buttonConfig == 'Leased'">
         <div *ngIf="stage == 5">
-            <button mat-button (click)="editDocuments()" >Rate and Feedback</button>
+            <button mat-button (click)="rateAndFeedback()" >Rate and Feedback</button>
         </div>
     </div>
 

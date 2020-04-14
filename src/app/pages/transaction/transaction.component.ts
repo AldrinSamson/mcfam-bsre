@@ -1,10 +1,8 @@
-import { Component, OnInit, Inject, OnDestroy } from '@angular/core';
-import { FirebaseService, AuthService, TransactionService } from '../../shared';
+import { Component, OnInit, Inject } from '@angular/core';
+import { FirebaseService, AuthService, TransactionService, FilesService , AgentService } from '../../shared';
 import { MatDialog, MatDialogRef, MatDialogConfig, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { FormBuilder, Validators } from '@angular/forms';
-import { Router, Params } from '@angular/router';
+import { FormBuilder } from '@angular/forms';
 import { Subscription } from 'rxjs';
-import { FilesService } from '../../shared/services/files.service';
 import * as $ from 'jquery';
 
 
@@ -48,8 +46,7 @@ export class TransactionComponent implements OnInit {
 
       this.cancelledTransactions = this.transactions.filter( res => res.isCancelled === true );
 
-      this.leasedTransactions = this.transactions.filter( res => res.isCompleted === false
-        && res.isApproved === true && res.isLeased === true );
+      this.leasedTransactions = this.transactions.filter( res => res.isApproved === true && res.isLeased === true );
 
       this.completedTransactions = this.transactions.filter( res => res.isCompleted === true && res.isApproved === true
         && res.isDisapproved === false && res.isCancelled === false && res.isLeased === false );
@@ -146,16 +143,29 @@ export class ViewSaleTransactionComponent {
 
   async editDocuments() {
     const dialogConfig = new MatDialogConfig();
-    var trans = await this.trasactionService.getOneTransaction(this.data.transactionID);
+    const trans = await this.trasactionService.getOneTransaction(this.data.transactionID);
     dialogConfig.data = {
       transactionID: this.data.transactionID,
       stage: this.stage,
       buttonConfig: this.buttonConfig,
       trans: trans
     };
-    //dialogConfig['trans'] = await this.trasactionService.getOneTransaction(this.data.transactionID);
-    console.log(dialogConfig);
     this.dialog.open(EditDocumenComponent, dialogConfig).afterClosed().subscribe(result => {
+      this.dialogRef.close();
+    });
+  }
+
+  rateAndFeedback() {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.data = {
+      transactionID: this.data.transactionID,
+      stage: this.stage,
+      buttonConfig: this.buttonConfig,
+      agentName: this.data.agentName,
+      agentUid: this.data.agentUid,
+    };
+    console.log(dialogConfig);
+    this.dialog.open(RateFeedbackComponent, dialogConfig).afterClosed().subscribe(result => {
       this.dialogRef.close();
     });
   }
@@ -435,6 +445,41 @@ export class EditDocumenComponent {
     this.dialogRef.close();
   }
 
+
+  onNoClick(): void {
+    this.dialogRef.close();
+  }
+}
+
+@Component({
+  // tslint:disable-next-line:component-selector
+  selector: 'rate-feedback-dialog',
+  templateUrl: './dialog/rate-feedback-dialog.html',
+  styleUrls: ['./transaction.component.scss'],
+})
+
+export class RateFeedbackComponent {
+
+  rating:  Number;
+  feedback;
+  isLeased = false;
+
+  constructor( public trasactionService: TransactionService,
+    public dialogRef: MatDialogRef<RateFeedbackComponent>,
+    public agentService: AgentService,
+    @Inject(MAT_DIALOG_DATA) public data: any, ) {}
+
+
+  rateAndFeedback() {
+
+    if (this.data.buttonConfig === 'Leased') {
+      this.isLeased = true;
+    }
+
+    this.trasactionService.rateTransaction(this.data.transactionID , +this.rating , this.feedback , this.isLeased);
+    this.agentService.computeRating(this.data.agentUid);
+    this.dialogRef.close();
+  }
 
   onNoClick(): void {
     this.dialogRef.close();

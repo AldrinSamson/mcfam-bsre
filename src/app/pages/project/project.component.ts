@@ -25,28 +25,10 @@ export class ProjectComponent implements OnInit, OnDestroy {
     this.getProject();
   }
   getProject() {
-    var thisclass = this;
     this.projectSub = this.projectService.getProjects(false)
-      .subscribe(async result => {
-        for (var i = 0; i < result.length; i++) {
-          var x = result[i];
-          var photoLink = [];
-          var displaypic =''
-          for(var j = 0; j < x['photoURL'].length; j++ ){
-            var y = thisclass.fs.getFile(x['photoURL'][j]);
-            await y.then(function (res2) {
-              var x = res2 === '' ? '' : res2['photoURL'];
-              if(j==0){
-                displaypic = x;
-              }
-              photoLink.push(x); 
-            });
-          }
-          result[i]['displaypic'] = displaypic;
-          result[i]['photoURL'] = photoLink;
-        }
-        this.projects = result;
-      });
+    .subscribe(result => {
+      this.projects = result;
+    });
   }
   getFile() {
 
