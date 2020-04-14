@@ -7,6 +7,7 @@
             <div [@imageAnimation]='state' (click)="animateImage()" class="avatar" (mouseover)='hoverimage()'
             (mouseout)='hoveroutimage()'
             >
+            
                 <img [src]="fullImagePath">
                 <div class="changeprofpicdiv">
                 
@@ -65,6 +66,7 @@
             </mat-form-field>
             <br>
             <button class="btn btn-success" (click)='save()'>Save</button>
+            <div ><h6>{{ upload_perc | async }}</h6></div>
         </form>
 
     </mat-card>
