@@ -5,12 +5,11 @@
         <form class="" [formGroup]="viewClientForm" class="form clientfield">
 
             <div [@imageAnimation]='state' (click)="animateImage()" class="avatar" (mouseover)='hoverimage()'
-            (mouseout)='hoveroutimage()'
-            >
-            
+                (mouseout)='hoveroutimage()'>
+
                 <img [src]="fullImagePath">
                 <div class="changeprofpicdiv">
-                
+
                     <button class="btn btn-primary changeprofpic" (click)='tochangepic()'>
                         Change profile picture
                     </button>
@@ -65,8 +64,16 @@
                     name="client-addressRegion">
             </mat-form-field>
             <br>
-            <button class="btn btn-success" (click)='save()'>Save</button>
-            <div ><h6>{{ upload_perc | async }}</h6></div>
+            <button class="btn btn-success" id='savebutton' (click)='save()'>Save</button>
+            <br><br>
+            <span *ngIf="upload_perc | async as progress">
+                Uploading...<br>
+                <button class="progress_bar well btn">
+
+                    <div class="progress_bar_indic" [ngStyle]="{ 'width': progress + '%' }"></div>
+
+                </button>
+            </span>
         </form>
 
     </mat-card>

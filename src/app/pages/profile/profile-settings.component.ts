@@ -110,6 +110,7 @@ export class ProfileSettingsComponent implements OnInit {
   }
   public async save() {
     if (this.viewClientForm.valid) {
+      $('#savebutton').attr('disabled', true);
       var x;
       if (this.profpicfile) {
         const path = `project/storeFile${new Date().getTime()}_${this.profpicfile.name}`;
