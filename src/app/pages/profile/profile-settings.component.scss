@@ -52,3 +52,16 @@ textarea {
 a:hover {
     text-decoration: none;
 }
+.progress_bar{
+    width: 80%;
+    background-color: lightgray;
+    border-radius: 5px;
+    text-align: left;
+    border: solid 1px;
+    cursor: default;
+}
+.progress_bar_indic{
+    height: 8px;
+    font-size: 0;
+    background-color: green;
+}

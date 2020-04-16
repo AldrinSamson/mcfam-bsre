@@ -14,7 +14,7 @@ import { MiscModule } from './components/misc/misc.module';
 import { PipesModule } from '@shared/pipes/pipes.module';
 
 // Shared
-import { FooterComponent, HeaderComponent, UserService, AlertService, AuthGuardService, AuthService, WindowService } from '@shared';
+import { FooterComponent, HeaderComponent, UserService, AlertService, AuthGuardService, AuthService, WindowService, FileService } from '@shared';
 
 // Main
 import { AppComponent } from './app.component';
@@ -36,6 +36,7 @@ import { ViewProjectComponent } from './pages/view-project/view-project.componen
 import { AngularFireModule } from '@angular/fire';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireAuthModule } from '@angular/fire/auth';
+import {AngularFireStorageModule } from 'angularfire2/storage';
 
 
 @NgModule({
@@ -78,15 +79,18 @@ import { AngularFireAuthModule } from '@angular/fire/auth';
     CarouselModule,
     AngularFireModule.initializeApp(firebaseKeys),
     AngularFirestoreModule,
-    AngularFireAuthModule
+    AngularFireAuthModule,
+    AngularFireStorageModule
   ],
   providers: [
     UserService,
     AlertService,
     AuthGuardService,
     AuthService,
-    WindowService
-  ],
+    WindowService,
+    //FileService,
+    AngularFireStorage
+    ],
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA
   ],

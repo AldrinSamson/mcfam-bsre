@@ -3,10 +3,13 @@
         <h3>My profile settings</h3>
 
         <form class="" [formGroup]="viewClientForm" class="form clientfield">
-            
-            <img [src]="fullImagePath">
+
+            <div [@imageAnimation]='state' (click)="animateImage()" class="avatar" (mouseover)='hoverimage()'
+                (mouseout)='hoveroutimage()'>
+
+                <img [src]="fullImagePath">
                 <div class="changeprofpicdiv">
-                
+
                     <button class="btn btn-primary changeprofpic" (click)='tochangepic()'>
                         Change profile picture
                     </button>
@@ -46,19 +49,29 @@
                     name="client-contactNumber">
             </mat-form-field>
             <br>
+            <!--
             <mat-form-field>
                 <mat-label> City </mat-label>
                 <input matInput formControlName="addressCity" value={{profiledetails.addressCity}}
                     name="client-addressCity">
             </mat-form-field>
-            <br>
+            <br> -->
             <mat-form-field>
                 <mat-label> Region </mat-label>
                 <input matInput formControlName="addressRegion" value={{profiledetails.addressRegion}}
                     name="client-addressRegion">
             </mat-form-field>
             <br>
-            <button class="btn btn-success" (click)='save()'>Save</button>
+            <button class="btn btn-success" id='savebutton' (click)='save()'>Save</button>
+            <br><br>
+            <span *ngIf="upload_perc | async as progress">
+                Uploading...<br>
+                <button class="progress_bar well btn">
+
+                    <div class="progress_bar_indic" [ngStyle]="{ 'width': progress + '%' }"></div>
+
+                </button>
+            </span>
         </form>
 
     </mat-card>

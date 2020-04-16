@@ -27,6 +27,7 @@ export class ProfileSettingsComponent implements OnInit {
   profpicfile: any;
   projectSub: Subscription;
   clientid: any;
+  public upload_perc: Observable<number>;
   constructor(
     private authService: AuthService,
     private alertService: AlertService,
@@ -109,10 +110,13 @@ export class ProfileSettingsComponent implements OnInit {
   }
   public async save() {
     if (this.viewClientForm.valid) {
+      $('#savebutton').attr('disabled', true);
       var x;
       if (this.profpicfile) {
         const path = `project/storeFile${new Date().getTime()}_${this.profpicfile.name}`;
-        var fileprop = await this.fileservice.upload_in_storage(path, this.profpicfile, this.uid, 'client');
+        console.log(this)
+         var fileprop = await this.fileservice.upload_in_storage_percent(path, this.profpicfile, this.uid, 'client',this);
+        //var fileprop = await this.fileservice.upload_in_storage(path, this.profpicfile, this.uid, 'client');
         x = {id : fileprop['id'],photoURL: fileprop['photoURL'] };
       }
       console.log(this.viewClientForm.value)

@@ -5,15 +5,16 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import * as firebase from 'firebase';
+import { AngularFireStorage } from 'angularfire2/storage';
 @Injectable({
   providedIn: 'root'
 })
 export class FileService {
   private fileCollection: AngularFirestoreCollection<FileModel>;
   files: any;
-  joined$: Observable<any>;
+  //joined$: Observable<any>;
   constructor(public afAuth: AngularFireAuth, public router: Router, public firestore: AngularFirestore,
-    public afs: AngularFirestore) {
+    public afs: AngularFirestore, public afstorage: AngularFireStorage) {
     this.fileCollection = afs.collection<FileModel>('filesStored');
     this.files = this.fileCollection.snapshotChanges().subscribe(data => {
       this.files = data.map(e => {
@@ -82,6 +83,50 @@ export class FileService {
 
     })
   }
+
+  async upload_in_storage_percent(path, file, uid, category, theclass) {
+    console.log(file);
+    console.log(theclass);
+    var file1 = {
+      name: file.name,
+      lastModified: file.lastModified,
+      lastModifiedDate: file.lastModifiedDate,
+      webkitRelativePath: file.webkitRelativePath,
+      size: file.size,
+      type: file.type
+    };
+    var thisclass = this;
+
+    return new Promise(function (resolve, reject) {
+      console.log(file);
+
+      var storageRef = firebase.storage().ref(path);
+      
+      var task = thisclass.afstorage.upload(path,file);
+      theclass.upload_perc = task.percentageChanges()
+      var d =  task.percentageChanges()
+      console.log(d)
+      task.then(function (snapshot) {
+        snapshot.ref.getDownloadURL().then(async function (url) {
+          const id = await thisclass.firestore.createId();
+          var fileprop = {
+            id: id,
+            fileProperties: file1,
+            uidUploaded: uid,
+            section: 'BMS',
+            fileName: `storeFile${new Date().getTime()}_${file.name}`,
+            category: category,
+            photoURL: url,
+            path: path
+          };
+          await thisclass.createFile(fileprop);
+          resolve(fileprop);
+        })
+      })
+
+    })
+  }
+
   async createFile(fl: any) {
     //return this.accountCollection.add(acc);
     var thisclass = this;
