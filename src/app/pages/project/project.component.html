@@ -52,7 +52,7 @@
             <div class="col-md-4" *ngFor="let project of projects | paginate:{itemsPerPage: 6, currentPage:p} | filter:projectSearchText " (click)="openViewProject(project)">
                 <div class="card-box-a card-shadow">
                     <div class="img-box-a">
-                    <img src="{{project.cover_photo.photoURL}}" alt="" class="img-a img-fluid">
+                    <img src="{{project.card_photo.photoURL}}" alt="" class="img-a img-fluid">
                     </div>
                     <div class="card-overlay">
                     <div class="card-overlay-a-content">

@@ -35,7 +35,7 @@
             <p *ngIf="!viewFiles"> loading data waits </p>
             <div *ngIf="viewFiles">
               <owl-carousel-o *ngIf="viewFiles" [options]="propertySingleCarousel" >
-                <ng-template carouselSlide *ngFor="let viewFile of viewFiles">
+                <ng-template carouselSlide *ngFor="let viewFile of project.photoURL">
                   <div class="carousel-item-b">
                     <img [src]="viewFile.photoURL" alt="">
                   </div>
@@ -114,9 +114,25 @@
                   <p class="description color-text-a no-margin">
                   </p>
                 </div>
+                <div class="row section-t3">
+                  <div class="col-sm-12">
+                    <div class="title-box-d">
+                      <h3 class="title-d">Amenities</h3>
+                    </div>
+                  </div>
+                </div>
+                <div class="amenities-list color-text-a">
+                  <ul *ngFor="let amenity of project.amenities" class="list-a no-margin">
+                    <li>{{amenity}}</li>
+                  </ul>
+                </div>
               </div>
             </div>
           </div>
+         <div *ngIf="!agent">
+          Loading Agent
+         </div>
+         <div *ngIf="agent">
           <div class="col-md-12">
             <div class="row section-t3">
               <div class="col-sm-12">
@@ -127,36 +143,27 @@
             </div>
             <div class="row">
               <div class="col-md-6 col-lg-4">
-                <img src="assets/img/agent-4.jpg" alt="" class="img-fluid">
+                <img src="{{agent[0].photoURL.photoURL}}" alt="" class="img-fluid">
               </div>
               <div class="col-md-6 col-lg-4">
                 <div class="property-agent">
-                  <h4 class="title-agent">Anabella Geller</h4>
-                  <p class="color-text-a">
-                    Nulla porttitor accumsan tincidunt. Vestibulum ac diam sit amet quam vehicula elementum sed sit amet
-                    dui. Quisque velit nisi,
-                    pretium ut lacinia in, elementum id enim.
-                  </p>
+                  <h4 class="title-agent">{{agent[0].fullName}}</h4>
                   <ul class="list-unstyled">
                     <li class="d-flex justify-content-between">
                       <strong>Phone:</strong>
-                      <span class="color-text-a">(222) 4568932</span>
-                    </li>
-                    <li class="d-flex justify-content-between">
-                      <strong>Mobile:</strong>
-                      <span class="color-text-a">777 287 378 737</span>
+                      <span class="color-text-a">{{agent[0].contactNumber}}</span>
                     </li>
                     <li class="d-flex justify-content-between">
                       <strong>Email:</strong>
-                      <span class="color-text-a">annabella@example.com</span>
+                      <span class="color-text-a">{{agent[0].email}}</span>
                     </li>
                     <li class="d-flex justify-content-between">
-                      <strong>Skype:</strong>
-                      <span class="color-text-a">Annabela.ge</span>
+                      <strong>Rating:</strong>
+                      <span class="color-text-a">{{agent[0].aveRating}}</span>
                     </li>
                   </ul>
                   <div class="socials-a">
-                    <ul class="list-inline">
+                    <!-- social ? <ul class="list-inline">
                       <li class="list-inline-item">
                         <a href="#">
                           <i class="fa fa-facebook" aria-hidden="true"></i>
@@ -182,31 +189,24 @@
                           <i class="fa fa-dribbble" aria-hidden="true"></i>
                         </a>
                       </li>
-                    </ul>
+                    </ul> -->
                   </div>
                 </div>
               </div>
-              <div class="col-md-12 col-lg-4">
+              <div *ngIf="!authService.isAuthenticated();">
+                Log in first to inquire
+              </div>
+              <div *ngIf="authService.isAuthenticated();" class="col-md-12 col-lg-4">
                 <div class="property-contact">
                   <form class="form-a">
                     <div class="row">
                       <div class="col-md-12 mb-1">
                         <div class="form-group">
-                          <input type="text" class="form-control form-control-lg form-control-a" id="inputName" placeholder="Name *" required>
-                        </div>
-                      </div>
-                      <div class="col-md-12 mb-1">
-                        <div class="form-group">
-                          <input type="email" class="form-control form-control-lg form-control-a" id="inputEmail1" placeholder="Email *" required>
-                        </div>
-                      </div>
-                      <div class="col-md-12 mb-1">
-                        <div class="form-group">
-                          <textarea id="textMessage" class="form-control" placeholder="Comment *" name="message" cols="45" rows="8" required></textarea>
+                          <textarea id="textMessage" class="form-control" placeholder="Message *" name="message" cols="45" rows="8" [(ngModel)]='message' required></textarea>
                         </div>
                       </div>
                       <div class="col-md-12">
-                        <button type="submit" class="btn btn-a">Send Message</button>
+                        <button type="submit" class="btn btn-a" (click)="inquire()">Send Message</button>
                       </div>
                     </div>
                   </form>
@@ -214,9 +214,9 @@
               </div>
             </div>
           </div>
+         </div>
         </div>
       </div>
-      <button (click)="testMailer()">test</button>
     </section><!-- End Property Single-->
 
   </div><!-- End #main -->

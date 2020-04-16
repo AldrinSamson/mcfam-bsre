@@ -1,5 +1,5 @@
 import { Component, OnInit, Inject, OnDestroy, ElementRef } from '@angular/core';
-import { FirebaseService, FileService, ProjectService, AuthService, MailerService} from '../../shared';
+import { FirebaseService, FileService, ProjectService, AuthService, MailerService , AgentService , AlertService} from '../../shared';
 import { MatDialog, MatDialogRef, MatDialogConfig, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router, UrlTree, PRIMARY_OUTLET } from '@angular/router';
@@ -22,13 +22,19 @@ export class ViewProjectComponent implements OnInit , OnDestroy {
   viewphotos = [];
   cover_photo_file: any;
   cover_photo: any;
-  cov_photo_change=false;
+  cov_photo_change = false;
   viewFiles = [];
   arrayphoto = [];
   editProjectForm: any;
 
   agentSub: Subscription;
   agent;
+  message;
+  uid;
+  client;
+  load;
+
+  public isAuthenticated: string;
 
   propertySingleCarousel: OwlOptions = {
     loop: true,
@@ -50,14 +56,35 @@ export class ViewProjectComponent implements OnInit , OnDestroy {
     public fileservice: FileService,
     public dialog: MatDialog,
     public authService: AuthService,
-    public mailerService: MailerService) { }
+    public mailerService: MailerService,
+    public agentService: AgentService,
+    public alertService: AlertService) { }
 
   ngOnInit() {
     this.getProjectAndAgent();
+    this.isAuthenticated = this.authService.isAuthenticated();
+    this.uid = sessionStorage.getItem('session-user-uid');
   }
 
-  testMailer() {
-    this.mailerService.sendEmail('aldrinbautistasamson@gmail.com' , 'dwdw' , 'eqweq');
+  inquire() {
+
+    this.firebaseService.getOneUid(this.uid , 'client').subscribe( res => {
+      this.client = res;
+      this.load = {
+        clientName: this.client[0].fullName,
+        clientEmail: this.client[0].email,
+        clientContactNumber: this.client[0].contactNumber,
+        projectName: this.project.name,
+        agentUid: this.project.agentUid,
+        clientMessage: this.message,
+        dateSent: new Date(),
+        isArchived: false
+      };
+
+      this.firebaseService.addOne(this.load , 'buyInquiry');
+      this.mailerService.sendEmail(this.agent[0].email , 'Inquiry on ' + this.project.name , this.message);
+      this.alertService.showToaster('Inquiry Sent!');
+    });
   }
 
   getProjectAndAgent() {
@@ -71,8 +98,8 @@ export class ViewProjectComponent implements OnInit , OnDestroy {
       for (var i = 0; i < this.project['photoURL'].length; i++) {
         console.log( this.project['photoURL'][i])
         if (this.project['photoURL'][i]['photoURL']) {
-          console.log(this.project['photoURL'][i]['photoURL'])
-          this.viewphotos.push(this.project['photoURL'][i])
+          console.log(this.project['photoURL'][i]['photoURL']);
+          this.viewphotos.push(this.project['photoURL'][i]);
           photoid.push(this.project['photoURL'][i]['id']);
         } else {
           try {
@@ -89,10 +116,9 @@ export class ViewProjectComponent implements OnInit , OnDestroy {
         this.cover_photo_file = this.project['cover_photo']
         this.cover_photo = this.project['cover_photo']['photoURL']
       }
-      this.agentSub = this.firebaseService.getOne(this.project.agentUid , 'broker').subscribe( res => {
-        this.agent = res.payload.data();
-        this.agent.id = res.payload.id;
-      })
+      this.agentSub = this.agentService.getOneUid(this.project.agentUid).subscribe( res => {
+        this.agent = res;
+      });
     });
 
     return true
