@@ -42,7 +42,7 @@ const appRoutes: Routes = [
   // { path: 'profile/:uid/:name', component: ProfileComponent, canActivate: [AuthGuardService] },
   { path: 'transaction', component: TransactionComponent, canActivate: [AuthGuardService] },
   { path: 'project/:id', component: ViewProjectComponent },
-  { path: 'inquire', component: InquireComponent, canActivate: [AuthGuardService] },
+  { path: 'sellInquiry', component: InquireComponent, canActivate: [AuthGuardService] },
   { path: 'profile', component: ProfileComponent, canActivate: [AuthGuardService] },
   { path: 'profile-settings', component: ProfileSettingsComponent, canActivate: [AuthGuardService] },
   { path: '**', component: PageNotFoundComponent }

@@ -23,6 +23,10 @@ export class AgentService {
     return this.db.collection('broker').doc(id).snapshotChanges();
   }
 
+  getOneUid(uid) {
+    return this.db.collection('broker', ref => ref.where('uid', '==', uid)).valueChanges({ idField: 'id' });
+  }
+
   computeRating(uid) {
     const url = 'https://us-central1-mcfam-systems.cloudfunctions.net/computeRating?uid=' + uid;
     return this.http.options(url).subscribe({

@@ -19,12 +19,13 @@
                             <th>Document Status</th>
                         </thead>
                         <tbody>
-                            <tr *ngFor="let transaction of activeTransactions" (click)="openViewTransaction(transaction , 'Active')" >
+                            <tr *ngFor="let transaction of activeTransactions"  >
                                 <td class="view-message  text-left">{{transaction.dateStart.toDate() | date: 'MMM-dd-yy hh:mm' }}</td>
                                 <td >{{transaction.projectName}}</td>
                                 <td >{{transaction.agentName}}</td>
                                 <td >{{transaction.status}}</td>
                                 <td >{{transaction.doc_status}}</td>
+                                <td><button mat-raised-button (click)="openViewTransaction(transaction , 'Active')" > View </button></td>
                             </tr>
                         </tbody>
                     </table>
@@ -50,12 +51,13 @@
                             <th>Document Status</th>
                         </thead>
                         <tbody>
-                            <tr *ngFor="let transaction of managerDisapprovedTransactions" (click)="openViewTransaction(transaction , 'Manager Disapprove')" >
+                            <tr *ngFor="let transaction of managerDisapprovedTransactions"  >
                                 <td class="view-message  text-left">{{transaction.dateStart.toDate() | date: 'MMM-dd-yy hh:mm' }}</td>
                                 <td >{{transaction.projectName}}</td>
                                 <td >{{transaction.agentName}}</td>
                                 <td >{{transaction.status}}</td>
                                 <td >{{transaction.doc_status}}</td>
+                                <td><button mat-raised-button (click)="openViewTransaction(transaction , 'Manager Disapprove')" > View </button></td>
                             </tr>
                         </tbody>
                     </table>
@@ -81,12 +83,13 @@
                             <th>Document Status</th>
                         </thead>
                         <tbody>
-                            <tr *ngFor="let transaction of cancelledTransactions" (click)="openViewTransaction(transaction , 'Customer Cancelled')" >
+                            <tr *ngFor="let transaction of cancelledTransactions" >
                                 <td class="view-message  text-left">{{transaction.dateStart.toDate() | date: 'MMM-dd-yy hh:mm' }}</td>
                                 <td >{{transaction.projectName}}</td>
                                 <td >{{transaction.agentName}}</td>
                                 <td >{{transaction.status}}</td>
                                 <td >{{transaction.doc_status}}</td>
+                                <td><button mat-raised-button (click)="openViewTransaction(transaction , 'Customer Cancelled')" > View </button></td>
                             </tr>
                         </tbody>
                     </table>
@@ -114,7 +117,7 @@
                             <th>Document Status</th>
                         </thead>
                         <tbody>
-                            <tr *ngFor="let transaction of leasedTransactions" (click)="openViewTransaction(transaction , 'Leased')" >
+                            <tr *ngFor="let transaction of leasedTransactions">
                                 <td class="view-message  text-left">{{transaction.dateFinalizedLease.toDate() | date: 'MMM-dd-yy hh:mm'}}</td>
                                 <td class="view-message  text-left">{{transaction.leaseMonth}} {{transaction.leaseYearStart}}</td>
                                 <td class="view-message  text-left">{{transaction.leaseMonth}} {{transaction.leaseYearEnd}}</td>
@@ -122,6 +125,7 @@
                                 <td >{{transaction.agentName}}</td>
                                 <td >{{transaction.status}}</td>
                                 <td >{{transaction.doc_status}}</td>
+                                <td><button mat-raised-button (click)="openViewTransaction(transaction , 'Leased')" > View </button></td>
                             </tr>
                         </tbody>
                     </table>
@@ -147,12 +151,13 @@
                             <th>Document Status</th>
                         </thead>
                         <tbody>
-                            <tr *ngFor="let transaction of completedTransactions" (click)="openViewTransaction(transaction , 'Completed')" >
+                            <tr *ngFor="let transaction of completedTransactions">
                                 <td class="view-message  text-left">{{transaction.dateStart.toDate() | date: 'MMM-dd-yy hh:mm' }}</td>
                                 <td >{{transaction.projectName}}</td>
                                 <td >{{transaction.agentName}}</td>
                                 <td >{{transaction.status}}</td>
                                 <td >{{transaction.doc_status}}</td>
+                                <td><button mat-raised-button (click)="openViewTransaction(transaction , 'Completed')" > View </button></td>
                             </tr>
                         </tbody>
                     </table>

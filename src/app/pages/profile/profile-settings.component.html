@@ -3,11 +3,8 @@
         <h3>My profile settings</h3>
 
         <form class="" [formGroup]="viewClientForm" class="form clientfield">
-
-            <div [@imageAnimation]='state' (click)="animateImage()" class="avatar" (mouseover)='hoverimage()'
-            (mouseout)='hoveroutimage()'
-            >
-                <img [src]="fullImagePath">
+            
+            <img [src]="fullImagePath">
                 <div class="changeprofpicdiv">
                 
                     <button class="btn btn-primary changeprofpic" (click)='tochangepic()'>
@@ -15,8 +12,6 @@
                     </button>
                     <input type="file" hidden id='profpic' (change)='changingpicfile($event)'>
                 </div>
-
-            </div>
 
             <mat-card-header>
                 <mat-card-title>
