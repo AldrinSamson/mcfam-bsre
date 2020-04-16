@@ -1,8 +1,8 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { FirebaseService, AuthService, TransactionService, FilesService , AgentService } from '../../shared';
+import { FirebaseService, AuthService, TransactionService, FileService, AgentService } from '../../shared';
 import { MatDialog, MatDialogRef, MatDialogConfig, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FormBuilder } from '@angular/forms';
-import { Subscription } from 'rxjs';
+import { Subscription, Observable } from 'rxjs';
 import * as $ from 'jquery';
 
 
@@ -26,7 +26,7 @@ export class TransactionComponent implements OnInit {
     public transactionService: TransactionService,
     public dialog: MatDialog,
     public authService: AuthService,
-    public fileservice: FilesService
+    public fileservice: FileService
   ) {
   }
 
@@ -36,20 +36,22 @@ export class TransactionComponent implements OnInit {
   }
 
   getUserTransactions() {
-    this.transactionSub = this.transactionService.getTransaction(this.uid).subscribe( res => {
+    this.transactionSub = this.transactionService.getTransaction(this.uid).subscribe(res => {
+      console.log(res)
       this.transactions = res;
 
-      this.activeTransactions = this.transactions.filter( res => res.isCompleted === false  && res.isDisapproved === false
-        && res.isCancelled === false && res.isLeased === false );
+      this.activeTransactions = this.transactions.filter(res => res.isCompleted === false 
+        && res.isDisapproved === false
+        && res.isCancelled === false && res.isLeased === false);
 
-      this.managerDisapprovedTransactions = this.transactions.filter( res => res.isCompleted === false && res.isDisapproved === true);
+      this.managerDisapprovedTransactions = this.transactions.filter(res => res.isCompleted === false && res.isDisapproved === true);
 
-      this.cancelledTransactions = this.transactions.filter( res => res.isCancelled === true );
+      this.cancelledTransactions = this.transactions.filter(res => res.isCancelled === true);
 
-      this.leasedTransactions = this.transactions.filter( res => res.isApproved === true && res.isLeased === true );
+      this.leasedTransactions = this.transactions.filter(res => res.isApproved === true && res.isLeased === true);
 
-      this.completedTransactions = this.transactions.filter( res => res.isCompleted === true && res.isApproved === true
-        && res.isDisapproved === false && res.isCancelled === false && res.isLeased === false );
+      this.completedTransactions = this.transactions.filter(res => res.isCompleted === true && res.isApproved === true
+        && res.isDisapproved === false && res.isCancelled === false && res.isLeased === false);
 
     });
   }
@@ -77,14 +79,14 @@ export class TransactionComponent implements OnInit {
       isDeleted: value.isDeleted,
       buttonConfig: status,
       doc_status: value.doc_status,
-      commissionRate : value.commissionRate,
-      commissionTotal : value.commissionTotal,
+      commissionRate: value.commissionRate,
+      commissionTotal: value.commissionTotal,
       saleTotal: value.saleTotal,
       yearsToLease: value.yearsToLease,
       leaseTotal: value.leaseTotal,
       leaseMonth: value.leaseMonth,
       leaseYearStart: value.leaseYearStart,
-      leaseYearEnd : value.leaseYearEnd,
+      leaseYearEnd: value.leaseYearEnd,
     };
     this.dialog.open(ViewSaleTransactionComponent, dialogConfig).afterClosed().subscribe(result => {
       this.getUserTransactions();
@@ -118,7 +120,7 @@ export class ViewSaleTransactionComponent {
     public dialogRef: MatDialogRef<ViewSaleTransactionComponent>,
     public dialog: MatDialog,
     @Inject(MAT_DIALOG_DATA) public data: any,
-    public fileservice: FilesService
+    public fileservice: FileService
   ) {
     this.stage = this.data.stage;
     this.buttonConfig = this.data.buttonConfig;
@@ -184,6 +186,7 @@ export class ViewSaleTransactionComponent {
 })
 
 export class UploadDocumentComponent {
+  upload_perc :Observable<number>;
   toUpload = [{ desc: 'Buyer Information Sheet', file: undefined },//0
   { desc: 'Reservation Fee', file: undefined },//1
   { desc: 'Reservation Agreement', file: undefined },//2
@@ -202,7 +205,7 @@ export class UploadDocumentComponent {
     public dialogRef: MatDialogRef<UploadDocumentComponent>,
     public dialog: MatDialog,
     @Inject(MAT_DIALOG_DATA) public data: any,
-    public fileservice: FilesService
+    public fileservice: FileService
   ) {
 
   }
@@ -256,6 +259,8 @@ export class UploadDocumentComponent {
 
   async uploadDocuments() {
     var allupload = false;
+    var totalitems = this.toUpload.length;
+    $('#totalload').html(totalitems);
     for (var i = 0; i < this.toUpload.length; i++) {
       var file1 = this.toUpload[i]['file'];
       if (!file1) {
@@ -265,10 +270,11 @@ export class UploadDocumentComponent {
 
     if (!allupload) {
       for (var i = 0; i < this.toUpload.length; i++) {
+        $('#currload').html((i+1));
         var fl = this.toUpload[i]['file'];
         const path = `transactions/storeFile${new Date().getTime()}_${fl.name}`;
-        console.log(allupload)
-        var fileprop = await this.fileservice.upload_in_storage(path, fl, this.uid, 'transaction')
+        console.log(allupload) 
+        var fileprop = await this.fileservice.upload_in_storage_percent(path, fl, this.uid, 'transaction', this)
         var x = { id: fileprop['id'], fileurl: fileprop['photoURL'] }
         this.toUpload[i]['filedetail'] = x
       }
@@ -330,7 +336,7 @@ export class EditDocumenComponent {
     public fb: FormBuilder,
     public dialog: MatDialog,
     public authService: AuthService,
-    public fileservice: FilesService,
+    public fileservice: FileService,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     console.log(this.data)
@@ -396,7 +402,7 @@ export class EditDocumenComponent {
 
   async editDocuments() {
     var allupload = false;
-    var toUpload2 = [{ desc: 'Buyer Information Sheet'},//0
+    var toUpload2 = [{ desc: 'Buyer Information Sheet' },//0
     { desc: 'Reservation Fee' },//1
     { desc: 'Reservation Agreement' },//2
     { desc: 'Valid Goverment ID 1' },//3
@@ -410,11 +416,12 @@ export class EditDocumenComponent {
       for (var i = 0; i < this.toUpload.length; i++) {
         var fl = this.toUpload[i]['file'];
         if (fl) {
+          $('#currload').html(toUpload2[i]['desc']);
           const path = `transactions/storeFile${new Date().getTime()}_${fl.name}`;
           console.log(allupload)
-          var fileprop = await this.fileservice.upload_in_storage(path, fl, this.uid, 'transaction')
+          var fileprop = await this.fileservice.upload_in_storage_percent(path, fl, this.uid, 'transaction',this)
           var x = { id: fileprop['id'], fileurl: fileprop['photoURL'] }
-          //this.toUpload[i]['filedetail']['desc'] = this.toUpload[i]['desc']
+          // this.toUpload[i]['filedetail']['desc'] = this.toUpload[i]['desc']
           toUpload2[i]['filedetail'] = x
         } else {
 
@@ -460,14 +467,14 @@ export class EditDocumenComponent {
 
 export class RateFeedbackComponent {
 
-  rating:  Number;
+  rating: Number;
   feedback;
   isLeased = false;
 
-  constructor( public trasactionService: TransactionService,
+  constructor(public trasactionService: TransactionService,
     public dialogRef: MatDialogRef<RateFeedbackComponent>,
     public agentService: AgentService,
-    @Inject(MAT_DIALOG_DATA) public data: any, ) {}
+    @Inject(MAT_DIALOG_DATA) public data: any, ) { }
 
 
   rateAndFeedback() {
@@ -476,7 +483,7 @@ export class RateFeedbackComponent {
       this.isLeased = true;
     }
 
-    this.trasactionService.rateTransaction(this.data.transactionID , +this.rating , this.feedback , this.isLeased);
+    this.trasactionService.rateTransaction(this.data.transactionID, +this.rating, this.feedback, this.isLeased);
     this.agentService.computeRating(this.data.agentUid);
     this.dialogRef.close();
   }

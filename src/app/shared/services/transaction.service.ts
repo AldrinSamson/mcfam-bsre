@@ -13,7 +13,7 @@ export class TransactionService {
   }
 
   getTransaction(uid: String) {
-
+    //console.log(uid)
     return this.db.collection('transaction', ref =>
       ref.where('clientUid', '==', uid))
       .valueChanges({ idField: 'id' });
