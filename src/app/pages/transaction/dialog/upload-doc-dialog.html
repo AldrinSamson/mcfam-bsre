@@ -19,7 +19,7 @@
 </div>
 <div mat-dialog-actions class="thisaction">
     <span  *ngIf="upload_perc | async as progress">
-        Uploading <span id="currload"></span>/<span id="totalload"></span>...<br>
+        Uploading {{currload}}...<br>
         <button class="progress_bar well btn">
 
             <div class="progress_bar_indic" [ngStyle]="{ 'width': progress + '%' }"></div>

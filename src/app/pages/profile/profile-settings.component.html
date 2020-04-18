@@ -15,7 +15,7 @@
                     </button>
                     <input type="file" hidden id='profpic' (change)='changingpicfile($event)'>
                 </div>
-
+            </div>
             <mat-card-header>
                 <mat-card-title>
                     <h3>{{profileTitle}}</h3>
@@ -64,14 +64,15 @@
             <br>
             <button class="btn btn-success" id='savebutton' (click)='save()'>Save</button>
             <br><br>
-            <span *ngIf="upload_perc | async as progress">
+            <div *ngIf="upload_perc | async as progress">
                 Uploading...<br>
                 <button class="progress_bar well btn">
 
                     <div class="progress_bar_indic" [ngStyle]="{ 'width': progress + '%' }"></div>
 
                 </button>
-            </span>
+            </div> 
+           
         </form>
 
     </mat-card>

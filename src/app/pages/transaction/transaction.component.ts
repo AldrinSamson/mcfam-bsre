@@ -199,6 +199,7 @@ export class UploadDocumentComponent {
   ]
   othefiles: any;
   uid: any;
+  currload='';
 
   constructor(
     public trasactionService: TransactionService,
@@ -259,8 +260,9 @@ export class UploadDocumentComponent {
 
   async uploadDocuments() {
     var allupload = false;
+    
     var totalitems = this.toUpload.length;
-    $('#totalload').html(totalitems);
+    //$('#totalload').html(totalitems);
     for (var i = 0; i < this.toUpload.length; i++) {
       var file1 = this.toUpload[i]['file'];
       if (!file1) {
@@ -270,7 +272,7 @@ export class UploadDocumentComponent {
 
     if (!allupload) {
       for (var i = 0; i < this.toUpload.length; i++) {
-        $('#currload').html((i+1));
+        this.currload = (i+1) + "/"+this.toUpload.length
         var fl = this.toUpload[i]['file'];
         const path = `transactions/storeFile${new Date().getTime()}_${fl.name}`;
         console.log(allupload) 
@@ -283,6 +285,7 @@ export class UploadDocumentComponent {
       if (this.othefiles) {
         var otherfl = []
         for (var i = 0; i < this.othefiles.length; i++) {
+          this.currload = 'Others '+ (i+1) + "/"+this.toUpload.length
           var fl = this.othefiles[i];
           const path = `transactions/storeFile${new Date().getTime()}_${fl.name}`;
           console.log(this.uid)
@@ -328,6 +331,7 @@ export class EditDocumenComponent {
   trans: any;
   othefiles: any;
   uid: any;
+  currload ='';
 
   //  : any;
   constructor(
@@ -416,7 +420,10 @@ export class EditDocumenComponent {
       for (var i = 0; i < this.toUpload.length; i++) {
         var fl = this.toUpload[i]['file'];
         if (fl) {
-          $('#currload').html(toUpload2[i]['desc']);
+          //$('#currload').html(toUpload2[i]['desc']);
+          //console.log(toUpload2[i]['desc'])
+          this.currload = toUpload2[i]['desc']
+          //document.getElementById('currload').innerHTML = (toUpload2[i]['desc']);
           const path = `transactions/storeFile${new Date().getTime()}_${fl.name}`;
           console.log(allupload)
           var fileprop = await this.fileservice.upload_in_storage_percent(path, fl, this.uid, 'transaction',this)
@@ -434,7 +441,7 @@ export class EditDocumenComponent {
         console.log(this.othefiles)
         for (var i = 0; i < this.othefiles.length; i++) {
           var fl = this.othefiles[i];
-
+          this.currload = (((i+1)+"/"+this.othefiles.length))
           const path = `transactions/storeFile${new Date().getTime()}_${fl.name}`;
           console.log(fl)
           var fileprop = await this.fileservice.upload_in_storage(path, fl, this.uid, 'transaction')
