@@ -1,9 +1,10 @@
 <h2 mat-dialog-title>Edit Uploaded Documents</h2>
 <div mat-dialog-content>
+    
     <div *ngFor='let tup of toUpload; let indexOfelement=index'>
         <h5> {{tup.desc}} </h5>
         
-        <button class="btn btn-primary" id='upbtn_{{indexOfelement}}' (click)='upclick(indexOfelement)' >Upload to edit</button>
+        <button class="btn btn-sm btn-warning" (click)='download(tup.filedetail.file.fileurl,tup.desc)'>View file</button>&nbsp;<button class="btn btn-sm btn-primary" id='upbtn_{{indexOfelement}}' (click)='upclick(indexOfelement)' >Upload to edit</button>
         <input type='file' id='up_{{indexOfelement}}' hidden (change)='selectFile($event)'>
         &nbsp;<span id='file_indic_{{indexOfelement}}'></span>&nbsp;
         <br>

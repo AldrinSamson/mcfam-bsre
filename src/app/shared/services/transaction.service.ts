@@ -1,14 +1,31 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Sanitizer } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
+import { DomSanitizer } from '@angular/platform-browser';
+import {Http, ResponseContentType} from '@angular/http';
 import { FilesService } from './files.service';
 import { AlertService } from './alert.service';
+import * as JSZipUtils from 'jszip-utils'
+import * as JSZip from 'jszip';
+import * as cors from 'cors';
+import 'rxjs/Rx' ;
+import { Observable } from 'rxjs/Rx';
+const corsHandler = cors({ origin: true });
 
 @Injectable({
   providedIn: 'root'
 })
 export class TransactionService {
-
-  constructor(public db: AngularFirestore , public alertService: AlertService) {
+  toUpload = [{ desc: 'Buyer Information Sheet', file: undefined },//0
+  { desc: 'Reservation Fee', file: undefined },//1
+  { desc: 'Reservation Agreement', file: undefined },//2
+  { desc: 'Valid Goverment ID 1', file: undefined },//3
+  { desc: 'Valid Goverment ID 2', file: undefined },//4
+  { desc: 'Proof of Income', file: undefined },//5
+  { desc: 'Proof of Billing', file: undefined },//6
+  { desc: 'Payment Schedule Scheme', file: undefined },//7
+    //{ desc: 'Others', file: undefined }
+  ]
+  constructor(public db: AngularFirestore, public alertService: AlertService,sanitizer: DomSanitizer,private http: Http) {
 
   }
 
@@ -19,6 +36,9 @@ export class TransactionService {
       .valueChanges({ idField: 'id' });
 
   }
+
+
+
   getOneTransaction(id) {
     var thisclass = this;
     console.log(id)
@@ -34,6 +54,81 @@ export class TransactionService {
     })
   }
 
+  async downloadMulitple(transid) {
+
+    var zip: JSZip =
+      typeof (<any>JSZip).default === "function" ? new (<any>JSZip).default() : new JSZip();
+
+    var count = 0;
+    var zipFilename = "Transaction.zip";
+    var proponetrans = await this.getOneTransaction(transid);
+    console.log(proponetrans)
+    var urls = [
+      proponetrans['doc_BIS']['file']['fileurl'],
+      proponetrans['doc_RF']['file']['fileurl'],
+      proponetrans['doc_RA']['file']['fileurl'],
+      proponetrans['doc_VG1']['file']['fileurl'],
+      proponetrans['doc_VG2']['file']['fileurl'],
+      proponetrans['doc_POI']['file']['fileurl'],
+      proponetrans['doc_POB']['file']['fileurl'],
+      proponetrans['doc_PSS']['file']['fileurl']
+    ];
+    var toUpload2 = [{ desc: 'Buyer Information Sheet' },//0
+    { desc: 'Reservation Fee' },//1
+    { desc: 'Reservation Agreement' },//2
+    { desc: 'Valid Goverment ID 1' },//3
+    { desc: 'Valid Goverment ID 2' },//4
+    { desc: 'Proof of Income' },//5
+    { desc: 'Proof of Billing' },//6
+    { desc: 'Payment Schedule Scheme' }
+    ]
+    try {
+      for (var i = 0; i < urls.length; i++) {
+        var url = urls[i];
+        console.log(url)
+        var filename = toUpload2[i]['desc'];
+        console.log(filename)
+        zip.file(filename, await this.urlToPromise(url), { binary: true });
+      }
+
+      zip.generateAsync({ type: "blob" }).then(function (zipFile) {
+        this.saveAs(zipFile, zipFilename);
+
+      });
+    } catch (err) {
+      console.log(err, 'here')
+    }
+    /*
+    $(".downloadAll").on('click', function () { // find every song urls 
+      $(".album-dl-box").find("a").each(function () {
+        var song = $(this); 
+        var url = song.attr('href'); 
+        var filename = url.replace(/.*\/|%20/g, "").replace(/%5d/g, "]").replace(/%5b/g, "["); 
+        JSZipUtils.getBinaryContent(url, function (err, data) {
+          if (err) {
+            throw err; // or handle the error 
+          } var zip = new JSZip(); zip.file(filename, data, { binary: true });
+        });
+      });
+    })*/
+
+
+  }
+  urlToPromise(url) {
+    try {
+      return new Promise(function (resolve, reject) {
+        JSZipUtils.getBinaryContent(url, function (err, data) {
+          if (err) {
+            reject(err);
+          } else {
+            resolve(data);
+          }
+        });
+      });
+    } catch (err) {
+      console.log(err)
+    }
+  }
   cancelTransaction(tid: string) {
     return this.db.collection('transaction').doc(tid).update({
       isCancelled: true,
@@ -41,22 +136,24 @@ export class TransactionService {
       status: 'Client Cancelled'
     });
   }
-
-  rateTransaction(tid: string, rating: number, feedback: string , isLeased: Boolean) {
+  downloadFile(url): Observable<any>{
+		return this.http.get(url, {responseType: ResponseContentType.Blob});
+  }
+  rateTransaction(tid: string, rating: number, feedback: string, isLeased: Boolean) {
 
     let data;
     if (isLeased) {
       data = {
         rating: rating,
         feedback: feedback,
-        dateRated : new Date(),
+        dateRated: new Date(),
         status: 'Leased, Feedback Received'
       };
     } else {
       data = {
         rating: rating,
         feedback: feedback,
-        dateRated : new Date(),
+        dateRated: new Date(),
         status: 'Completed, Feedback Received'
       };
     }
@@ -79,7 +176,7 @@ export class TransactionService {
       stage: 3,
       status: 'Awaiting Manager Approval',
       dateUploaded: new Date(),
-      doc_status:'Files : Uploaded'
+      doc_status: 'Files : Uploaded'
     });
   }
 
@@ -125,7 +222,7 @@ export class TransactionService {
       });
     }
 
-    
+
     if (otherfile) {
       this.db.collection('transaction').doc(tid).update({
         doc_others: otherfile

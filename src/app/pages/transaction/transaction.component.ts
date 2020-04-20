@@ -4,8 +4,8 @@ import { MatDialog, MatDialogRef, MatDialogConfig, MAT_DIALOG_DATA } from '@angu
 import { FormBuilder } from '@angular/forms';
 import { Subscription, Observable } from 'rxjs';
 import * as $ from 'jquery';
-
-
+import * as cors from 'cors';
+const corsHandler = cors({ origin: true });
 @Component({
   selector: 'app-transaction',
   templateUrl: './transaction.component.html',
@@ -40,7 +40,7 @@ export class TransactionComponent implements OnInit {
       console.log(res)
       this.transactions = res;
 
-      this.activeTransactions = this.transactions.filter(res => res.isCompleted === false 
+      this.activeTransactions = this.transactions.filter(res => res.isCompleted === false
         && res.isDisapproved === false
         && res.isCancelled === false && res.isLeased === false);
 
@@ -186,7 +186,7 @@ export class ViewSaleTransactionComponent {
 })
 
 export class UploadDocumentComponent {
-  upload_perc :Observable<number>;
+  upload_perc: Observable<number>;
   toUpload = [{ desc: 'Buyer Information Sheet', file: undefined },//0
   { desc: 'Reservation Fee', file: undefined },//1
   { desc: 'Reservation Agreement', file: undefined },//2
@@ -199,7 +199,7 @@ export class UploadDocumentComponent {
   ]
   othefiles: any;
   uid: any;
-  currload='';
+  currload = '';
 
   constructor(
     public trasactionService: TransactionService,
@@ -214,6 +214,8 @@ export class UploadDocumentComponent {
   ngOnInit() {
     this.uid = sessionStorage.getItem('session-user-uid')
   }
+
+
 
   selectFileOthers(event) {
     this.othefiles = event.target.files;
@@ -260,7 +262,7 @@ export class UploadDocumentComponent {
 
   async uploadDocuments() {
     var allupload = false;
-    
+
     var totalitems = this.toUpload.length;
     //$('#totalload').html(totalitems);
     for (var i = 0; i < this.toUpload.length; i++) {
@@ -272,10 +274,10 @@ export class UploadDocumentComponent {
 
     if (!allupload) {
       for (var i = 0; i < this.toUpload.length; i++) {
-        this.currload = (i+1) + "/"+this.toUpload.length
+        this.currload = (i + 1) + "/" + this.toUpload.length
         var fl = this.toUpload[i]['file'];
         const path = `transactions/storeFile${new Date().getTime()}_${fl.name}`;
-        console.log(allupload) 
+        console.log(allupload)
         var fileprop = await this.fileservice.upload_in_storage_percent(path, fl, this.uid, 'transaction', this)
         var x = { id: fileprop['id'], fileurl: fileprop['photoURL'] }
         this.toUpload[i]['filedetail'] = x
@@ -285,11 +287,11 @@ export class UploadDocumentComponent {
       if (this.othefiles) {
         var otherfl = []
         for (var i = 0; i < this.othefiles.length; i++) {
-          this.currload = 'Others '+ (i+1) + "/"+this.toUpload.length
+          this.currload = 'Others ' + (i + 1) + "/" + this.toUpload.length
           var fl = this.othefiles[i];
           const path = `transactions/storeFile${new Date().getTime()}_${fl.name}`;
           console.log(this.uid)
-          var fileprop = await this.fileservice.upload_in_storage(path, fl, this.uid, 'transaction')
+          var fileprop = await this.fileservice.upload_in_storage_percent(path, fl, this.uid, 'transaction', this)
           var x = { id: fileprop['id'], fileurl: fileprop['photoURL'] }
           otherfl.push(x)
         }
@@ -331,7 +333,7 @@ export class EditDocumenComponent {
   trans: any;
   othefiles: any;
   uid: any;
-  currload ='';
+  currload = '';
 
   //  : any;
   constructor(
@@ -362,6 +364,22 @@ export class EditDocumenComponent {
   ngOnInit() {
     this.uid = sessionStorage.getItem('session-user-uid')
   }
+  downloadMulitple() {
+    this.trasactionService.downloadMulitple(this.data.transactionID);
+  }
+  download(url, filename) {
+    filename = this.data.transactionID + '_' + filename
+    fetch(url, { mode: 'no-cors' }).then(function (t) {
+      return t.blob().then((b) => {
+        var a = document.createElement("a");
+        a.href = URL.createObjectURL(b);
+        a.setAttribute("download", filename);
+        a.click();
+      }
+      );
+    });
+  }
+
   selectFileOthers(event) {
     this.othefiles = event.target.files;
     console.log(this.othefiles)
@@ -426,7 +444,7 @@ export class EditDocumenComponent {
           //document.getElementById('currload').innerHTML = (toUpload2[i]['desc']);
           const path = `transactions/storeFile${new Date().getTime()}_${fl.name}`;
           console.log(allupload)
-          var fileprop = await this.fileservice.upload_in_storage_percent(path, fl, this.uid, 'transaction',this)
+          var fileprop = await this.fileservice.upload_in_storage_percent(path, fl, this.uid, 'transaction', this)
           var x = { id: fileprop['id'], fileurl: fileprop['photoURL'] }
           // this.toUpload[i]['filedetail']['desc'] = this.toUpload[i]['desc']
           toUpload2[i]['filedetail'] = x
@@ -441,7 +459,7 @@ export class EditDocumenComponent {
         console.log(this.othefiles)
         for (var i = 0; i < this.othefiles.length; i++) {
           var fl = this.othefiles[i];
-          this.currload = (((i+1)+"/"+this.othefiles.length))
+          this.currload = (((i + 1) + "/" + this.othefiles.length))
           const path = `transactions/storeFile${new Date().getTime()}_${fl.name}`;
           console.log(fl)
           var fileprop = await this.fileservice.upload_in_storage(path, fl, this.uid, 'transaction')

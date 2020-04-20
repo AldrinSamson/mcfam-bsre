@@ -6,6 +6,7 @@ import { MaterialModule } from './material.module';
 import { HttpClientModule } from '@angular/common/http';
 import { AngularFireStorage } from 'angularfire2/storage';
 import { CarouselModule } from 'ngx-owl-carousel-o';
+import {HttpModule} from '@angular/http';
 
 // Modules
 import { AuthModule } from './pages/auth/auth.module';
@@ -37,6 +38,7 @@ import { AngularFireModule } from '@angular/fire';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import {AngularFireStorageModule } from 'angularfire2/storage';
+import { Http } from '@angular/http';
 
 
 @NgModule({
@@ -80,7 +82,8 @@ import {AngularFireStorageModule } from 'angularfire2/storage';
     AngularFireModule.initializeApp(firebaseKeys),
     AngularFirestoreModule,
     AngularFireAuthModule,
-    AngularFireStorageModule
+    AngularFireStorageModule,
+    HttpModule
   ],
   providers: [
     UserService,
@@ -89,7 +92,9 @@ import {AngularFireStorageModule } from 'angularfire2/storage';
     AuthService,
     WindowService,
     //FileService,
-    AngularFireStorage
+    AngularFireStorage,
+    HttpModule
+
     ],
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA
