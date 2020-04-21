@@ -100,12 +100,6 @@
       </button>
   
       <mat-menu #menu="matMenu" >
-        <a
-          mat-menu-item
-          [routerLink]="'/profile'">
-          <mat-icon class="profile">face</mat-icon>
-          <span>Profile</span>
-        </a>
   
         <a
           mat-menu-item
@@ -126,8 +120,8 @@
           routerLink="/profile-settings"
           [queryParams]="{profile: '1'}"
           fragment="editProfile">
-          <mat-icon class="settings">settings</mat-icon>
-          <span>Settings</span>
+          <mat-icon class="settings">face</mat-icon>
+          <span>Your Profile</span>
         </a>
   
         <a mat-menu-item (click)="onLogout()">

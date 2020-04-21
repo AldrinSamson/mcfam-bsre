@@ -30,7 +30,6 @@ export class TransactionService {
   }
 
   getTransaction(uid: String) {
-    //console.log(uid)
     return this.db.collection('transaction', ref =>
       ref.where('clientUid', '==', uid))
       .valueChanges({ idField: 'id' });
@@ -40,18 +39,16 @@ export class TransactionService {
 
 
   getOneTransaction(id) {
-    var thisclass = this;
-    console.log(id)
     return new Promise(function (resolve) {
-      thisclass.db.collection('transaction').doc(id).ref.get()
+      this.db.collection('transaction').doc(id).ref.get()
         .then(doc => {
-          var project = {
+          const project = {
             id: doc.id,
             ...doc.data()
-          }
-          resolve(project)
+          };
+          resolve(project);
         });
-    })
+    });
   }
 
   async downloadMulitple(transid) {
@@ -221,7 +218,6 @@ export class TransactionService {
         doc_VG2: { desc: uploadedfile[4]['desc'], file: uploadedfile[4]['filedetail'] },
       });
     }
-
 
     if (otherfile) {
       this.db.collection('transaction').doc(tid).update({

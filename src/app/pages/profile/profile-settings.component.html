@@ -1,8 +1,7 @@
 <div class="profile-settings">
-    <mat-card>
-        <h3>My profile settings</h3>
-
-        <form class="" [formGroup]="viewClientForm" class="form clientfield">
+    
+        <mat-card>
+          <form class="" [formGroup]="viewClientForm" class="form clientfield">
 
             <div [@imageAnimation]='state' (click)="animateImage()" class="avatar" (mouseover)='hoverimage()'
                 (mouseout)='hoveroutimage()'>
@@ -27,10 +26,13 @@
             </mat-card-header>
 
             <hr>
-
-            <mat-form-field>
+            <div *ngIf="!profiledetails">
+                loading data
+            </div>
+            <div *ngIf = "profiledetails">
+                <mat-form-field>
                 <mat-label> Username </mat-label>
-                <input matInput formControlName="userName" value={{profiledetails.userName}} name="client-userName">
+                <input matInput formControlName="userName" value={{profiledetails.userName}} name="client-userName" disabled>
             </mat-form-field>
             <br>
             <mat-form-field>
@@ -49,18 +51,18 @@
                     name="client-contactNumber">
             </mat-form-field>
             <br>
-            <!--
             <mat-form-field>
                 <mat-label> City </mat-label>
                 <input matInput formControlName="addressCity" value={{profiledetails.addressCity}}
                     name="client-addressCity">
             </mat-form-field>
-            <br> -->
+            <br>
             <mat-form-field>
                 <mat-label> Region </mat-label>
                 <input matInput formControlName="addressRegion" value={{profiledetails.addressRegion}}
                     name="client-addressRegion">
             </mat-form-field>
+            </div>
             <br>
             <button class="btn btn-success" id='savebutton' (click)='save()'>Save</button>
             <br><br>
@@ -74,6 +76,11 @@
             </div> 
            
         </form>
-
+        <mat-card-actions class="button">
+        <div style = "float: center;">
+            <button mat-raised-button class="primary" color = "warn" (click)="onPasswordReset()">Reset my password</button>
+        </div>
+        </mat-card-actions>
     </mat-card>
+    
 </div>

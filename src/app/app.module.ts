@@ -91,10 +91,8 @@ import { Http } from '@angular/http';
     AuthGuardService,
     AuthService,
     WindowService,
-    //FileService,
     AngularFireStorage,
     HttpModule
-
     ],
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA

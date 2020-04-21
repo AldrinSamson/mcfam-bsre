@@ -1,5 +1,5 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { FirebaseService, AuthService, TransactionService, FileService, AgentService } from '../../shared';
+import { FirebaseService, AuthService, TransactionService, FileService, AgentService , MailerService } from '../../shared';
 import { MatDialog, MatDialogRef, MatDialogConfig, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FormBuilder } from '@angular/forms';
 import { Subscription, Observable } from 'rxjs';
@@ -31,13 +31,13 @@ export class TransactionComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.uid = sessionStorage.getItem('session-user-uid')
+    this.uid = sessionStorage.getItem('session-user-uid');
     this.getUserTransactions();
   }
 
   getUserTransactions() {
     this.transactionSub = this.transactionService.getTransaction(this.uid).subscribe(res => {
-      console.log(res)
+      console.log(res);
       this.transactions = res;
 
       this.activeTransactions = this.transactions.filter(res => res.isCompleted === false
@@ -117,6 +117,7 @@ export class ViewSaleTransactionComponent {
 
   constructor(
     public trasactionService: TransactionService,
+    public mailerService: MailerService,
     public dialogRef: MatDialogRef<ViewSaleTransactionComponent>,
     public dialog: MatDialog,
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -127,7 +128,10 @@ export class ViewSaleTransactionComponent {
   }
 
   cancelTransaction() {
-    this.trasactionService.cancelTransaction(this.data.transactionID)
+    this.trasactionService.cancelTransaction(this.data.transactionID);
+    const mailLoad = [ this.data.clientName ];
+    this.mailerService.mailTransactionMessage( this.data.agentUid , 'agent' , 'cancelled' , this.data.projectName , mailLoad);
+    this.mailerService.mailTransactionMessage( this.data.managerUid , 'manager' , 'cancelled' , this.data.projectName , mailLoad);
     this.dialogRef.close();
   }
 
@@ -135,6 +139,9 @@ export class ViewSaleTransactionComponent {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.data = {
       transactionID: this.data.transactionID,
+      managerUid : this.data.managerUid,
+      clientName : this.data.clientName,
+      projectName : this.data.projectName,
       stage: this.stage,
       buttonConfig: this.buttonConfig
     };
@@ -165,6 +172,8 @@ export class ViewSaleTransactionComponent {
       buttonConfig: this.buttonConfig,
       agentName: this.data.agentName,
       agentUid: this.data.agentUid,
+      projectName: this.data.projectName,
+      clientName: this.data.clientName
     };
     console.log(dialogConfig);
     this.dialog.open(RateFeedbackComponent, dialogConfig).afterClosed().subscribe(result => {
@@ -196,13 +205,14 @@ export class UploadDocumentComponent {
   { desc: 'Proof of Billing', file: undefined },//6
   { desc: 'Payment Schedule Scheme', file: undefined },//7
     // { desc: 'Others', file: undefined }
-  ]
+  ];
   othefiles: any;
   uid: any;
   currload = '';
 
   constructor(
     public trasactionService: TransactionService,
+    public mailerService: MailerService,
     public dialogRef: MatDialogRef<UploadDocumentComponent>,
     public dialog: MatDialog,
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -211,15 +221,15 @@ export class UploadDocumentComponent {
 
   }
 
-  ngOnInit() {
-    this.uid = sessionStorage.getItem('session-user-uid')
+  ngOnInit () {
+    this.uid = sessionStorage.getItem('session-user-uid');
   }
 
 
 
   selectFileOthers(event) {
     this.othefiles = event.target.files;
-    console.log(this.othefiles)
+    console.log(this.othefiles);
     if (this.othefiles) {
       document.getElementById('otherfilebtn').classList.remove('btn-primary');
       document.getElementById('otherfilebtn').classList.add('btn-success');
@@ -232,10 +242,10 @@ export class UploadDocumentComponent {
 
   }
   selectFile(event) {
-    //this.toUpload[indexOfelement]['file']= file[indexOfelement]
+    // this.toUpload[indexOfelement]['file']= file[indexOfelement]
     console.log(event);
-    var getidno = (event.target.id).substring(3);
-    var tonum = parseInt(getidno);
+    const getidno = (event.target.id).substring(3);
+    const tonum = parseInt(getidno);
     this.toUpload[tonum]['file'] = event.target.files[0];
 
     if (this.toUpload[tonum]['file']) {
@@ -248,7 +258,7 @@ export class UploadDocumentComponent {
       $('#file_indic_' + getidno).text('');
     }
 
-    console.log(this.toUpload)
+    console.log(this.toUpload);
 
 
   }
@@ -282,7 +292,7 @@ export class UploadDocumentComponent {
         var x = { id: fileprop['id'], fileurl: fileprop['photoURL'] }
         this.toUpload[i]['filedetail'] = x
       }
-      console.log(this.toUpload)
+      console.log(this.toUpload);
 
       if (this.othefiles) {
         var otherfl = []
@@ -295,13 +305,15 @@ export class UploadDocumentComponent {
           var x = { id: fileprop['id'], fileurl: fileprop['photoURL'] }
           otherfl.push(x)
         }
-        this.toUpload['toothers'] = otherfl
+        this.toUpload['toothers'] = otherfl;
       } else {
         this.toUpload['toothers'] = '';
       }
     }
 
     this.trasactionService.uploadDocuments(this.data.transactionID, this.toUpload);
+    const mailLoad = [ this.data.clientName ];
+    this.mailerService.mailTransactionMessage( this.data.managerUid , 'manager' , 2 , this.data.projectName , mailLoad);
     this.dialogRef.close();
   }
 
@@ -319,17 +331,17 @@ export class UploadDocumentComponent {
   styleUrls: ['./transaction.component.scss'],
 })
 
-export class EditDocumenComponent {
-  toUpload = [{ desc: 'Buyer Information Sheet', file: undefined },//0
-  { desc: 'Reservation Fee', file: undefined },//1
-  { desc: 'Reservation Agreement', file: undefined },//2
-  { desc: 'Valid Goverment ID 1', file: undefined },//3
-  { desc: 'Valid Goverment ID 2', file: undefined },//4
-  { desc: 'Proof of Income', file: undefined },//5
-  { desc: 'Proof of Billing', file: undefined },//6
-  { desc: 'Payment Schedule Scheme', file: undefined },//7
-    //{ desc: 'Others', file: undefined }
-  ]
+export class EditDocumenComponent implements OnInit {
+  toUpload = [{ desc: 'Buyer Information Sheet', file: undefined }, // 0
+  { desc: 'Reservation Fee', file: undefined }, // 1
+  { desc: 'Reservation Agreement', file: undefined }, // 2
+  { desc: 'Valid Goverment ID 1', file: undefined }, // 3
+  { desc: 'Valid Goverment ID 2', file: undefined }, // 4
+  { desc: 'Proof of Income', file: undefined }, // 5
+  { desc: 'Proof of Billing', file: undefined }, // 6
+  { desc: 'Payment Schedule Scheme', file: undefined }, // 7
+    // { desc: 'Others', file: undefined }
+  ];
   trans: any;
   othefiles: any;
   uid: any;
@@ -345,21 +357,20 @@ export class EditDocumenComponent {
     public fileservice: FileService,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
-    console.log(this.data)
-    this.toUpload[0]['filedetail'] = data['trans']['doc_BIS']
-    this.toUpload[6]['filedetail'] = data['trans']['doc_POB']
-    this.toUpload[5]['filedetail'] = data['trans']['doc_POI']
-    this.toUpload[7]['filedetail'] = data['trans']['doc_PSS']
-    this.toUpload[2]['filedetail'] = data['trans']['doc_RA']
-    this.toUpload[1]['filedetail'] = data['trans']['doc_RF']
-    this.toUpload[3]['filedetail'] = data['trans']['doc_VG1']
-    this.toUpload[4]['filedetail'] = data['trans']['doc_VG2']
-    //this.toUpload[8]['filedetail'] = data['trans']['doc_others']
+    console.log(this.data);
+    this.toUpload[0]['filedetail'] = data['trans']['doc_BIS'];
+    this.toUpload[6]['filedetail'] = data['trans']['doc_POB'];
+    this.toUpload[5]['filedetail'] = data['trans']['doc_POI'];
+    this.toUpload[7]['filedetail'] = data['trans']['doc_PSS'];
+    this.toUpload[2]['filedetail'] = data['trans']['doc_RA'];
+    this.toUpload[1]['filedetail'] = data['trans']['doc_RF'];
+    this.toUpload[3]['filedetail'] = data['trans']['doc_VG1'];
+    this.toUpload[4]['filedetail'] = data['trans']['doc_VG2'];
+    // this.toUpload[8]['filedetail'] = data['trans']['doc_others']
     
-
   }
   ngOnInit() {
-    this.uid = sessionStorage.getItem('session-user-uid')
+    this.uid = sessionStorage.getItem('session-user-uid');
   }
   downloadMulitple() {
     this.trasactionService.downloadMulitple(this.data.transactionID);
@@ -379,7 +390,7 @@ export class EditDocumenComponent {
 
   selectFileOthers(event) {
     this.othefiles = event.target.files;
-    console.log(this.othefiles)
+    console.log(this.othefiles);
     if (this.othefiles) {
       document.getElementById('otherfilebtn').classList.remove('btn-primary');
       document.getElementById('otherfilebtn').classList.add('btn-success');
@@ -392,10 +403,10 @@ export class EditDocumenComponent {
 
   }
   selectFile(event) {
-    //this.toUpload[indexOfelement]['file']= file[indexOfelement]
+    // this.toUpload[indexOfelement]['file']= file[indexOfelement]
     console.log(event);
-    var getidno = (event.target.id).substring(3);
-    var tonum = parseInt(getidno);
+    const getidno = (event.target.id).substring(3);
+    const tonum = parseInt(getidno);
     this.toUpload[tonum]['file'] = event.target.files[0];
 
     if (this.toUpload[tonum]['file']) {
@@ -408,7 +419,7 @@ export class EditDocumenComponent {
       $('#file_indic_' + getidno).text('');
     }
 
-    console.log(this.toUpload)
+    console.log(this.toUpload);
 
 
   }
@@ -420,53 +431,68 @@ export class EditDocumenComponent {
   }
 
   async editDocuments() {
-    var allupload = false;
-    var toUpload2 = [{ desc: 'Buyer Information Sheet' },//0
-    { desc: 'Reservation Fee' },//1
-    { desc: 'Reservation Agreement' },//2
-    { desc: 'Valid Goverment ID 1' },//3
-    { desc: 'Valid Goverment ID 2' },//4
-    { desc: 'Proof of Income' },//5
-    { desc: 'Proof of Billing' },//6
-    { desc: 'Payment Schedule Scheme' },//7
-      //{ desc: 'Others' }
-    ]
+    let otherfl;
+    const allupload = false;
+    const toUpload2 = [{ desc: 'Buyer Information Sheet' }, // 0
+    { desc: 'Reservation Fee' }, // 1
+    { desc: 'Reservation Agreement' }, // 2
+    { desc: 'Valid Goverment ID 1' }, // 3
+    { desc: 'Valid Goverment ID 2' }, // 4
+    { desc: 'Proof of Income' }, // 5
+    { desc: 'Proof of Billing' }, // 6
+    { desc: 'Payment Schedule Scheme' }, // 7
+      // { desc: 'Others' }
+    ];
     if (!allupload) {
-      for (var i = 0; i < this.toUpload.length; i++) {
-        var fl = this.toUpload[i]['file'];
+      for (let i = 0; i < this.toUpload.length; i++) {
+        const fl = this.toUpload[i]['file'];
         if (fl) {
-          //$('#currload').html(toUpload2[i]['desc']);
-          //console.log(toUpload2[i]['desc'])
-          this.currload = toUpload2[i]['desc']
-          //document.getElementById('currload').innerHTML = (toUpload2[i]['desc']);
+          // $('#currload').html(toUpload2[i]['desc']);
+          // console.log(toUpload2[i]['desc'])
+          this.currload = toUpload2[i]['desc'];
+          // document.getElementById('currload').innerHTML = (toUpload2[i]['desc']);
           const path = `transactions/storeFile${new Date().getTime()}_${fl.name}`;
+<<<<<<< HEAD
+          console.log(allupload);
+          const fileprop = await this.fileservice.upload_in_storage_percent(path, fl, this.uid, 'transaction', this);
+          const x = { id: fileprop['id'], fileurl: fileprop['photoURL'] };
+=======
           console.log(allupload)
           var fileprop = await this.fileservice.upload_in_storage_percent(path, fl, this.uid, 'transaction', this)
           var x = { id: fileprop['id'], fileurl: fileprop['photoURL'] }
+>>>>>>> 28c6d8166373fd64fbdf1297eb3f573b36b7f7dd
           // this.toUpload[i]['filedetail']['desc'] = this.toUpload[i]['desc']
-          toUpload2[i]['filedetail'] = x
+          toUpload2[i]['filedetail'] = x;
         } else {
 
         }
       }
-      var otherfl = undefined
-      console.log(this.toUpload)
+
+      console.log(this.toUpload);
       if (this.othefiles) {
+<<<<<<< HEAD
+        otherfl = [];
+        console.log(this.othefiles);
+        for (let i = 0; i < this.othefiles.length; i++) {
+          const fl = this.othefiles[i];
+          this.currload = (((i + 1) + '/' + this.othefiles.length));
+=======
         otherfl = []
         console.log(this.othefiles)
         for (var i = 0; i < this.othefiles.length; i++) {
           var fl = this.othefiles[i];
           this.currload = (((i + 1) + "/" + this.othefiles.length))
+>>>>>>> 28c6d8166373fd64fbdf1297eb3f573b36b7f7dd
           const path = `transactions/storeFile${new Date().getTime()}_${fl.name}`;
-          console.log(fl)
-          var fileprop = await this.fileservice.upload_in_storage(path, fl, this.uid, 'transaction')
-          var x = { id: fileprop['id'], fileurl: fileprop['photoURL'] }
-          otherfl.push(x)
+          console.log(fl);
+          const fileprop = await this.fileservice.upload_in_storage(path, fl, this.uid, 'transaction');
+          const x = { id: fileprop['id'], fileurl: fileprop['photoURL'] };
+          otherfl.push(x);
         }
-        //this.toUpload[8]['filedetail'] = otherfl
+        // this.toUpload[8]['filedetail'] = otherfl
 
       }
-      console.log(toUpload2)
+      console.log(toUpload2);
 
     }
 
@@ -496,6 +522,7 @@ export class RateFeedbackComponent {
   constructor(public trasactionService: TransactionService,
     public dialogRef: MatDialogRef<RateFeedbackComponent>,
     public agentService: AgentService,
+    public mailerService: MailerService,
     @Inject(MAT_DIALOG_DATA) public data: any, ) { }
 
 
@@ -506,6 +533,8 @@ export class RateFeedbackComponent {
     }
 
     this.trasactionService.rateTransaction(this.data.transactionID, +this.rating, this.feedback, this.isLeased);
+    const mailLoad = [ this.data.clientName , +this.rating , this.feedback ];
+    this.mailerService.mailTransactionMessage( this.data.agentUid, 'agent' , 5 , this.data.projectName, mailLoad );
     this.agentService.computeRating(this.data.agentUid);
     this.dialogRef.close();
   }

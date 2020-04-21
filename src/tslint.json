@@ -6,12 +6,6 @@
             "attribute",
             "custom",
             "camelCase"
-        ],
-        "component-selector": [
-            true,
-            "element",
-            "custom",
-            "kebab-case"
         ]
     }
 }
