@@ -87,7 +87,7 @@ export class FileService {
   async upload_in_storage_percent(path, file, uid, category, theclass) {
     console.log(file);
     console.log(theclass);
-    var file1 = {
+    var file1 = { 
       name: file.name,
       lastModified: file.lastModified,
       lastModifiedDate: file.lastModifiedDate,

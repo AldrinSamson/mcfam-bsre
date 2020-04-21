@@ -13,25 +13,22 @@ export class TransactionService {
   }
 
   getTransaction(uid: String) {
-    //console.log(uid)
     return this.db.collection('transaction', ref =>
       ref.where('clientUid', '==', uid))
       .valueChanges({ idField: 'id' });
 
   }
   getOneTransaction(id) {
-    var thisclass = this;
-    console.log(id)
     return new Promise(function (resolve) {
-      thisclass.db.collection('transaction').doc(id).ref.get()
+      this.db.collection('transaction').doc(id).ref.get()
         .then(doc => {
-          var project = {
+          const project = {
             id: doc.id,
             ...doc.data()
-          }
-          resolve(project)
+          };
+          resolve(project);
         });
-    })
+    });
   }
 
   cancelTransaction(tid: string) {
@@ -79,7 +76,7 @@ export class TransactionService {
       stage: 3,
       status: 'Awaiting Manager Approval',
       dateUploaded: new Date(),
-      doc_status:'Files : Uploaded'
+      doc_status: 'Files : Uploaded'
     });
   }
 
@@ -125,7 +122,6 @@ export class TransactionService {
       });
     }
 
-    
     if (otherfile) {
       this.db.collection('transaction').doc(tid).update({
         doc_others: otherfile

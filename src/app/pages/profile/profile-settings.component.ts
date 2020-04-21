@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { NgForm } from '@angular/forms';
-import { MatDialog, MatDialogRef, MatDialogConfig, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import * as firebase from 'firebase';
+import { trigger, state, style, transition, animate, keyframes } from '@angular/animations';
 import * as $ from 'jquery';
 import { AuthService, AlertService, UserService, FileService } from '@shared';
 import { AngularFirestore } from '@angular/fire/firestore';
@@ -12,12 +10,29 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-profile-settings',
   templateUrl: './profile-settings.component.html',
-  styleUrls: ['./profile-settings.component.scss']
+  styleUrls: ['./profile-settings.component.scss'],
+  animations: [
+    trigger('imageAnimation', [
+
+      state('small', style({
+        transform: 'scale(1)',
+      })),
+      state('large', style({
+        transform: 'scale(2)',
+      })),
+
+      transition('small <=> large', animate('500ms ease-in', keyframes([
+        style({opacity: 0, transform: 'translateY(-80%)', offset: 0}),
+        style({opacity: 1, transform: 'translateY(25px)', offset: 1})
+      ]))),
+    ]),
+  ]
 })
 export class ProfileSettingsComponent implements OnInit {
-  public uid = sessionStorage.getItem('session-user-uid');;
-  public displayName: string = 'Your username';
+  public uid = sessionStorage.getItem('session-user-uid');
+  public displayName = 'Your username';
   public bio: any = 'Your bio';
+  public state = 'small';
   profileTitle: any;
   username: any;
   email: any;
@@ -37,6 +52,16 @@ export class ProfileSettingsComponent implements OnInit {
     public clientservice: ClientService,
     private router: Router,
   ) {
+    this.viewClientForm = this.fb.group({
+      firstName: [''],
+        lastName: [''],
+        fullName: [''],
+        userName: [''],
+        contactNumber: [''],
+        addressCity: [''],
+        addressRegion: [''],
+        uid: ['']
+    });
   }
 
   public ngOnInit() {
@@ -59,8 +84,6 @@ export class ProfileSettingsComponent implements OnInit {
         fullName: [this.profiledetails.firstName + ' ' + this.profiledetails.lastName],
         userName: [this.profiledetails.userName],
         contactNumber: [this.profiledetails.contactNumber],
-        // addressStreet: [this.profiledetails.addressStreet],
-        // addressTown: [this.profiledetails.addressTown],
         addressCity: [this.profiledetails.addressCity],
         addressRegion: [this.profiledetails.addressRegion],
         uid: [this.profiledetails.uid]
@@ -78,8 +101,12 @@ export class ProfileSettingsComponent implements OnInit {
     return this.projectSub
 
   }
-  hoverimage() {
 
+  public animateImage(): void {
+    this.state = (this.state === 'small' ? 'large' : 'small');
+  }
+
+  hoverimage() {
     $('.changeprofpicdiv').css('display', 'block');
   }
   hoveroutimage() {
@@ -119,29 +146,16 @@ export class ProfileSettingsComponent implements OnInit {
         //var fileprop = await this.fileservice.upload_in_storage(path, this.profpicfile, this.uid, 'client');
         x = {id : fileprop['id'],photoURL: fileprop['photoURL'] };
       }
-      console.log(this.viewClientForm.value)
-      console.log(this.clientid)
-      this.clientservice.updateClient(this.clientid,this.viewClientForm.value,x)
-      this.router.navigate(['/profile']);
+      console.log(this.viewClientForm.value);
+      console.log(this.clientid);
+      this.clientservice.updateClient(this.clientid,this.viewClientForm.value,x);
+      this.alertService.showToaster('Your settings are saved');
+
     }
   }
   public onPasswordReset(): void {
     this.userService.sendUserPasswordResetEmail();
     this.alertService.showToaster('Reset password is sent to your email');
-  }
-
-
-
-  public onUpdateUserInfo(form: NgForm): void {
-    const displayName = form.value.displayName;
-    const bio = form.value.bio;
-    this.userService.updateUserInfo(firebase.auth().currentUser.uid, displayName, bio);
-    this.alertService.showToaster('Your settings are saved');
-  }
-
-  public onLogout(): void {
-    this.authService.logout();
-    this.alertService.showToaster('Logout succesful');
   }
 
 }

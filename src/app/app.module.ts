@@ -88,7 +88,7 @@ import {AngularFireStorageModule } from 'angularfire2/storage';
     AuthGuardService,
     AuthService,
     WindowService,
-    //FileService,
+    // FileService,
     AngularFireStorage
     ],
   schemas: [
