@@ -1,24 +1,36 @@
 <h2 mat-dialog-title>Edit Uploaded Documents</h2>
 <div mat-dialog-content>
-    
+
     <div *ngFor='let tup of toUpload; let indexOfelement=index'>
         <h5> {{tup.desc}} </h5>
-        
-        <button class="btn btn-sm btn-warning" (click)='download(tup.filedetail.file.fileurl,tup.desc)'>View file</button>&nbsp;<button class="btn btn-sm btn-primary" id='upbtn_{{indexOfelement}}' (click)='upclick(indexOfelement)' >Upload to edit</button>
+
+        <button class="btn btn-sm btn-warning viewfile" (click)='download(tup.filedetail.file.fileurl,tup.desc)'>View
+            file</button>&nbsp;<button class="btn btn-sm btn-primary" id='upbtn_{{indexOfelement}}'
+            (click)='upclick(indexOfelement)'>Upload to edit</button>
         <input type='file' id='up_{{indexOfelement}}' hidden (change)='selectFile($event)'>
         &nbsp;<span id='file_indic_{{indexOfelement}}'></span>&nbsp;
         <br>
     </div>
-    
+    <br>
     <h5> Others: </h5>
-    
-    <button class="btn btn-primary" id='otherfilebtn' (click)='otherclick()'>Upload</button>
+    <div style="max-width: 100%;">
+        <span *ngFor='let tup of data.trans.doc_others; let indexOfelement=index'>
+            <button class="btn btn-sm btn-warning viewfile" (click)='download(tup.fileurl,"Others")'>View
+                file</button>
+            
+        </span>
+        
+        <br>
+    </div>
+    <button class="btn btn-primary btn-sm" id='otherfilebtn' (click)='otherclick()'>Upload to replace</button>
     <input type='file' id='otherfile' hidden (change)='selectFileOthers($event)' multiple>
     &nbsp;<span id='otherdesc'></span>
     <br>
+    <br>
+    <br>
 </div>
 <div mat-dialog-actions class="thisaction">
-    <span  *ngIf="upload_perc | async as progress">
+    <span *ngIf="upload_perc | async as progress">
         Uploading {{currload}}...<br>
         <button class="progress_bar well btn">
 
@@ -27,6 +39,6 @@
         </button>
         <br>
     </span>
-    <button mat-button (click)="editDocuments()">Edit</button> 
-    <button mat-button (click)="onNoClick()">Back</button> 
+    <button mat-button (click)="editDocuments()">Edit</button>
+    <button mat-button (click)="onNoClick()">Back</button>
 </div>

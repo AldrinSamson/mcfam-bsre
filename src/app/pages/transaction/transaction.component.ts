@@ -367,11 +367,7 @@ export class EditDocumenComponent implements OnInit {
     this.toUpload[3]['filedetail'] = data['trans']['doc_VG1'];
     this.toUpload[4]['filedetail'] = data['trans']['doc_VG2'];
     // this.toUpload[8]['filedetail'] = data['trans']['doc_others']
-    for (let i = 0; i < this.toUpload.length; i++) {
-      if (this.toUpload[i]['filedetail']) {
-        console.log(this.toUpload[i]);
-      }
-    }
+    
   }
   ngOnInit() {
     this.uid = sessionStorage.getItem('session-user-uid');
