@@ -456,15 +456,9 @@ export class EditDocumenComponent implements OnInit {
           this.currload = toUpload2[i]['desc'];
           // document.getElementById('currload').innerHTML = (toUpload2[i]['desc']);
           const path = `transactions/storeFile${new Date().getTime()}_${fl.name}`;
-<<<<<<< HEAD
-          console.log(allupload);
-          const fileprop = await this.fileservice.upload_in_storage_percent(path, fl, this.uid, 'transaction', this);
-          const x = { id: fileprop['id'], fileurl: fileprop['photoURL'] };
-=======
           console.log(allupload)
           var fileprop = await this.fileservice.upload_in_storage_percent(path, fl, this.uid, 'transaction', this)
           var x = { id: fileprop['id'], fileurl: fileprop['photoURL'] }
->>>>>>> 28c6d8166373fd64fbdf1297eb3f573b36b7f7dd
           // this.toUpload[i]['filedetail']['desc'] = this.toUpload[i]['desc']
           toUpload2[i]['filedetail'] = x;
         } else {
@@ -474,19 +468,11 @@ export class EditDocumenComponent implements OnInit {
 
       console.log(this.toUpload);
       if (this.othefiles) {
-<<<<<<< HEAD
-        otherfl = [];
-        console.log(this.othefiles);
-        for (let i = 0; i < this.othefiles.length; i++) {
-          const fl = this.othefiles[i];
-          this.currload = (((i + 1) + '/' + this.othefiles.length));
-=======
         otherfl = []
         console.log(this.othefiles)
         for (var i = 0; i < this.othefiles.length; i++) {
           var fl = this.othefiles[i];
           this.currload = (((i + 1) + "/" + this.othefiles.length))
->>>>>>> 28c6d8166373fd64fbdf1297eb3f573b36b7f7dd
           const path = `transactions/storeFile${new Date().getTime()}_${fl.name}`;
           console.log(fl);
           const fileprop = await this.fileservice.upload_in_storage(path, fl, this.uid, 'transaction');

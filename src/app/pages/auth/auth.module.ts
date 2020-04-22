@@ -6,13 +6,19 @@ import { FormsModule } from '@angular/forms';
 import { MaterialModule } from '../../material.module';
 
 // Components
-import { AuthComponent } from './auth.component';
+import { AuthComponent , SignUpDialogComponent , PasswordResetDialogComponent } from './auth.component';
 import { PhoneSigninComponent } from './phone-signin/phone-signin.component';
 
 @NgModule({
+  entryComponents: [
+    SignUpDialogComponent,
+    PasswordResetDialogComponent
+  ],
   declarations: [
     AuthComponent,
-    PhoneSigninComponent
+    PhoneSigninComponent,
+    SignUpDialogComponent,
+    PasswordResetDialogComponent
   ],
   imports: [
     CommonModule,

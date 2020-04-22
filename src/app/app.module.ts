@@ -9,7 +9,7 @@ import { CarouselModule } from 'ngx-owl-carousel-o';
 import {HttpModule} from '@angular/http';
 
 // Modules
-import { AuthModule } from './pages/auth/auth.module';
+import { AuthModule  } from './pages/auth/auth.module';
 import { ProfileModule } from './pages/profile/profile.module';
 import { MiscModule } from './components/misc/misc.module';
 import { PipesModule } from '@shared/pipes/pipes.module';

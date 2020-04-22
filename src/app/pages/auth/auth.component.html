@@ -1,105 +1,34 @@
 <div class="container">
 	<div class="d-flex justify-content-center h-100">
 		<div class="main-auth">
-      <mat-tab-group mat-align-tabs="center">
-        <mat-tab label="Login">
-          <div class="card">
-            <div class="card-header">
-              <h3>Log In</h3>
-            </div>
-            <div class="card-body" >
-                <div class="input-group form-group">
-                  <div class="input-group-prepend">
-                    <span class="input-group-text"><mat-icon>alternate_email</mat-icon></span>
-                  </div>
-                  <input type="text" class="form-control" placeholder="Email" [(ngModel)]='email' > 
-                </div>
-                <div class="input-group form-group">
-                  <div class="input-group-prepend">
-                    <span class="input-group-text"><mat-icon>vpn_key</mat-icon></span>
-                  </div>
-                  <input type="password" class="form-control" placeholder="Password" [(ngModel)]='passw' >
-                </div>
-                <div class="form-group">
-                  <button (click)='login()' class="btn float-right login_btn">Login</button>
-                </div>
-            </div>
-            <div class="card-footer">
-              <div class="d-flex justify-content-center">
-                <a href="#">Forgot your password?</a>
+      <div class="card">
+        <div class="card-header">
+          <h3>Log In</h3>
+        </div>
+        <div class="card-body" >
+            <div class="input-group form-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text"><mat-icon>alternate_email</mat-icon></span>
               </div>
+              <input type="text" class="form-control" placeholder="Email" [(ngModel)]='email' > 
             </div>
-          </div>
-        </mat-tab>
-        <mat-tab label="Sign Up">
-          <div class="card">
-            <div class="card-header">
-              <h3>Sign Up</h3>
-            </div>
-            <div class="card-body">
-              <form>
-                <div class="input-group form-group">
-                  <div class="input-group-prepend">
-                    <span class="input-group-text"><mat-icon>alternate_email</mat-icon></span>
-                  </div>
-                  <input type="text" class="form-control" placeholder="Email"> 
-                </div>
-                <div class="input-group form-group">
-                  <div class="input-group-prepend">
-                    <span class="input-group-text"><mat-icon>face</mat-icon></span>
-                  </div>
-                  <input type="text" class="form-control" placeholder="Username"> 
-                </div>
-                <div class="input-group form-group">
-                  <div class="input-group-prepend">
-                    <span class="input-group-text"><mat-icon>face</mat-icon></span>
-                  </div>
-                  <input type="text" class="form-control" placeholder="First Name"> 
-                </div>
-                <div class="input-group form-group">
-                  <div class="input-group-prepend">
-                    <span class="input-group-text"><mat-icon>face</mat-icon></span>
-                  </div>
-                  <input type="text" class="form-control" placeholder="Last Name"> 
-                </div>
-                <div class="input-group form-group">
-                  <div class="input-group-prepend">
-                    <span class="input-group-text"><mat-icon>face</mat-icon></span>
-                  </div>
-                  <input type="text" class="form-control" placeholder="City"> 
-                </div>
-                <div class="input-group form-group">
-                  <div class="input-group-prepend">
-                    <span class="input-group-text"><mat-icon>face</mat-icon></span>
-                  </div>
-                  <input type="text" class="form-control" placeholder="Region"> 
-                </div>
-                <div class="input-group form-group">
-                  <div class="input-group-prepend">
-                    <span class="input-group-text"><mat-icon>vpn_key</mat-icon></span>
-                  </div>
-                  <input type="password" class="form-control" placeholder="Password">
-                </div>
-                <div class="input-group form-group">
-                  <div class="input-group-prepend">
-                    <span class="input-group-text"><mat-icon>vpn_key</mat-icon></span>
-                  </div>
-                  <input type="password" class="form-control" placeholder="Repeat Password">
-                </div>
-                <div class="form-group">
-                  <input type="submit" value="Login" class="btn float-right login_btn">
-                </div>
-              </form>
-            </div>
-            <div class="card-footer">
-          
-              <div class="d-flex justify-content-center">
-                <a href="#">Forgot your password?</a>
+            <div class="input-group form-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text"><mat-icon>vpn_key</mat-icon></span>
               </div>
+              <input type="password" class="form-control" placeholder="Password" [(ngModel)]='passw' >
             </div>
+            <div class="form-group">
+              <button (click)='login()' class="btn float-right login_btn">Login</button>
+            </div>
+        </div>
+        <div class="card-footer">
+          <div class="d-flex justify-content-center">
+            <button (click)='openPasswordReset()' class="btn float-left footer_btn" >Forgot password?</button> &nbsp; &nbsp; &nbsp;
+            <button (click)='openSignUp()' class="btn float-right footer_btn" >Sign Up</button>
           </div>
-        </mat-tab>
-      </mat-tab-group>  
+        </div>
+      </div>  
     </div>
 	</div>
 </div>
