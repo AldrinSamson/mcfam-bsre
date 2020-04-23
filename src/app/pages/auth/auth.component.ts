@@ -2,7 +2,7 @@ import { Component, Inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '@shared';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { FirebaseService } from '../../shared';
+import { FirebaseService , ClientService ,UserService } from '../../shared';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material';
 import { FormBuilder } from '@angular/forms';
 
@@ -13,8 +13,8 @@ import { FormBuilder } from '@angular/forms';
 })
 export class AuthComponent {
 
-  email='';
-  passw='';
+  email = '';
+  passw = '';
  
   constructor(private authService: AuthService,
     private router: Router,
@@ -48,11 +48,36 @@ export class AuthComponent {
 
 export class SignUpDialogComponent {
 
+  addClientForm: any;
+
   constructor(
     public dialogRef: MatDialogRef<SignUpDialogComponent>,
     public fb: FormBuilder,
+    public ClientService: ClientService,
     @Inject(MAT_DIALOG_DATA) public data: any
-  ) {}
+  ) {
+    this.addClientForm = this.fb.group({
+      firstName: [''],
+      lastName: [''],
+      userName: [''],
+      contactNumber: [''],
+      email : [''],
+      addressCity: [''],
+      addressRegion: [''],
+      photoURL: [''],
+      uid: [''],
+      password: [''],
+      'fullName': ['']
+    });
+  }
+
+  submitAddClientForm() {
+    if (this.addClientForm.valid) {
+      this.addClientForm.controls['fullName'].setValue(this.addClientForm.value.firstName + ' ' + this.addClientForm.value.lastName);
+      this.ClientService.createClient(this.addClientForm.value);
+      this.dialogRef.close();
+    }
+  }
 
   onNoClick(): void {
     this.dialogRef.close();
@@ -68,11 +93,19 @@ export class SignUpDialogComponent {
 
 export class PasswordResetDialogComponent {
 
+  email = '';
+
   constructor(
     public dialogRef: MatDialogRef<PasswordResetDialogComponent>,
     public fb: FormBuilder,
+    public userService: UserService,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {}
+
+  sendResetEmail() {
+    this.userService.sendUserPasswordResetEmailForgot(this.email);
+    this.dialogRef.close();
+  }
 
   onNoClick(): void {
     this.dialogRef.close();

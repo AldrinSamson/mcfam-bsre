@@ -4,21 +4,22 @@
     <div class="intro intro-carousel">
         <owl-carousel-o [options]="featuredCarousel"  >
         
-            <ng-template carouselSlide *ngFor="let slide of slidesStore" [id]="slide.id">
-            <img class="carousel-item-a intro-item bg-image" [src]="slide.src" [alt]="slide.alt" [title]="slide.title">
+            <ng-template carouselSlide *ngFor="let slide of featured" [id]="slide.id">
+            <img class="carousel-item-a intro-item bg-image" [src]="slide.cover_photo.photoURL" >
             <div class="overlay overlay-a">
                 <div class="table-cell">
                     <div class="container">
                       <div class="row">
                         <div class="col-lg-12">
                           <div class="intro-body">
-                            <p class="intro-title-top">Doral, Florida
-                              <br> 78345</p>
+                            <p class="intro-title-top">{{slide.addressCity}}, {{slide.addressRegion}}
+                              <br> {{slide.addressStreet}}, {{slide.addressTown}}</p>
                             <h1 class="intro-title mb-4">
-                              <span class="color-b">204 </span> Mount
-                              <br> Olive Road Two</h1>
+                              {{slide.name}}</h1>
+                              <a href="#" class="link-a" [routerLink]="'/project'">Click here to view
+                                <span class="ion-ios-arrow-forward"></span></a>
                             <p class="intro-subtitle intro-price">
-                              <a href="#"><span class="price-a">rent | $ 12.000</span></a>
+                              <a href="#"><span class="price-a">{{slide.saleType}} | {{slide.cost}}</span></a>
                             </p>
                           </div>
                         </div>
@@ -62,7 +63,7 @@
                   </p>
                 </div>
                 <div class="card-footer-c">
-                  <a routerLink="porject" class="link-c link-icon">View Properties
+                  <a [routerLink]="'/project'" class="link-c link-icon">View Properties
                     <mat-icon>keyboard_arrow_right</mat-icon>
                   </a>
                 </div>
@@ -122,32 +123,31 @@
           </div>
           <owl-carousel-o [options]="propertyCarousel" >
         
-            <ng-template carouselSlide *ngFor="let slide of slidesStore" [id]="slide.id">
+            <ng-template carouselSlide *ngFor="let slide of featured" [id]="slide.id">
                 <div class="carousel-item-b">
                     <div class="card-box-a card-shadow">
                       <div class="img-box-a">
-                        <img [src]="slide.src" [alt]="slide.alt" [title]="slide.title" alt="" class="img-a img-fluid">
+                        <img [src]="slide.cover_photo.photoURL" class="img-a img-fluid">
                       </div>
                       <div class="card-overlay">
                         <div class="card-overlay-a-content">
                           <div class="card-header-a">
                             <h2 class="card-title-a">
-                              <a href="property-single.html">206 Mount
-                                <br /> Olive Road Two</a>
+                              {{slide.name}}
                             </h2>
                           </div>
                           <div class="card-body-a">
                             <div class="price-box d-flex">
-                              <span class="price-a">rent | $ 12.000</span>
+                              <span class="price-a">{{slide.saleType}} | {{slide.cost}}</span>
                             </div>
-                            <a href="#" class="link-a">Click here to view
+                            <a href="#" class="link-a" [routerLink]="'/project'">Click here to view
                               <span class="ion-ios-arrow-forward"></span>
                             </a>
                           </div>
                           <div class="card-footer-a">
                             <ul class="card-info d-flex justify-content-around">
                                 <p class="content-d color-text-a">
-                                    40 Oxford St., Brgy. ERodriguez, Quezon City, NCR
+                                  {{slide.addressStreet}}, {{slide.addressTown}}, {{slide.addressCity}}, {{slide.addressRegion}}
                                 </p>
                             </ul>
                           </div>
