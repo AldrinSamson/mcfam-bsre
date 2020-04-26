@@ -80,4 +80,14 @@ export class UserService {
     });
   }
 
+  public sendUserPasswordResetEmailForgot(email): Promise<void> {
+    return firebase.auth().sendPasswordResetEmail(email).then(() => {
+      this.alertService.showToaster('Password Reset Email has been sent to you inbox');
+      // Email sent.
+    }, (error) => {
+      this.alertService.showToaster(error);
+      // An error happened.
+    });
+  }
+
 }

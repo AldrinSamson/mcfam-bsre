@@ -1,8 +1,8 @@
-import { Component } from '@angular/core';
+import { Component , OnInit , OnDestroy } from '@angular/core';
 import { MatTableDataSource } from '@angular/material';
 import { Subscription } from 'rxjs';
 import { OwlOptions } from 'ngx-owl-carousel-o';
-import { AuthService, AlertService } from '../../shared';
+import { AuthService, AlertService , ProjectService } from '../../shared';
 
 @Component({
   selector: 'app-home',
@@ -17,21 +17,8 @@ import { AuthService, AlertService } from '../../shared';
   }`]
 })
 
-export class HomeComponent {
-  
-  public isAuthenticated: string;
+export class HomeComponent implements OnInit , OnDestroy {
 
-  constructor(
-    public authService: AuthService,
-    private alertService: AlertService,
-    ) {
-      this.isAuthenticated = this.authService.isAuthenticated()
-  }
-
-  public onToTop(): void {
-    document.body.scrollTop = document.documentElement.scrollTop = 0;
-  }
-  
   featuredCarousel: OwlOptions = {
     loop: true,
     margin: -1,
@@ -41,7 +28,7 @@ export class HomeComponent {
     autoplay: true,
     autoplayTimeout: 3000,
     autoplayHoverPause: true
-  }
+  };
 
   propertyCarousel: OwlOptions = {
     loop: true,
@@ -57,39 +44,36 @@ export class HomeComponent {
         items: 3,
       }
     }
+  };
+
+  public isAuthenticated: string;
+  featuredSub: Subscription;
+  featured: any;
+
+  constructor(
+    public authService: AuthService,
+    private alertService: AlertService,
+    public projectService: ProjectService,
+    ) {
+      this.isAuthenticated = this.authService.isAuthenticated();
   }
 
-  slidesStore = [
-    {
-      id:1,
-      src:'https://i.picsum.photos/id/976/400/250.jpg',
-      alt:'Image_1',
-      title:'Image_1'
-    },
-    {
-      id:2,
-      src:'https://i.picsum.photos/id/996/400/250.jpg',
-      alt:'Image_2',
-      title:'Image_3'
-    },
-    {
-      id:3,
-      src:'https://i.picsum.photos/id/400/400/250.jpg',
-      alt:'Image_3',
-      title:'Image_3'
-    },
-    {
-      id:4,
-      src:'https://i.picsum.photos/id/316/400/250.jpg',
-      alt:'Image_4',
-      title:'Image_4'
-    },
-    {
-      id:5,
-      src:'https://i.picsum.photos/id/705/400/250.jpg',
-      alt:'Image_5',
-      title:'Image_5'
+  ngOnInit() {
+    this.featuredSub = this.projectService.getFeaturedProjects().subscribe( res => {
+      this.featured = res;
+    });
+  }
+
+  public onToTop(): void {
+    document.body.scrollTop = document.documentElement.scrollTop = 0;
+  }
+
+  ngOnDestroy() {
+
+    if (this.featuredSub != null) {
+      this.featuredSub.unsubscribe();
     }
-  ]
+
+  }
 
 }

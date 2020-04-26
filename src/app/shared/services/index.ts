@@ -10,3 +10,4 @@ export * from './project.service';
 export * from './file.service';
 export * from './files.service';
 export * from './mailer.service';
+export * from './client.service';

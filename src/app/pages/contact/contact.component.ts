@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { NgForm } from '@angular/forms';
-
+import { MailerService } from '../../shared';
 import { UserService } from '@shared';
 
 @Component({
@@ -10,17 +10,16 @@ import { UserService } from '@shared';
 })
 export class ContactComponent {
 
-  constructor(private userService: UserService) {}
+  name = '';
+  email = '';
+  subject = '';
+  message = '';
 
-  public onSubmit(form: NgForm) {
-   const company = form.value.company;
-   const firstname = form.value.firstname;
-   const lastname = form.value.lastname;
-   const address = form.value.address;
-   const city = form.value.city;
-   const postal = form.value.postal;
-   const message = form.value.message;
-   return this.userService.contactFormSend(company, firstname, lastname, address, city, postal, message);
+  constructor(private userService: UserService , public mailerService: MailerService) {}
+
+  sendMail() {
+    const mailLoad = '<p>From: ' + this.name + '<br> Email: ' + this.email + '</p><p> ' + this.message + ' </p>';
+    this.mailerService.sendEmail('mcfamrealty.is@gmail.com' , this.subject , mailLoad);
   }
 
 }
