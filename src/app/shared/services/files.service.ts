@@ -96,4 +96,33 @@ export class FilesService {
     })
   }
 
+  filedelete(id) {
+    //console.log(id);
+    let deleteDoc = this.firestore.collection('filesStored').doc(id).delete();
+    //console.log(deleteDoc)
+  }
+  async delete_in_storage(id) {
+    // Create a reference to the file to delete
+    //console.log(id)
+    var x = await this.getFile(id);
+    var path = x['path'];
+    //this.filedelete(id);
+    //console.log(x)
+    if(path){
+      var storageRef = firebase.storage().ref(path);
+      var desertRef = storageRef.child(path);
+  
+      // Delete the file
+      desertRef.delete().then(function () {
+        // File deleted successfully
+      }).catch(function (error) {
+        // Uh-oh, an error occurred!
+      });
+    }
+    /*
+        */
+  }
+
+  
+
 }

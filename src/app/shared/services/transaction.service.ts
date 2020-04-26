@@ -9,6 +9,7 @@ import * as JSZip from 'jszip';
 import * as cors from 'cors';
 import 'rxjs/Rx' ;
 import { Observable } from 'rxjs/Rx';
+
 const corsHandler = cors({ origin: true });
 
 @Injectable({
@@ -25,7 +26,8 @@ export class TransactionService {
   { desc: 'Payment Schedule Scheme', file: undefined },//7
     //{ desc: 'Others', file: undefined }
   ]
-  constructor(public db: AngularFirestore, public alertService: AlertService,sanitizer: DomSanitizer,private http: Http) {
+  constructor(public db: AngularFirestore, public alertService: AlertService,
+    sanitizer: DomSanitizer,private http: Http, public fileservice: FilesService) {
 
   }
 
@@ -39,8 +41,10 @@ export class TransactionService {
 
 
   getOneTransaction(id) {
+    //console.log(id);
+    const thisclass = this;
     return new Promise(function (resolve) {
-      this.db.collection('transaction').doc(id).ref.get()
+      thisclass.db.collection('transaction').doc(id).ref.get()
         .then(doc => {
           const project = {
             id: doc.id,
@@ -177,49 +181,65 @@ export class TransactionService {
     });
   }
 
-  editDocuments(tid: string, uploadedfile: any, otherfile) {
+  async editDocuments(tid: string, uploadedfile: any, otherfile) {
+    var x = await this.getOneTransaction(tid);
+    console.log(x);
     if (uploadedfile[0]['filedetail']) {
+      this.fileservice.delete_in_storage( x['doc_BIS']['file']['id'])
+      
       this.db.collection('transaction').doc(tid).update({
+
         doc_BIS: { desc: uploadedfile[0]['desc'], file: uploadedfile[0]['filedetail'] },
       });
     }
     if (uploadedfile[6]['filedetail']) {
+      this.fileservice.delete_in_storage( x['doc_POB']['file']['id'])
       this.db.collection('transaction').doc(tid).update({
         doc_POB: { desc: uploadedfile[6]['desc'], file: uploadedfile[6]['filedetail'] },
       });
     }
     if (uploadedfile[5]['filedetail']) {
+      this.fileservice.delete_in_storage( x['doc_POI']['file']['id'])
       this.db.collection('transaction').doc(tid).update({
         doc_POI: { desc: uploadedfile[5]['desc'], file: uploadedfile[5]['filedetail'] },
       });
     }
     if (uploadedfile[7]['filedetail']) {
+      this.fileservice.delete_in_storage( x['doc_PSS']['file']['id'])
       this.db.collection('transaction').doc(tid).update({
         doc_PSS: { desc: uploadedfile[7]['desc'], file: uploadedfile[7]['filedetail'] },
       });
     }
     if (uploadedfile[2]['filedetail']) {
+      this.fileservice.delete_in_storage( x['doc_RA']['file']['id'])
       this.db.collection('transaction').doc(tid).update({
         doc_RA: { desc: uploadedfile[2]['desc'], file: uploadedfile[2]['filedetail'] },
       });
     }
     if (uploadedfile[1]['filedetail']) {
+      this.fileservice.delete_in_storage( x['doc_RF']['file']['id'])
       this.db.collection('transaction').doc(tid).update({
         doc_RF: { desc: uploadedfile[1]['desc'], file: uploadedfile[1]['filedetail'] },
       });
     }
     if (uploadedfile[3]['filedetail']) {
+      this.fileservice.delete_in_storage( x['doc_VG1']['file']['id'])
       this.db.collection('transaction').doc(tid).update({
         doc_VG1: { desc: uploadedfile[3]['desc'], file: uploadedfile[3]['filedetail'] },
       });
     }
     if (uploadedfile[4]['filedetail']) {
+      this.fileservice.delete_in_storage( x['doc_VG2']['file']['id'])
       this.db.collection('transaction').doc(tid).update({
         doc_VG2: { desc: uploadedfile[4]['desc'], file: uploadedfile[4]['filedetail'] },
       });
     }
 
     if (otherfile) {
+      for(var i = 0; i< x['doc_others'].length;i++){
+        var y = x['doc_others'][i]['id']
+        this.fileservice.delete_in_storage(y);
+      }
       this.db.collection('transaction').doc(tid).update({
         doc_others: otherfile
       });

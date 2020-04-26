@@ -1,5 +1,5 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { FirebaseService, AuthService, TransactionService, FileService, AgentService , MailerService } from '../../shared';
+import { FirebaseService, AuthService, TransactionService, FileService, AgentService, MailerService } from '../../shared';
 import { MatDialog, MatDialogRef, MatDialogConfig, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FormBuilder } from '@angular/forms';
 import { Subscription, Observable } from 'rxjs';
@@ -129,9 +129,9 @@ export class ViewSaleTransactionComponent {
 
   cancelTransaction() {
     this.trasactionService.cancelTransaction(this.data.transactionID);
-    const mailLoad = [ this.data.clientName ];
-    this.mailerService.mailTransactionMessage( this.data.agentUid , 'agent' , 'cancelled' , this.data.projectName , mailLoad);
-    this.mailerService.mailTransactionMessage( this.data.managerUid , 'manager' , 'cancelled' , this.data.projectName , mailLoad);
+    const mailLoad = [this.data.clientName];
+    this.mailerService.mailTransactionMessage(this.data.agentUid, 'agent', 'cancelled', this.data.projectName, mailLoad);
+    this.mailerService.mailTransactionMessage(this.data.managerUid, 'manager', 'cancelled', this.data.projectName, mailLoad);
     this.dialogRef.close();
   }
 
@@ -139,9 +139,9 @@ export class ViewSaleTransactionComponent {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.data = {
       transactionID: this.data.transactionID,
-      managerUid : this.data.managerUid,
-      clientName : this.data.clientName,
-      projectName : this.data.projectName,
+      managerUid: this.data.managerUid,
+      clientName: this.data.clientName,
+      projectName: this.data.projectName,
       stage: this.stage,
       buttonConfig: this.buttonConfig
     };
@@ -152,6 +152,7 @@ export class ViewSaleTransactionComponent {
 
   async editDocuments() {
     const dialogConfig = new MatDialogConfig();
+
     const trans = await this.trasactionService.getOneTransaction(this.data.transactionID);
     dialogConfig.data = {
       transactionID: this.data.transactionID,
@@ -221,7 +222,7 @@ export class UploadDocumentComponent {
 
   }
 
-  ngOnInit () {
+  ngOnInit() {
     this.uid = sessionStorage.getItem('session-user-uid');
   }
 
@@ -297,7 +298,7 @@ export class UploadDocumentComponent {
       if (this.othefiles) {
         var otherfl = []
         for (var i = 0; i < this.othefiles.length; i++) {
-          this.currload = 'Others ' + (i + 1) + "/" + this.toUpload.length
+          this.currload = 'Others ' + (i + 1) + "/" + this.othefiles.length
           var fl = this.othefiles[i];
           const path = `transactions/storeFile${new Date().getTime()}_${fl.name}`;
           console.log(this.uid)
@@ -312,8 +313,8 @@ export class UploadDocumentComponent {
     }
 
     this.trasactionService.uploadDocuments(this.data.transactionID, this.toUpload);
-    const mailLoad = [ this.data.clientName ];
-    this.mailerService.mailTransactionMessage( this.data.managerUid , 'manager' , 2 , this.data.projectName , mailLoad);
+    const mailLoad = [this.data.clientName];
+    this.mailerService.mailTransactionMessage(this.data.managerUid, 'manager', 2, this.data.projectName, mailLoad);
     this.dialogRef.close();
   }
 
@@ -332,6 +333,7 @@ export class UploadDocumentComponent {
 })
 
 export class EditDocumenComponent implements OnInit {
+  upload_perc: Observable<number>;
   toUpload = [{ desc: 'Buyer Information Sheet', file: undefined }, // 0
   { desc: 'Reservation Fee', file: undefined }, // 1
   { desc: 'Reservation Agreement', file: undefined }, // 2
@@ -367,7 +369,7 @@ export class EditDocumenComponent implements OnInit {
     this.toUpload[3]['filedetail'] = data['trans']['doc_VG1'];
     this.toUpload[4]['filedetail'] = data['trans']['doc_VG2'];
     // this.toUpload[8]['filedetail'] = data['trans']['doc_others']
-    
+
   }
   ngOnInit() {
     this.uid = sessionStorage.getItem('session-user-uid');
@@ -452,15 +454,9 @@ export class EditDocumenComponent implements OnInit {
           this.currload = toUpload2[i]['desc'];
           // document.getElementById('currload').innerHTML = (toUpload2[i]['desc']);
           const path = `transactions/storeFile${new Date().getTime()}_${fl.name}`;
-<<<<<<< HEAD
-          console.log(allupload);
-          const fileprop = await this.fileservice.upload_in_storage_percent(path, fl, this.uid, 'transaction', this);
-          const x = { id: fileprop['id'], fileurl: fileprop['photoURL'] };
-=======
           console.log(allupload)
           var fileprop = await this.fileservice.upload_in_storage_percent(path, fl, this.uid, 'transaction', this)
           var x = { id: fileprop['id'], fileurl: fileprop['photoURL'] }
->>>>>>> 28c6d8166373fd64fbdf1297eb3f573b36b7f7dd
           // this.toUpload[i]['filedetail']['desc'] = this.toUpload[i]['desc']
           toUpload2[i]['filedetail'] = x;
         } else {
@@ -470,19 +466,11 @@ export class EditDocumenComponent implements OnInit {
 
       console.log(this.toUpload);
       if (this.othefiles) {
-<<<<<<< HEAD
-        otherfl = [];
-        console.log(this.othefiles);
-        for (let i = 0; i < this.othefiles.length; i++) {
-          const fl = this.othefiles[i];
-          this.currload = (((i + 1) + '/' + this.othefiles.length));
-=======
         otherfl = []
         console.log(this.othefiles)
         for (var i = 0; i < this.othefiles.length; i++) {
           var fl = this.othefiles[i];
           this.currload = (((i + 1) + "/" + this.othefiles.length))
->>>>>>> 28c6d8166373fd64fbdf1297eb3f573b36b7f7dd
           const path = `transactions/storeFile${new Date().getTime()}_${fl.name}`;
           console.log(fl);
           const fileprop = await this.fileservice.upload_in_storage(path, fl, this.uid, 'transaction');
@@ -533,8 +521,8 @@ export class RateFeedbackComponent {
     }
 
     this.trasactionService.rateTransaction(this.data.transactionID, +this.rating, this.feedback, this.isLeased);
-    const mailLoad = [ this.data.clientName , +this.rating , this.feedback ];
-    this.mailerService.mailTransactionMessage( this.data.agentUid, 'agent' , 5 , this.data.projectName, mailLoad );
+    const mailLoad = [this.data.clientName, +this.rating, this.feedback];
+    this.mailerService.mailTransactionMessage(this.data.agentUid, 'agent', 5, this.data.projectName, mailLoad);
     this.agentService.computeRating(this.data.agentUid);
     this.dialogRef.close();
   }
