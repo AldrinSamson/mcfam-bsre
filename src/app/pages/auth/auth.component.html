@@ -19,7 +19,8 @@
               <input type="password" class="form-control" placeholder="Password" [(ngModel)]='passw' >
             </div>
             <div class="form-group">
-              <button onClick="window.open('https://mcfam-bpms.firebaseapp.com/')" class="btn float-left login_btn">Admin</button>
+              <button onClick="window.open('https://mcfam-bpms.firebaseapp.com/')" class="btn float-left login_btn"><mat-icon class="misc">supervisor_account</mat-icon>
+                <span>Admin</span></button>
               <button (click)='login()' class="btn float-right login_btn">Login</button>
             </div>
         </div>

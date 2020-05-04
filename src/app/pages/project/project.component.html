@@ -12,7 +12,7 @@
               <nav aria-label="breadcrumb" class="breadcrumb-box d-flex justify-content-lg-end">
                 <ol class="breadcrumb">
                   <li class="breadcrumb-item">
-                    <a  routerLink="home" >Home</a>
+                    <a  routerLink="/home" >Home</a>
                   </li>
                   <li class="breadcrumb-item active" aria-current="page">
                     Properties
@@ -27,11 +27,11 @@
 <!-- ======= Property Grid ======= -->
     <section class="property-grid grid">
         <div class="container">
-        <div *ngIf="!projects"> 
+        <div *ngIf="!projects">
             Loading
         </div>
         <div *ngIf="projects" class="row">
-           
+
             <div class="col-sm-6">
                 <div class="search">
                     <input class="form-control" type="text" name="search" [(ngModel)]="projectSearchText" autocomplete="off" placeholder="&#61442;  Search">
@@ -58,7 +58,7 @@
                     <div class="card-overlay-a-content">
                         <div class="card-header-a">
                         <h2 class="card-title-a">
-                            <a href="#"> {{project.name}} </a>
+                            <a > {{project.name}} </a>
                         </h2>
                         </div>
                         <div class="card-body-a">
@@ -71,7 +71,7 @@
                             <li>
                             <h4 class="card-info-title">{{project.propertyType}}</h4>
                             <span>
-                                 {{project.addressTown}},  {{project.addressRegion}}
+                              {{project.addressStreet}},{{project.addressTown}},{{project.addressCity}},  {{project.addressRegion}}
                             </span>
                             </li>
                         </ul>
@@ -79,12 +79,12 @@
                     </div>
                     </div>
                 </div>
-            </div>   
+            </div>
         </div>
         <div class="row">
             <div class="col-sm-12">
                 <div id="pagination">
-                    <pagination-controls (pageChange)="p=$event"></pagination-controls>
+                    <pagination-controls color = "black"(pageChange)="p=$event"></pagination-controls>
                 </div>
             </div>
         </div>

@@ -109,8 +109,8 @@ export class ViewProjectComponent implements OnInit , OnDestroy {
     this.projectSub = this.firebaseService.getOne(this.projectID , 'project').subscribe(async result => {
       this.project = result.payload.data();
       this.project.id = result.payload.id;
-      this.latitude = parseInt(this.project.addressLatitude);
-      this.longitude = parseInt(this.project.addressLongtitude);
+      this.latitude = parseFloat(this.project.addressLatitude);
+      this.longitude = parseFloat(this.project.addressLongtitude);
       console.log(this.project);
       var photoid = [];
       for (var i = 0; i < this.project['photoURL'].length; i++) {

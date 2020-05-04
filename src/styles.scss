@@ -12,7 +12,7 @@
 
 // Fonts
 @import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500');
-     
+
 $fontConfig: (
   display-4: mat-typography-level(112px, 112px, 300, 'Roboto', -0.0134em),
   display-3: mat-typography-level(56px, 56px, 400, 'Roboto', -0.0089em),
@@ -248,6 +248,11 @@ body {
     right: 0;
     left: 0;
 
+}
+
+
+mat-form-field {
+  width: 85%;
 }
 
 /* Tablet format and lower */
@@ -532,7 +537,7 @@ a {
 }
 
 .color-text-a {
-  color: #555555;
+  color: #1b1b1b;
 }
 
 .no-margin {
