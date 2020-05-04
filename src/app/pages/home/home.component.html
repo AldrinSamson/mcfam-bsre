@@ -3,7 +3,7 @@
     <h2 class="title-a">Featured Projects</h2>
     <div class="intro intro-carousel">
         <owl-carousel-o [options]="featuredCarousel"  >
-        
+
             <ng-template carouselSlide *ngFor="let slide of featured" [id]="slide.id">
             <img class="carousel-item-a intro-item bg-image" [src]="slide.cover_photo.photoURL" >
             <div class="overlay overlay-a">
@@ -28,7 +28,7 @@
                   </div>
             </div>
             </ng-template>
-        
+
         </owl-carousel-o>
     </div>
 
@@ -57,9 +57,7 @@
                 </div>
                 <div class="card-body-c">
                   <p class="content-c">
-                    Nulla porttitor accumsan tincidunt. Curabitur aliquet quam id dui posuere blandit. Mauris blandit
-                    aliquet elit, eget tincidunt
-                    nibh pulvinar a.
+                    Looking to buy your own property? Check our list of available properties for sale!
                   </p>
                 </div>
                 <div class="card-footer-c">
@@ -81,14 +79,12 @@
                 </div>
                 <div class="card-body-c">
                   <p class="content-c">
-                    Sed porttitor lectus nibh. Cras ultricies ligula sed magna dictum porta. Praesent sapien massa,
-                    convallis a pellentesque
-                    nec, egestas non nisi.
+                    Planning to sell your property? Login or register below!
                   </p>
                 </div>
                 <div class="card-footer-c">
                     <div *ngIf="!authService.isAuthenticated();">
-                        <a routerLink="auth" class="link-c link-icon">Log in first
+                        <a routerLink="/auth" class="link-c link-icon">Log in first
                             <mat-icon>keyboard_arrow_right</mat-icon>
                         </a>
                     </div>
@@ -103,7 +99,7 @@
           </div>
         </div>
       </section><!-- End Services Section -->
-  
+
       <!-- ======= Latest Properties Section ======= -->
       <section class="section-property section-t8">
         <div class="container">
@@ -122,7 +118,7 @@
             </div>
           </div>
           <owl-carousel-o [options]="propertyCarousel" >
-        
+
             <ng-template carouselSlide *ngFor="let slide of featured" [id]="slide.id">
                 <div class="carousel-item-b">
                     <div class="card-box-a card-shadow">
@@ -157,11 +153,11 @@
                   </div>
 
             </ng-template>
-        
+
         </owl-carousel-o>
         </div>
       </section><!-- End Latest Properties Section -->
-  
+
       <!-- ======= Agents Section ======= -->
       <section class="section-agents section-t8">
         <div class="container">
@@ -179,190 +175,46 @@
               </div>
             </div>
           </div>
-          <div class="row">
-            <div class="col-md-4">
-              <div class="card-box-d">
-                <div class="card-img-d">
-                  <img src="https://i.picsum.photos/id/976/400/250.jpg" alt="" class="img-d img-fluid">
-                </div>
-                <div class="card-overlay card-overlay-hover">
-                  <div class="card-header-d">
-                    <div class="card-title-d align-self-center">
-                      <h3 class="title-d">
-                        <a href="agent-single.html" class="link-two">Margaret Sotillo
-                          <br> Escala</a>
-                      </h3>
+          <owl-carousel-o [options]="propertyCarousel" >
+
+            <ng-template carouselSlide *ngFor="let slide of agents" [id]="slide.contactNumber">
+                <div class="carousel-item-b">
+                    <div class="card-box-a card-shadow">
+                      <div class="img-box-a">
+                        <img [src]="slide.photoURL.photoURL" class="img-a img-fluid">
+                      </div>
+                      <div class="card-overlay">
+                        <div class="card-overlay-a-content">
+                          <div class="card-header-a">
+                            <h2 class="card-title-a">
+                              {{slide.fullName}}
+                            </h2>
+                          </div>
+                          <div class="card-body-a">
+                            <div class="price-box d-flex">
+                              <span class="price-a">{{slide.aveRating}} Stars</span>
+                            </div>
+                          </div>
+                          <div class="card-footer-a">
+                            <ul class="card-info d-flex justify-content-around">
+                                <p class="content-d color-text-a">
+                                  {{slide.email}}, {{slide.contactNumber}}
+                                </p>
+                            </ul>
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   </div>
-                  <div class="card-body-d">
-                    <p class="content-d color-text-a">
-                      Sed porttitor lectus nibh, Cras ultricies ligula sed magna dictum porta two.
-                    </p>
-                    <div class="info-agents color-a">
-                      <p>
-                        <strong>Phone: </strong> +54 356 945234</p>
-                      <p>
-                        <strong>Email: </strong> agents@example.com</p>
-                    </div>
-                  </div>
-                  <div class="card-footer-d">
-                    <div class="socials-footer d-flex justify-content-center">
-                      <ul class="list-inline">
-                        <li class="list-inline-item">
-                          <a href="#" class="link-one">
-                            <i class="fa fa-facebook" aria-hidden="true"></i>
-                          </a>
-                        </li>
-                        <li class="list-inline-item">
-                          <a href="#" class="link-one">
-                            <i class="fa fa-twitter" aria-hidden="true"></i>
-                          </a>
-                        </li>
-                        <li class="list-inline-item">
-                          <a href="#" class="link-one">
-                            <i class="fa fa-instagram" aria-hidden="true"></i>
-                          </a>
-                        </li>
-                        <li class="list-inline-item">
-                          <a href="#" class="link-one">
-                            <i class="fa fa-pinterest-p" aria-hidden="true"></i>
-                          </a>
-                        </li>
-                        <li class="list-inline-item">
-                          <a href="#" class="link-one">
-                            <i class="fa fa-dribbble" aria-hidden="true"></i>
-                          </a>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-4">
-              <div class="card-box-d">
-                <div class="card-img-d">
-                  <img src="https://i.picsum.photos/id/976/400/250.jpg" alt="" class="img-d img-fluid">
-                </div>
-                <div class="card-overlay card-overlay-hover">
-                  <div class="card-header-d">
-                    <div class="card-title-d align-self-center">
-                      <h3 class="title-d">
-                        <a href="agent-single.html" class="link-two">Stiven Spilver
-                          <br> Darw</a>
-                      </h3>
-                    </div>
-                  </div>
-                  <div class="card-body-d">
-                    <p class="content-d color-text-a">
-                      Sed porttitor lectus nibh, Cras ultricies ligula sed magna dictum porta two.
-                    </p>
-                    <div class="info-agents color-a">
-                      <p>
-                        <strong>Phone: </strong> +54 356 945234</p>
-                      <p>
-                        <strong>Email: </strong> agents@example.com</p>
-                    </div>
-                  </div>
-                  <div class="card-footer-d">
-                    <div class="socials-footer d-flex justify-content-center">
-                      <ul class="list-inline">
-                        <li class="list-inline-item">
-                          <a href="#" class="link-one">
-                            <i class="fa fa-facebook" aria-hidden="true"></i>
-                          </a>
-                        </li>
-                        <li class="list-inline-item">
-                          <a href="#" class="link-one">
-                            <i class="fa fa-twitter" aria-hidden="true"></i>
-                          </a>
-                        </li>
-                        <li class="list-inline-item">
-                          <a href="#" class="link-one">
-                            <i class="fa fa-instagram" aria-hidden="true"></i>
-                          </a>
-                        </li>
-                        <li class="list-inline-item">
-                          <a href="#" class="link-one">
-                            <i class="fa fa-pinterest-p" aria-hidden="true"></i>
-                          </a>
-                        </li>
-                        <li class="list-inline-item">
-                          <a href="#" class="link-one">
-                            <i class="fa fa-dribbble" aria-hidden="true"></i>
-                          </a>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-4">
-              <div class="card-box-d">
-                <div class="card-img-d">
-                  <img src="https://i.picsum.photos/id/976/400/250.jpg" alt="" class="img-d img-fluid">
-                </div>
-                <div class="card-overlay card-overlay-hover">
-                  <div class="card-header-d">
-                    <div class="card-title-d align-self-center">
-                      <h3 class="title-d">
-                        <a href="agent-single.html" class="link-two">Emma Toledo
-                          <br> Cascada</a>
-                      </h3>
-                    </div>
-                  </div>
-                  <div class="card-body-d">
-                    <p class="content-d color-text-a">
-                      Sed porttitor lectus nibh, Cras ultricies ligula sed magna dictum porta two.
-                    </p>
-                    <div class="info-agents color-a">
-                      <p>
-                        <strong>Phone: </strong> +54 356 945234</p>
-                      <p>
-                        <strong>Email: </strong> agents@example.com</p>
-                    </div>
-                  </div>
-                  <div class="card-footer-d">
-                    <div class="socials-footer d-flex justify-content-center">
-                      <ul class="list-inline">
-                        <li class="list-inline-item">
-                          <a href="#" class="link-one">
-                            <i class="fa fa-facebook" aria-hidden="true"></i>
-                          </a>
-                        </li>
-                        <li class="list-inline-item">
-                          <a href="#" class="link-one">
-                            <i class="fa fa-twitter" aria-hidden="true"></i>
-                          </a>
-                        </li>
-                        <li class="list-inline-item">
-                          <a href="#" class="link-one">
-                            <i class="fa fa-instagram" aria-hidden="true"></i>
-                          </a>
-                        </li>
-                        <li class="list-inline-item">
-                          <a href="#" class="link-one">
-                            <i class="fa fa-pinterest-p" aria-hidden="true"></i>
-                          </a>
-                        </li>
-                        <li class="list-inline-item">
-                          <a href="#" class="link-one">
-                            <i class="fa fa-dribbble" aria-hidden="true"></i>
-                          </a>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+
+            </ng-template>
+
+        </owl-carousel-o>
         </div>
       </section><!-- End Agents Section -->
     <br>
     <br>
     <br>
-    <br>  
+    <br>
 </div>
 

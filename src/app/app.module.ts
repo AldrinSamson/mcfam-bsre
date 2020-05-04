@@ -7,6 +7,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { AngularFireStorage } from 'angularfire2/storage';
 import { CarouselModule } from 'ngx-owl-carousel-o';
 import {HttpModule} from '@angular/http';
+import { AgmCoreModule } from '@agm/core';
 
 // Modules
 import { AuthModule  } from './pages/auth/auth.module';
@@ -83,7 +84,11 @@ import { Http } from '@angular/http';
     AngularFirestoreModule,
     AngularFireAuthModule,
     AngularFireStorageModule,
-    HttpModule
+    HttpModule,
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyBI9Cy5H6-9fDxDyjKHuIV_oL181oM3jOY',
+      libraries: ['places']
+    })
   ],
   providers: [
     UserService,

@@ -34,6 +34,10 @@ export class ViewProjectComponent implements OnInit , OnDestroy {
   client;
   load;
 
+  latitude: number;
+  longitude: number;
+  zoom = 15;
+
   public isAuthenticated: string;
 
   propertySingleCarousel: OwlOptions = {
@@ -46,7 +50,7 @@ export class ViewProjectComponent implements OnInit , OnDestroy {
         items: 1,
       }
     }
-  }
+  };
 
   constructor(
     private router: Router,
@@ -64,7 +68,19 @@ export class ViewProjectComponent implements OnInit , OnDestroy {
     this.getProjectAndAgent();
     this.isAuthenticated = this.authService.isAuthenticated();
     this.uid = sessionStorage.getItem('session-user-uid');
+    // this.setCurrentLocation();
   }
+
+  setCurrentLocation() {
+    if ('geolocation' in navigator) {
+      navigator.geolocation.getCurrentPosition((position) => {
+        this.latitude = position.coords.latitude;
+        this.longitude = position.coords.longitude;
+        this.zoom = 15;
+      });
+    }
+  }
+
 
   inquire() {
 
@@ -93,6 +109,8 @@ export class ViewProjectComponent implements OnInit , OnDestroy {
     this.projectSub = this.firebaseService.getOne(this.projectID , 'project').subscribe(async result => {
       this.project = result.payload.data();
       this.project.id = result.payload.id;
+      this.latitude = parseInt(this.project.addressLatitude);
+      this.longitude = parseInt(this.project.addressLongtitude);
       console.log(this.project);
       var photoid = [];
       for (var i = 0; i < this.project['photoURL'].length; i++) {

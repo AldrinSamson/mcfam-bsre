@@ -37,6 +37,7 @@
     "sync": "git fetch && git checkout master && git merge upstream/master && git push"
   },
   "dependencies": {
+    "@agm/core": "^1.1.0",
     "@angular/animations": "^8.0.0",
     "@angular/cdk": "^8.0.0",
     "@angular/common": "^8.0.0",

@@ -2,7 +2,7 @@ import { Component , OnInit , OnDestroy } from '@angular/core';
 import { MatTableDataSource } from '@angular/material';
 import { Subscription } from 'rxjs';
 import { OwlOptions } from 'ngx-owl-carousel-o';
-import { AuthService, AlertService , ProjectService } from '../../shared';
+import { AuthService, AlertService , ProjectService  ,AgentService} from '../../shared';
 
 @Component({
   selector: 'app-home',
@@ -46,14 +46,33 @@ export class HomeComponent implements OnInit , OnDestroy {
     }
   };
 
+  agentCarousel: OwlOptions = {
+    loop: true,
+    margin: 30,
+    responsive: {
+      0: {
+        items: 1,
+      },
+      769: {
+        items: 2,
+      },
+      992: {
+        items: 3,
+      }
+    }
+  };
+
   public isAuthenticated: string;
   featuredSub: Subscription;
   featured: any;
+  agentSub : Subscription;
+  agents;
 
   constructor(
     public authService: AuthService,
     private alertService: AlertService,
     public projectService: ProjectService,
+    public agentService: AgentService
     ) {
       this.isAuthenticated = this.authService.isAuthenticated();
   }
@@ -61,6 +80,13 @@ export class HomeComponent implements OnInit , OnDestroy {
   ngOnInit() {
     this.featuredSub = this.projectService.getFeaturedProjects().subscribe( res => {
       this.featured = res;
+    });
+    this.getAgents();
+  }
+
+  getAgents() {
+    this.agentSub = this.agentService.getWithPosition('Agent').subscribe( results =>  {
+      this.agents = results;
     });
   }
 
@@ -74,6 +100,9 @@ export class HomeComponent implements OnInit , OnDestroy {
       this.featuredSub.unsubscribe();
     }
 
+    if (this.agentSub != null) {
+      this.agentSub.unsubscribe();
+    }
   }
 
 }
